@@ -1,6 +1,9 @@
 <div id="div-principal" class="container-fluid text-center">
-   <app-search placeholderString="Cliente ou etiqueta" (onTyping)="filter = $event" [value]="filter"></app-search>
-   
+   <div class="d-flex justify-content-between">
+      <app-search placeholderString="Cliente ou etiqueta" (onTyping)="filter = $event" [value]="filter"></app-search>
+      <app-date-filter (onTyping)="searchDate = $event" [value]="searchDate"></app-date-filter>
+   </div>
+
    <table class="table table-bordered table-striped mt-3">
       <thead>
          <tr>
@@ -61,7 +64,7 @@
          </tr>
       </thead>
       <tbody>
-         <tr *ngFor="let dados of dadosClientes | filterByCliente: filter">
+         <tr *ngFor="let dados of dadosClientes | filterByCliente: filter | filterByCliente: searchDate">
             <td class="table-item">{{ dados.etiqueta }}</td>
             <td class="table-item">{{ dados.cliente }}</td>
             <td class="table-item">{{ dados.totalAtivo }}</td>

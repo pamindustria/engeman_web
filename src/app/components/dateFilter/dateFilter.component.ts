@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from "@angular/core";
-import { MatDatepickerInputEvent } from "@angular/material/datepicker";
 import { Subject } from "rxjs";
 import { debounceTime, filter } from 'rxjs/operators';
 
@@ -17,10 +16,9 @@ export class DateFilterComponent implements OnInit, OnDestroy{
   //debounce serve para que identificar quando o usuario termina de digitar
   //e uma funcao é ativada depois de certo tempo, aqui é depois de 300milisegundos
   ngOnInit() {
-    this.debounce.pipe(debounceTime(300)).subscribe((filter ) => {
+    this.debounce.pipe(debounceTime(300)).subscribe((filter) => {
       this.onTyping.emit(filter)
       console.log(filter);
-      
     });
   }
 
