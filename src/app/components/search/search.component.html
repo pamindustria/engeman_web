@@ -1,0 +1,14 @@
+<div class="d-flex justify-content-end">
+   <form class="d-flex align-items-center">
+      <i aria-hidden="true" class="fa fa-search"></i>
+      <input
+         #searchValue
+         [value]="value"
+         type="text"
+         class="form-control ms-2"
+         [placeholder]="placeholderString"
+         autofocus
+         (keyup)="debounce.next(searchValue.value)"
+      >
+   </form>    
+</div>

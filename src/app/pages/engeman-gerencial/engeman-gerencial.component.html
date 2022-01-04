@@ -1,0 +1,87 @@
+<div id="div-engeman" class="container-fluid text-center">
+   <div class="d-flex justify-content-between">
+      <app-search placeholderString="OS, Matrícula, Funcionário" (onTyping)="search = $event" [value]="search"></app-search>
+      <app-date-filter (onTyping)="searchDate = $event" [value]="searchDate"></app-date-filter>
+   </div>
+
+   <table class="table table-bordered table-striped mt-3">
+      <thead>
+         <tr>
+            <th [appSort]="tabledata" data-order="desc" data-name="os" class="table-header">
+               <div class="d-flex justify-content-around align-items-center">
+                  OS
+                  <div class="d-flex flex-column">
+                     <i aria-hidden="true" class="fa fa-caret-up"></i>
+                     <i aria-hidden="true" class="fa fa-caret-down"></i>
+                  </div>
+               </div>
+            </th>
+            <th [appSort]="tabledata" data-order="desc" data-name="dataInicio" class="table-header">
+               <div class="d-flex justify-content-around align-items-center">
+                  Hora Iniciada
+                  <div class="d-flex flex-column">
+                     <i aria-hidden="true" class="fa fa-caret-up"></i>
+                     <i aria-hidden="true" class="fa fa-caret-down"></i>
+                  </div>
+               </div>
+            </th>
+            <th [appSort]="tabledata" data-order="desc" data-name="dataFim" class="table-header">
+               <div class="d-flex justify-content-around align-items-center">
+                  Hora Finalizada
+                  <div class="d-flex flex-column">
+                     <i aria-hidden="true" class="fa fa-caret-up"></i>
+                     <i aria-hidden="true" class="fa fa-caret-down"></i>
+                  </div>
+               </div>
+            </th>
+            <th [appSort]="tabledata" data-order="desc" data-name="totalHoras" class="table-header">
+               <div class="d-flex justify-content-around align-items-center">
+                  Total de Horas
+                  <div class="d-flex flex-column">
+                     <i aria-hidden="true" class="fa fa-caret-up"></i>
+                     <i aria-hidden="true" class="fa fa-caret-down"></i>
+                  </div>
+               </div>
+            </th>
+            <th [appSort]="tabledata" data-order="desc" data-name="funcionarios" class="table-header">
+               <div class="d-flex justify-content-around align-items-center">
+                  Funcionários
+                  <div class="d-flex flex-column">
+                     <i aria-hidden="true" class="fa fa-caret-up"></i>
+                     <i aria-hidden="true" class="fa fa-caret-down"></i>
+                  </div>
+               </div>
+            </th>
+            <th [appSort]="tabledata" data-order="desc" data-name="matricula" class="table-header">
+               <div class="d-flex justify-content-around align-items-center">
+                  Matricula
+                  <div class="d-flex flex-column">
+                     <i aria-hidden="true" class="fa fa-caret-up"></i>
+                     <i aria-hidden="true" class="fa fa-caret-down"></i>
+                  </div>
+               </div>
+            </th>
+            <th [appSort]="tabledata" data-order="desc" data-name="descricao" class="table-header">
+               <div class="d-flex justify-content-center align-items-center">
+                  Descrição
+                  <div class="d-flex flex-column ms-3">
+                     <i aria-hidden="true" class="fa fa-caret-up"></i>
+                     <i aria-hidden="true" class="fa fa-caret-down"></i>
+                  </div>
+               </div>
+            </th>
+         </tr>
+      </thead>
+      <tbody>
+         <tr *ngFor="let dados of tabledata | filterEngeman:search | filterEngeman:searchDate">
+            <td class="table-item">{{ dados.os }}</td>
+            <td class="table-item">{{ dados.dataInicio }} ás {{ dados.horaInicio }}</td>
+            <td class="table-item">{{ dados.dataFim }} ás {{ dados.horaFim }}</td>
+            <td class="table-item">{{ dados.totalHoras }}</td>
+            <td class="table-item">{{ dados.funcionarios }}</td>
+            <td class="table-item">{{ dados.matricula }}</td>
+            <td class="table-item">{{ dados.descricao }}</td>
+         </tr>
+      </tbody>
+   </table>
+</div>

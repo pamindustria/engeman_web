@@ -1,0 +1,146 @@
+<nav *ngIf="isMobile === false" class="navbar navbar-expand-lg navbar-dark bg-primary pt-3 pb-3">
+   <div class="container-fluid">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+         <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+               <a class="nav-link fs-5 text-light" [routerLink]="['']">Início</a>
+            </li>
+            <!-- INJET -->
+            <li class="nav-item dropdown">
+               <a class="nav-link dropdown-toggle fs-5 text-light" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Injet
+               </a>
+               <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <li><a class="dropdown-item" href="#">Relatório 1</a></li>
+                  <li><a class="dropdown-item" href="#">Relatório 2</a></li>
+               </ul>
+            </li>
+            <!-- ELEVADOR -->
+            <li class="nav-item dropdown">
+               <a class="nav-link dropdown-toggle fs-5 text-light" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Elevador
+               </a>
+               <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <li><a class="dropdown-item" href="#">2010</a></li>
+                  <li><a class="dropdown-item" href="#">2012</a></li>
+                  <li><a class="dropdown-item" href="#">2018</a></li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li><a class="dropdown-item" href="#">Cadastros de material</a></li>
+               </ul>
+            </li>
+            <!-- ENGEMAN -->
+            <li class="nav-item dropdown">
+               <a class="nav-link dropdown-toggle fs-5 text-light" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Engeman
+               </a>
+               <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <li><a class="dropdown-item" [routerLink]="['engeman-gerencial']">Tela Gerencial</a></li>
+                  <li><a class="dropdown-item" href="#">Relatório 2</a></li>
+               </ul>
+            </li>
+            <!-- MOINHO -->
+            <li class="nav-item dropdown">
+               <a class="nav-link dropdown-toggle fs-5 text-light" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Moinho
+               </a>
+               <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <li><a class="dropdown-item" href="#">Relatório 1</a></li>
+                  <li><a class="dropdown-item" href="#">Relatório 2</a></li>
+               </ul>
+            </li>
+            <!-- ETIQUETA -->
+            <li class="nav-item dropdown">
+               <a class="nav-link dropdown-toggle fs-5 text-light" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Etiqueta
+               </a>
+               <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <li><a class="dropdown-item" [routerLink]="['etiquetas-gerencial']">Gerencial</a></li>
+                  <li><a class="dropdown-item" href="#">Relatório 2</a></li>
+               </ul>
+            </li>
+         </ul>
+         <i aria-hidden="true" class="fa fa-user-circle fa-3x mr-2 text-light"></i>
+      </div>
+   </div>
+</nav>
+
+<!-- PARA MOBILE -->
+<div *ngIf="isMobile" class="sidebar-nav">
+   <nav class="navbar navbar-dark bg-primary">
+      <div class="container">
+         <!-- Mobile Menu Toggle Button -->
+         <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
+            <span class="navbar-toggler-icon"></span>
+         </button>
+ 
+         <!-- Menus List -->
+         <div class="offcanvas offcanvas-start shadow navbar-dark bg-primary" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+            <div class="offcanvas-body">
+                  <ul class="navbar-nav">
+                  <li class="nav-item mb-3">
+                     <a class="nav-link fs-4 text-light" [routerLink]="['']">Início</a>
+                  </li>
+                  <!-- INJET -->
+                  <li class="nav-item dropdown mb-3">
+                     <a class="nav-link dropdown-toggle fs-4 text-light" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Injet
+                     </a>
+                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item fs-6" href="#">Relatório 1</a></li>
+                        <li><a class="dropdown-item fs-6" href="#">Relatório 2</a></li>
+                     </ul>
+                  </li>
+                  <!-- ELEVADOR -->
+                  <li class="nav-item dropdown mb-3">
+                     <a class="nav-link dropdown-toggle fs-4 text-light" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Elevador
+                     </a>
+                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item fs-6" href="#">2010</a></li>
+                        <li><a class="dropdown-item fs-6" href="#">2012</a></li>
+                        <li><a class="dropdown-item fs-6" href="#">2018</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item fs-6" href="#">Cadastros de material</a></li>
+                     </ul>
+                  </li>
+                  <!-- ENGEMAN -->
+                  <li class="nav-item dropdown mb-3">
+                     <a class="nav-link dropdown-toggle fs-4 text-light" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Engeman
+                     </a>
+                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item fs-6" [routerLink]="['engeman-gerencial']">Tela Gerencial</a></li>
+                        <li><a class="dropdown-item fs-6" href="#">Relatório 2</a></li>
+                     </ul>
+                  </li>
+                  <!-- MOINHO -->
+                  <li class="nav-item dropdown mb-3">
+                     <a class="nav-link dropdown-toggle fs-4 text-light" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Moinho
+                     </a>
+                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item fs-6" href="#">Relatório 1</a></li>
+                        <li><a class="dropdown-item fs-6" href="#">Relatório 2</a></li>
+                     </ul>
+                  </li>
+                  <!-- ETIQUETA -->
+                  <li class="nav-item dropdown mb-3">
+                     <a class="nav-link dropdown-toggle fs-4 text-light" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Etiqueta
+                     </a>
+                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item fs-6" [routerLink]="['etiquetas-gerencial']">Gerencial</a></li>
+                        <li><a class="dropdown-item fs-6" href="#">Relatório 2</a></li>
+                     </ul>
+                  </li>
+                  </ul>
+            </div>
+         </div>
+         <!-- LOGIN -->
+         <i aria-hidden="true" class="fa fa-user-circle fa-3x mr-2 text-light"></i>
+      </div>
+   </nav>
+</div>

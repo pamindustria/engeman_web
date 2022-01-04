@@ -1,0 +1,15 @@
+<div class="d-flex justify-content-end">
+   <form class="d-flex align-items-center">
+      <label>Filtrar por data:</label>
+      <input
+         #searchValue
+         [value]="value"
+         type="date"
+         class="form-control ms-2"
+         placeholder="Filtrar por cliente"
+         autofocus
+         (keyup)="debounce.next(searchValue.value)"
+         (change)="debounce.next(searchValue.value)"
+      >
+   </form>    
+</div>
