@@ -9,8 +9,6 @@ import { MatFormFieldModule,  } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
 
-import { DataTablesModule } from 'angular-datatables';
-
 import { PaginaInicialComponent } from './pagina-inicial/pagina-inicial.component';
 import { EngemanGerencialComponent } from './engeman-gerencial/engeman-gerencial.component';
 import { EtiquetasGerencialComponent } from './etiquetas-gerencial/etiquetas-gerencial.component';
@@ -44,7 +42,6 @@ import { ListaCarrosComponent } from './lista-carros/lista-carros.component';
     MatFormFieldModule,
     MatInputModule,
     MatNativeDateModule,
-    DataTablesModule,
   ],
   exports: [
     BrowserModule,
@@ -56,7 +53,6 @@ import { ListaCarrosComponent } from './lista-carros/lista-carros.component';
     MatFormFieldModule,
     MatInputModule,
     MatNativeDateModule,
-    DataTablesModule,
   ],
   providers: [{ provide: MAT_DATE_LOCALE, useValue: 'pt-br' }],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
