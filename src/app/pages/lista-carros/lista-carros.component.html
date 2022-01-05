@@ -1,0 +1,50 @@
+<table class="table table-bordered table-striped">
+   <thead>
+      <tr>
+         <th [appSort]="listaCarros" data-order="desc" data-name="carros" class="table-header">
+            <div class="d-flex justify-content-around align-items-center">
+               Embalagens
+               <div class="d-flex flex-column">
+                  <i aria-hidden="true" class="fa fa-caret-up"></i>
+                  <i aria-hidden="true" class="fa fa-caret-down"></i>
+               </div>
+            </div>
+         </th>
+         <th [appSort]="listaCarros" data-order="desc" data-name="disponivel" class="table-header">
+            <div class="d-flex justify-content-around align-items-center">
+               Disponível
+               <div class="d-flex flex-column ms-1">
+                  <i aria-hidden="true" class="fa fa-caret-up"></i>
+                  <i aria-hidden="true" class="fa fa-caret-down"></i>
+               </div>
+            </div>
+         </th>
+         <th [appSort]="listaCarros" data-order="desc" data-name="totalFabrica" class="table-header">
+            <div class="d-flex justify-content-around align-items-center">
+               PAM
+               <div class="d-flex flex-column ms-1">
+                  <i aria-hidden="true" class="fa fa-caret-up"></i>
+                  <i aria-hidden="true" class="fa fa-caret-down"></i>
+               </div>
+            </div>
+         </th>
+         <th [appSort]="listaCarros" data-order="desc" data-name="manutencao" class="table-header">
+            <div class="d-flex justify-content-around align-items-center">
+               Manutenção
+               <div class="d-flex flex-column ms-1">
+                  <i aria-hidden="true" class="fa fa-caret-up"></i>
+                  <i aria-hidden="true" class="fa fa-caret-down"></i>
+               </div>
+            </div>
+         </th>
+      </tr>
+   </thead>
+   <tbody>
+      <tr *ngFor="let carro of listaCarros">
+         <td>{{ carro.carros }}</td>
+         <td>{{ carro.disponivel }}</td>
+         <td>{{ carro.totalFabrica }}</td>
+         <td>{{ carro.manutencao }}</td>
+      </tr>
+   </tbody>
+</table>

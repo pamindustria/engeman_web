@@ -19,6 +19,7 @@ import { FilterPipe } from '../components/pipes/filter.pipe';
 import { SortDirective } from '../util/sort.directive';
 import { FilterEngemanPipe } from '../components/pipes/filterEngeman.pipe';
 import { DateFilterComponent } from '../components/dateFilter/dateFilter.component';
+import { ListaCarrosComponent } from './lista-carros/lista-carros.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { DateFilterComponent } from '../components/dateFilter/dateFilter.compone
     SearchComponent,
     SortDirective,
     DateFilterComponent,
+    ListaCarrosComponent,
   ],
   imports: [
     CommonModule,

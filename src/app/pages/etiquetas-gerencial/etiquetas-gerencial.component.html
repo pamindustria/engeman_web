@@ -1,77 +1,84 @@
-<div id="div-principal" class="container-fluid text-center">
-   <div class="d-flex justify-content-between">
-      <app-search placeholderString="Cliente ou etiqueta" (onTyping)="filter = $event" [value]="filter"></app-search>
-      <app-date-filter (onTyping)="searchDate = $event" [value]="searchDate"></app-date-filter>
+<main id="div-principal" class="container-fluid text-center">
+   <div class="row">
+      <div class="col">
+         <app-lista-carros></app-lista-carros>
+      </div>
+      <div class="col-8 border-start">
+         <div class="d-flex justify-content-between">
+            <app-search placeholderString="Cliente ou etiqueta" (onTyping)="filter = $event" [value]="filter"></app-search>
+            <app-date-filter (onTyping)="searchDate = $event" [value]="searchDate"></app-date-filter>
+         </div>
+      
+         <table class="table table-bordered table-striped mt-3">
+            <thead>
+               <tr>
+                  <th [appSort]="dadosClientes" data-order="desc" data-name="etiqueta" class="table-header">
+                     <div class="d-flex justify-content-around align-items-center">
+                        Etiqueta
+                        <div class="d-flex flex-column">
+                           <i aria-hidden="true" class="fa fa-caret-up"></i>
+                           <i aria-hidden="true" class="fa fa-caret-down"></i>
+                        </div>
+                     </div>
+                  </th>
+                  <th [appSort]="dadosClientes" data-order="desc" data-name="cliente" class="table-header">
+                     <div class="d-flex justify-content-around align-items-center">
+                        Cliente
+                        <div class="d-flex flex-column">
+                           <i aria-hidden="true" class="fa fa-caret-up"></i>
+                           <i aria-hidden="true" class="fa fa-caret-down"></i>
+                        </div>
+                     </div>
+                  </th>
+                  <th [appSort]="dadosClientes" data-order="desc" data-name="totalAtivo" class="table-header">
+                     <div class="d-flex justify-content-around align-items-center">
+                        Ativo Externo
+                        <div class="d-flex flex-column">
+                           <i aria-hidden="true" class="fa fa-caret-up"></i>
+                           <i aria-hidden="true" class="fa fa-caret-down"></i>
+                        </div>
+                     </div>
+                  </th>
+                  <th [appSort]="dadosClientes" data-order="desc" data-name="dataUltimaSaida" class="table-header">
+                     <div class="d-flex justify-content-around align-items-center">
+                        Data de Saída
+                        <div class="d-flex flex-column">
+                           <i aria-hidden="true" class="fa fa-caret-up"></i>
+                           <i aria-hidden="true" class="fa fa-caret-down"></i>
+                        </div>
+                     </div>
+                  </th>
+                  <th [appSort]="dadosClientes" data-order="desc" data-name="dataUltimoRetorno" class="table-header">
+                     <div class="d-flex justify-content-around align-items-center">
+                        Data de Retorno
+                        <div class="d-flex flex-column">
+                           <i aria-hidden="true" class="fa fa-caret-up"></i>
+                           <i aria-hidden="true" class="fa fa-caret-down"></i>
+                        </div>
+                     </div>
+                  </th>
+                  <th [appSort]="dadosClientes" data-order="desc" data-name="status" class="table-header">
+                     <div class="d-flex justify-content-around align-items-center">
+                        Status
+                        <div class="d-flex flex-column">
+                           <i aria-hidden="true" class="fa fa-caret-up"></i>
+                           <i aria-hidden="true" class="fa fa-caret-down"></i>
+                        </div>
+                     </div>
+                  </th>
+               </tr>
+            </thead>
+            <tbody>
+               <tr *ngFor="let dados of dadosClientes | filterByCliente: filter | filterByCliente: searchDate">
+                  <td class="table-item">{{ dados.etiqueta }}</td>
+                  <td class="table-item">{{ dados.cliente }}</td>
+                  <td class="table-item">{{ dados.totalAtivo }}</td>
+                  <td class="table-item">{{ dados.dataUltimaSaida }}</td>
+                  <td class="table-item">{{ dados.dataUltimoRetorno }}</td>
+                  <td class="table-item">{{ dados.status }}</td>
+               </tr>
+            </tbody>
+         </table>
+      </div>
    </div>
-
-   <table class="table table-bordered table-striped mt-3">
-      <thead>
-         <tr>
-            <th [appSort]="dadosClientes" data-order="desc" data-name="etiqueta" class="table-header">
-               <div class="d-flex justify-content-around align-items-center">
-                  Etiqueta
-                  <div class="d-flex flex-column">
-                     <i aria-hidden="true" class="fa fa-caret-up"></i>
-                     <i aria-hidden="true" class="fa fa-caret-down"></i>
-                  </div>
-               </div>
-            </th>
-            <th [appSort]="dadosClientes" data-order="desc" data-name="cliente" class="table-header">
-               <div class="d-flex justify-content-around align-items-center">
-                  Cliente
-                  <div class="d-flex flex-column">
-                     <i aria-hidden="true" class="fa fa-caret-up"></i>
-                     <i aria-hidden="true" class="fa fa-caret-down"></i>
-                  </div>
-               </div>
-            </th>
-            <th [appSort]="dadosClientes" data-order="desc" data-name="totalAtivo" class="table-header">
-               <div class="d-flex justify-content-around align-items-center">
-                  Total Ativo no Cliente
-                  <div class="d-flex flex-column">
-                     <i aria-hidden="true" class="fa fa-caret-up"></i>
-                     <i aria-hidden="true" class="fa fa-caret-down"></i>
-                  </div>
-               </div>
-            </th>
-            <th [appSort]="dadosClientes" data-order="desc" data-name="dataUltimaSaida" class="table-header">
-               <div class="d-flex justify-content-around align-items-center">
-                  Data de Saída
-                  <div class="d-flex flex-column">
-                     <i aria-hidden="true" class="fa fa-caret-up"></i>
-                     <i aria-hidden="true" class="fa fa-caret-down"></i>
-                  </div>
-               </div>
-            </th>
-            <th [appSort]="dadosClientes" data-order="desc" data-name="dataUltimoRetorno" class="table-header">
-               <div class="d-flex justify-content-around align-items-center">
-                  Data de Retorno
-                  <div class="d-flex flex-column">
-                     <i aria-hidden="true" class="fa fa-caret-up"></i>
-                     <i aria-hidden="true" class="fa fa-caret-down"></i>
-                  </div>
-               </div>
-            </th>
-            <th [appSort]="dadosClientes" data-order="desc" data-name="status" class="table-header">
-               <div class="d-flex justify-content-around align-items-center">
-                  Status
-                  <div class="d-flex flex-column">
-                     <i aria-hidden="true" class="fa fa-caret-up"></i>
-                     <i aria-hidden="true" class="fa fa-caret-down"></i>
-                  </div>
-               </div>
-            </th>
-         </tr>
-      </thead>
-      <tbody>
-         <tr *ngFor="let dados of dadosClientes | filterByCliente: filter | filterByCliente: searchDate">
-            <td class="table-item">{{ dados.etiqueta }}</td>
-            <td class="table-item">{{ dados.cliente }}</td>
-            <td class="table-item">{{ dados.totalAtivo }}</td>
-            <td class="table-item">{{ dados.dataUltimaSaida }}</td>
-            <td class="table-item">{{ dados.dataUltimoRetorno }}</td>
-            <td class="table-item">{{ dados.status }}</td>
-         </tr>
-      </tbody>
-   </table>
-</div>
+</main>
