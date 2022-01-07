@@ -8,6 +8,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule,  } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
+import { HttpClientModule } from "@angular/common/http";
 
 import { PaginaInicialComponent } from './pagina-inicial/pagina-inicial.component';
 import { EngemanGerencialComponent } from './engeman-gerencial/engeman-gerencial.component';
@@ -42,6 +43,7 @@ import { ListaCarrosComponent } from './lista-carros/lista-carros.component';
     MatFormFieldModule,
     MatInputModule,
     MatNativeDateModule,
+    HttpClientModule
   ],
   exports: [
     BrowserModule,
