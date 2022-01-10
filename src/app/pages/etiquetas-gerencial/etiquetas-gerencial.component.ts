@@ -17,8 +17,12 @@ export class EtiquetasGerencialComponent implements OnInit {
 
   ngOnInit(): void {
     this.etiquetasService.getEtiquetas().subscribe((etiquetas: any) => {
-      console.log(etiquetas);
-      this.dadosClientes.push(etiquetas);      
+      // cartIssues pode vir vazio, aqui preencho somente quanto tiver objeto em cartIssues
+      etiquetas.forEach((element: any) => {
+        if (element.cartIssues.length === 1) {
+          this.dadosClientes.push(element);
+        }        
+      });
     },
     err => console.log(err)
     );

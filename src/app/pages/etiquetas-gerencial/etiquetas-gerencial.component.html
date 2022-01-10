@@ -12,7 +12,7 @@
          <table class="table table-bordered table-striped mt-3">
             <thead>
                <tr>
-                  <th [appSort]="dadosClientes[0]" data-order="desc" data-name="code" class="table-header">
+                  <th [appSort]="dadosClientes" data-order="desc" data-name="code" class="table-header">
                      <div class="d-flex justify-content-around align-items-center">
                         Etiqueta
                         <div class="d-flex flex-column">
@@ -21,7 +21,7 @@
                         </div>
                      </div>
                   </th>
-                  <th [appSort]="dadosClientes" data-order="desc" data-name="cliente" class="table-header">
+                  <th [appSort]="dadosClientes" data-order="desc" data-name="cartIssues[0].client.name" class="table-header">
                      <div class="d-flex justify-content-around align-items-center">
                         Cliente
                         <div class="d-flex flex-column">
@@ -57,7 +57,7 @@
                         </div>
                      </div>
                   </th>
-                  <th [appSort]="dadosClientes[0]" data-order="desc" data-name="status" class="table-header">
+                  <th [appSort]="dadosClientes" data-order="desc" data-name="status" class="table-header">
                      <div class="d-flex justify-content-around align-items-center">
                         Status
                         <div class="d-flex flex-column">
@@ -69,15 +69,13 @@
                </tr>
             </thead>
             <tbody>
-               <tr *ngFor="let dados of dadosClientes[0] | filterByCliente: filter | filterByCliente: searchDate">
-                  <td class="table-item" *ngIf="dados.cartIssues.length === 1">{{ dados.code }}</td>
-                  <td class="table-item" *ngIf="dados.cartIssues.length === 1">{{ dados.cartIssues[0].client.name }}</td>
-                  <td class="table-item" *ngIf="dados.cartIssues.length === 1">{{ 
-                     dados.status == 'OUT' ? '1' : ''  
-                  }}</td>
-                  <td class="table-item" *ngIf="dados.cartIssues.length === 1">{{ dados.cartIssues[0].readAt.substring(0, 10) }}</td>
-                  <td class="table-item" *ngIf="dados.cartIssues.length === 1">{{ dados.cartIssues[0].cartReturnal?.readAt.substring(0, 10) }}</td>
-                  <td class="table-item" *ngIf="dados.cartIssues.length === 1">{{
+               <tr *ngFor="let dados of dadosClientes | filterByCliente: filter | filterByCliente: searchDate">
+                  <td class="table-item">{{ dados.code }}</td>
+                  <td class="table-item">{{ dados.cartIssues[0].client.name }}</td>
+                  <td class="table-item">{{ dados.status == 'OUT' ? '1' : '' }}</td>
+                  <td class="table-item">{{ dados.cartIssues[0].readAt.substring(0, 10) }}</td>
+                  <td class="table-item">{{ dados.cartIssues[0].cartReturnal?.readAt.substring(0, 10) }}</td>
+                  <td class="table-item">{{
                      dados.status == 'IDLE' ? 'Pátio' : (dados.status == 'OUT' ? 'Externo' : 'Interno')
                   }}</td>
                </tr>
