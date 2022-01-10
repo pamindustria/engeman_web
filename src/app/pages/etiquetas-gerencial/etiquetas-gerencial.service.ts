@@ -9,6 +9,6 @@ export class EtiquetasGerencialService {
   constructor(private http: HttpClient) { }
 
   getEtiquetas() {
-    return this.http.get('http://localhost:3000/engeman/get/etiquetas');
+    return this.http.get('https://app-etiquetas.herokuapp.com/api/carts');
   }
 }
