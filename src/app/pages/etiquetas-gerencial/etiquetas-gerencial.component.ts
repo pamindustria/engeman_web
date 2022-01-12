@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { SharedService } from 'src/app/shared/shared.service';
 import { EtiquetasGerencialService } from './etiquetas-gerencial.service';
 
 @Component({
@@ -13,10 +15,21 @@ export class EtiquetasGerencialComponent implements OnInit {
   searchDateSaida: string = '';
   searchDateRetorno: string = '';
   dadosClientes: any[] = [];
+  getEventsubscription!: Subscription;
+  showFiltrosCliente: boolean = true;
 
   constructor(
-    private etiquetasService: EtiquetasGerencialService
-  ) { }
+    private etiquetasService: EtiquetasGerencialService,
+    private sharedService: SharedService
+  ) {
+    this.getEventsubscription = this.sharedService.getMethodEvent().subscribe(isVazio => {
+      this.mostrarFiltroCliente(isVazio);
+    })
+  }
+
+  mostrarFiltroCliente(value: boolean) {
+    this.showFiltrosCliente = value;
+  }
 
   ngOnInit(): void {
     this.etiquetasService.getEtiquetas().subscribe((etiquetas: any) => {

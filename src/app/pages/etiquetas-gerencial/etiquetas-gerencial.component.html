@@ -7,13 +7,18 @@
          <table class="table table-bordered table-striped">
             <thead>
                <tr>
-                  <th [appSort]="dadosClientes" data-order="desc" data-name="code" class="table-header">
+                  <th [appSort]="dadosClientes" data-order="desc" data-name="code" class="table-header" [hidden]="!showFiltrosCliente">
                      <div class="d-flex justify-content-around align-items-center">
                         Etiqueta
                         <div class="d-flex flex-column">
                            <i aria-hidden="true" class="fa fa-caret-up"></i>
                            <i aria-hidden="true" class="fa fa-caret-down"></i>
                         </div>
+                     </div>
+                  </th>
+                  <th class="table-header">
+                     <div class="d-flex justify-content-around align-items-center">
+                        Tipo
                      </div>
                   </th>
                   <th [appSort]="dadosClientes" data-order="desc" data-name="cliente" class="table-header">
@@ -25,16 +30,12 @@
                         </div> -->
                      </div>
                   </th>
-                  <!-- <th [appSort]="dadosClientes" data-order="desc" data-name="totalAtivo" class="table-header">
+                  <th class="table-header" [hidden]="showFiltrosCliente">
                      <div class="d-flex justify-content-around align-items-center">
-                        Ativo Externo
-                        <div class="d-flex flex-column">
-                           <i aria-hidden="true" class="fa fa-caret-up"></i>
-                           <i aria-hidden="true" class="fa fa-caret-down"></i>
-                        </div>
+                        Total
                      </div>
-                  </th> -->
-                  <th [appSort]="dadosClientes" data-order="desc" data-name="dataUltimaSaida" class="table-header">
+                  </th>
+                  <th [appSort]="dadosClientes" data-order="desc" data-name="dataUltimaSaida" class="table-header" [hidden]="!showFiltrosCliente">
                      <div class="d-flex justify-content-around align-items-center">
                         Data de Saída
                         <!-- <div class="d-flex flex-column">
@@ -43,7 +44,7 @@
                         </div> -->
                      </div>
                   </th>
-                  <th [appSort]="dadosClientes" data-order="desc" data-name="dataUltimoRetorno" class="table-header">
+                  <th [appSort]="dadosClientes" data-order="desc" data-name="dataUltimoRetorno" class="table-header" [hidden]="!showFiltrosCliente">
                      <div class="d-flex justify-content-around align-items-center">
                         Data de Retorno
                         <!-- <div class="d-flex flex-column">
@@ -52,7 +53,7 @@
                         </div> -->
                      </div>
                   </th>
-                  <th [appSort]="dadosClientes" data-order="desc" data-name="status" class="table-header">
+                  <th [appSort]="dadosClientes" data-order="desc" data-name="status" class="table-header" [hidden]="!showFiltrosCliente">
                      <div class="d-flex justify-content-around align-items-center">
                         Status
                         <div class="d-flex flex-column">
@@ -65,20 +66,23 @@
             </thead>
             <tbody>
                <tr>
-                  <td class="table-item">
+                  <td class="table-item" [hidden]="!showFiltrosCliente">
                      <app-search placeholderString="Filtrar etiqueta" (onTyping)="filterEtiqueta = $event" [value]="filterEtiqueta"></app-search>
+                  </td>
+                  <td class="table-item">
+                     
                   </td>
                   <td class="table-item">
                      <app-search placeholderString="Filtrar cliente" (onTyping)="filterCliente = $event" [value]="filterCliente"></app-search>
                   </td>
-                  <!-- <td class="table-item"></td> -->
-                  <td class="table-item">
+                  <td class="table-item" [hidden]="showFiltrosCliente"></td>
+                  <td class="table-item" [hidden]="!showFiltrosCliente">
                      <app-date-filter (onTyping)="searchDateSaida = $event" [value]="searchDateSaida"></app-date-filter>
                   </td>
-                  <td class="table-item">
+                  <td class="table-item" [hidden]="!showFiltrosCliente">
                      <app-date-filter (onTyping)="searchDateRetorno = $event" [value]="searchDateRetorno"></app-date-filter>
                   </td>
-                  <td class="table-item">
+                  <td class="table-item" [hidden]="!showFiltrosCliente">
                      <app-search placeholderString="Filtrar status" (onTyping)="filterStatus = $event" [value]="filterStatus"></app-search>
                   </td>
                </tr>
@@ -90,12 +94,13 @@
                   filterByDataSaida: searchDateSaida |
                   filterByDataRetorno: searchDateRetorno"
                >
-                  <td class="table-item">{{ dados.code }}</td>
+                  <td class="table-item" [hidden]="!showFiltrosCliente">{{ dados.code }}</td>
+                  <td class="table-item">Pallets</td>
                   <td class="table-item">{{ dados.cartIssues[0].client.name }}</td>
-                  <!-- <td class="table-item">{{ dados.status == 'OUT' ? '1' : '' }}</td> -->
-                  <td class="table-item">{{ dados.cartIssues[0].readAt.substring(0, 10) }}</td>
-                  <td class="table-item">{{ dados.cartIssues[0].cartReturnal?.readAt.substring(0, 10) }}</td>
-                  <td class="table-item">{{
+                  <td class="table-item" [hidden]="showFiltrosCliente"></td>
+                  <td class="table-item" [hidden]="!showFiltrosCliente">{{ dados.cartIssues[0].readAt.substring(0, 10) }}</td>
+                  <td class="table-item" [hidden]="!showFiltrosCliente">{{ dados.cartIssues[0].cartReturnal?.readAt.substring(0, 10) }}</td>
+                  <td class="table-item" [hidden]="!showFiltrosCliente">{{
                      dados.status == 'IDLE' ? 'Pátio' : (dados.status == 'OUT' ? 'Externo' : 'Interno')
                   }}</td>
                </tr>
