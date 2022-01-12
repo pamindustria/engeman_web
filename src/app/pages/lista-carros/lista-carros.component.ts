@@ -6,6 +6,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./lista-carros.component.css']
 })
 export class ListaCarrosComponent implements OnInit {
+  filterEmbalagem: string = '';
+
   listaCarros = [
     {carros: 'Euros Pqn', disponivel: '2.500', totalFabrica: '8.000', manutencao: ''},
     {carros: 'Euros Pqn EPS', disponivel: '0', totalFabrica: '', manutencao: ''},
