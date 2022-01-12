@@ -73,10 +73,10 @@
                   </td>
                   <!-- <td class="table-item"></td> -->
                   <td class="table-item">
-                     <app-date-filter (onTyping)="searchDate = $event" [value]="searchDate"></app-date-filter>
+                     <app-date-filter (onTyping)="searchDateSaida = $event" [value]="searchDateSaida"></app-date-filter>
                   </td>
                   <td class="table-item">
-                     <app-date-filter (onTyping)="searchDate = $event" [value]="searchDate"></app-date-filter>
+                     <app-date-filter (onTyping)="searchDateRetorno = $event" [value]="searchDateRetorno"></app-date-filter>
                   </td>
                   <td class="table-item">
                      <app-search placeholderString="Filtrar status" (onTyping)="filterStatus = $event" [value]="filterStatus"></app-search>
@@ -87,7 +87,8 @@
                   filterByEtiqueta: filterEtiqueta | 
                   filterByCliente: filterCliente | 
                   filterByStatus: filterStatus | 
-                  filterByEtiqueta: searchDate"
+                  filterByDataSaida: searchDateSaida |
+                  filterByDataRetorno: searchDateRetorno"
                >
                   <td class="table-item">{{ dados.code }}</td>
                   <td class="table-item">{{ dados.cartIssues[0].client.name }}</td>

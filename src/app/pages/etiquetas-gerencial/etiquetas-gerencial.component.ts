@@ -10,7 +10,8 @@ export class EtiquetasGerencialComponent implements OnInit {
   filterEtiqueta: string = '';
   filterCliente: string = '';
   filterStatus: string = '';
-  searchDate: string = '';
+  searchDateSaida: string = '';
+  searchDateRetorno: string = '';
   dadosClientes: any[] = [];
 
   constructor(

@@ -35,3 +35,27 @@ export class FilterEtiquetaPipe implements PipeTransform {
    }
  
 }
+
+@Pipe({
+   name: 'filterByDataSaida'
+ })
+ export class FilterDataSaidaPipe implements PipeTransform {
+ 
+   transform(value: any, searchValue: string): any {
+      if (!searchValue) return value;
+      return value.filter((v: any) => v.cartIssues[0].readAt.toLowerCase().indexOf(searchValue.toLowerCase()) > -1);
+   }
+ 
+}
+
+@Pipe({
+   name: 'filterByDataRetorno'
+ })
+ export class FilterDataRetornoPipe implements PipeTransform {
+ 
+   transform(value: any, searchValue: string): any {
+      if (!searchValue) return value;
+      return value.filter((v: any) => v.cartIssues[0].cartReturnal?.readAt.toLowerCase().indexOf(searchValue.toLowerCase()) > -1);
+   }
+ 
+}
