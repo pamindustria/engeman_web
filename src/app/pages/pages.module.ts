@@ -14,7 +14,7 @@ import { PaginaInicialComponent } from './pagina-inicial/pagina-inicial.componen
 import { EngemanGerencialComponent } from './engeman-gerencial/engeman-gerencial.component';
 import { EtiquetasGerencialComponent } from './etiquetas-gerencial/etiquetas-gerencial.component';
 import { SearchComponent } from '../components/search/search.component';
-import { FilterPipe } from '../components/pipes/filterEtiqueta.pipe';
+import { FilterEtiquetaPipe, FilterClientePipe, FilterStatusPipe } from '../components/pipes/filterEtiqueta.pipe';
 import { SortDirective } from '../util/sort.directive';
 import { FilterEngemanPipe } from '../components/pipes/filterEngeman.pipe';
 import { DateFilterComponent } from '../components/dateFilter/dateFilter.component';
@@ -25,7 +25,9 @@ import { ListaCarrosComponent } from './lista-carros/lista-carros.component';
     EngemanGerencialComponent,
     PaginaInicialComponent,
     EtiquetasGerencialComponent,
-    FilterPipe,
+    FilterEtiquetaPipe,
+    FilterClientePipe,
+    FilterStatusPipe,
     FilterEngemanPipe,
     SearchComponent,
     SortDirective,

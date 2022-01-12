@@ -7,7 +7,9 @@ import { EtiquetasGerencialService } from './etiquetas-gerencial.service';
   styleUrls: ['./etiquetas-gerencial.component.css']
 })
 export class EtiquetasGerencialComponent implements OnInit {
-  filter: string = '';
+  filterEtiqueta: string = '';
+  filterCliente: string = '';
+  filterStatus: string = '';
   searchDate: string = '';
   dadosClientes: any[] = [];
 

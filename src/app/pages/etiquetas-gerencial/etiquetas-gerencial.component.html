@@ -1,15 +1,10 @@
 <main id="div-principal" class="container-fluid text-center">
    <div class="row">
-      <div class="col mt-3">
+      <div class="col">
          <app-lista-carros></app-lista-carros>
       </div>
-      <div class="col-8 border-start">
-         <div class="d-flex justify-content-between">
-            <app-search placeholderString="Cliente ou etiqueta" (onTyping)="filter = $event" [value]="filter"></app-search>
-            <app-date-filter (onTyping)="searchDate = $event" [value]="searchDate"></app-date-filter>
-         </div>
-      
-         <table class="table table-bordered table-striped mt-3">
+      <div class="col-8 border-start">      
+         <table class="table table-bordered table-striped">
             <thead>
                <tr>
                   <th [appSort]="dadosClientes" data-order="desc" data-name="code" class="table-header">
@@ -69,7 +64,31 @@
                </tr>
             </thead>
             <tbody>
-               <tr *ngFor="let dados of dadosClientes | filterByCliente: filter | filterByCliente: searchDate">
+               <tr>
+                  <td class="table-item">
+                     <app-search placeholderString="Filtrar etiqueta" (onTyping)="filterEtiqueta = $event" [value]="filterEtiqueta"></app-search>
+                  </td>
+                  <td class="table-item">
+                     <app-search placeholderString="Filtrar cliente" (onTyping)="filterCliente = $event" [value]="filterCliente"></app-search>
+                  </td>
+                  <!-- <td class="table-item"></td> -->
+                  <td class="table-item">
+                     <app-date-filter (onTyping)="searchDate = $event" [value]="searchDate"></app-date-filter>
+                  </td>
+                  <td class="table-item">
+                     <app-date-filter (onTyping)="searchDate = $event" [value]="searchDate"></app-date-filter>
+                  </td>
+                  <td class="table-item">
+                     <app-search placeholderString="Filtrar status" (onTyping)="filterStatus = $event" [value]="filterStatus"></app-search>
+                  </td>
+               </tr>
+               <tr 
+                  *ngFor="let dados of dadosClientes | 
+                  filterByEtiqueta: filterEtiqueta | 
+                  filterByCliente: filterCliente | 
+                  filterByStatus: filterStatus | 
+                  filterByEtiqueta: searchDate"
+               >
                   <td class="table-item">{{ dados.code }}</td>
                   <td class="table-item">{{ dados.cartIssues[0].client.name }}</td>
                   <!-- <td class="table-item">{{ dados.status == 'OUT' ? '1' : '' }}</td> -->
