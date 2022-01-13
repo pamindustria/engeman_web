@@ -107,8 +107,12 @@
                   <td class="table-item">{{ dados.cartIssues[0].client.name }}</td>
                   <td class="table-item">{{ dados.type.name }}</td>
                   <td class="table-item" [hidden]="showFiltrosCliente"></td>
-                  <td class="table-item" [hidden]="!showFiltrosCliente">{{ dados.cartIssues[0].readAt.substring(0, 10) }}</td>
-                  <td class="table-item" [hidden]="!showFiltrosCliente">{{ dados.cartIssues[0].cartReturnal?.readAt.substring(0, 10) }}</td>
+                  <td class="table-item" [hidden]="!showFiltrosCliente">
+                     {{ dados.cartIssues[0].readAt.substring(0, 10) }} - {{ dados.cartIssues[0].readAt.substring(11, 16) }}
+                  </td>
+                  <td class="table-item" [hidden]="!showFiltrosCliente">
+                     {{ dados.cartIssues[0].cartReturnal?.readAt.substring(0, 10) }} - {{ dados.cartIssues[0].cartReturnal?.readAt.substring(11, 16) }}
+                  </td>
                   <td class="table-item" [hidden]="!showFiltrosCliente">{{
                      dados.status == 'IDLE' ? 'Pátio' : (dados.status == 'OUT' ? 'Externo' : 'Interno')
                   }}</td>
