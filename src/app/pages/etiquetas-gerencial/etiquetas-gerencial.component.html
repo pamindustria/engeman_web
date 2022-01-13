@@ -102,7 +102,7 @@
                >
                   <td class="table-item" [hidden]="!showFiltrosCliente">{{ dados.code }}</td>
                   <td class="table-item">{{ dados.cartIssues[0].client.name }}</td>
-                  <td class="table-item">Pallets</td>
+                  <td class="table-item">{{ dados.type.name }}</td>
                   <td class="table-item" [hidden]="showFiltrosCliente"></td>
                   <td class="table-item" [hidden]="!showFiltrosCliente">{{ dados.cartIssues[0].readAt.substring(0, 10) }}</td>
                   <td class="table-item" [hidden]="!showFiltrosCliente">{{ dados.cartIssues[0].cartReturnal?.readAt.substring(0, 10) }}</td>
