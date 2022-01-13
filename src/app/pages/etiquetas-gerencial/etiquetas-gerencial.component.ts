@@ -15,6 +15,7 @@ export class EtiquetasGerencialComponent implements OnInit {
   filterEmbalagem: string = '';
   searchDateSaida: string = '';
   searchDateRetorno: string = '';
+  
   dadosClientes: any[] = [];
   getEventsubscription!: Subscription;
   showFiltrosCliente: boolean = true;
