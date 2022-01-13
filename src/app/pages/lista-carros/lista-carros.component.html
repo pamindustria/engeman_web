@@ -1,7 +1,7 @@
 <table class="table table-bordered table-striped">
    <thead>
       <tr>
-         <th [appSort]="listaCarros" data-order="desc" data-name="carros" class="table-header">
+         <th [appSort]="listaCarros" data-order="desc" data-name="name" class="table-header">
             <div class="d-flex justify-content-around align-items-center">
                Embal.
                <div class="d-flex flex-column">
@@ -19,7 +19,7 @@
                </div>
             </div>
          </th>
-         <th [appSort]="listaCarros" data-order="desc" data-name="totalFabrica" class="table-header">
+         <th [appSort]="listaCarros" data-order="desc" data-name="carts" class="table-header">
             <div class="d-flex justify-content-around align-items-center">
                PAM
                <div class="d-flex flex-column ms-1">
@@ -28,7 +28,7 @@
                </div>
             </div>
          </th>
-         <th class="table-header">
+         <th [appSort]="listaCarros" data-order="desc" data-name="cliente" class="table-header">
             <div class="d-flex justify-content-around align-items-center">
                Cliente
                <div class="d-flex flex-column ms-1">
