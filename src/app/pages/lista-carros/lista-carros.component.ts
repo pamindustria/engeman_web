@@ -17,7 +17,7 @@ export class ListaCarrosComponent implements OnInit {
     this.listaCarrosService.getListaCarros().subscribe((carros: any) => {
       //buscando lista de carros em manutenção
       this.listaCarrosService.getListaCarrosManutencao().subscribe((manutencao: any) => {
-        console.log(manutencao);    
+        // console.log(manutencao);    
 
         carros.forEach((tipos: any) => {
           //a cada novo objeto do types faça uma nova contagem de carts com status idle/out
