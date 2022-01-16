@@ -20,6 +20,7 @@ import { FilterEngemanPipe } from '../components/pipes/filterEngeman.pipe';
 import { DateFilterComponent } from '../components/dateFilter/dateFilter.component';
 import { ListaCarrosComponent } from './etiquetas/lista-carros/lista-carros.component';
 import { FilterEmbalagemPipe } from '../components/pipes/filterEmbalagem.pipe';
+import { CadastroEtiquetasComponent } from './etiquetas/cadastro-etiquetas/cadastro-etiquetas.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { FilterEmbalagemPipe } from '../components/pipes/filterEmbalagem.pipe';
     SortDirective,
     DateFilterComponent,
     ListaCarrosComponent,
-    FilterEmbalagemPipe
+    FilterEmbalagemPipe,
+    CadastroEtiquetasComponent
   ],
   imports: [
     CommonModule,

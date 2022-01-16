@@ -1,3 +1,6 @@
+<!-- ! deve se alterar tanto aqui quanto no codigo abaixo, onde se encontrar um navbar especifico
+! para mobile -->
+
 <nav *ngIf="isMobile === false" class="navbar navbar-expand-lg navbar-dark bg-primary pt-3 pb-3">
    <div class="container-fluid">
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -58,7 +61,7 @@
                </a>
                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                   <li><a class="dropdown-item" [routerLink]="['etiquetas-gerencial']">Gerencial</a></li>
-                  <li><a class="dropdown-item" href="#">Relatório 2</a></li>
+                  <li><a class="dropdown-item" [routerLink]="['cadastro-etiquetas']">Cadastro</a></li>
                </ul>
             </li>
          </ul>
@@ -67,7 +70,7 @@
    </div>
 </nav>
 
-<!-- PARA MOBILE -->
+<!-- * PARA MOBILE -->
 <div *ngIf="isMobile" class="sidebar-nav">
    <nav class="navbar navbar-dark bg-primary">
       <div class="container">
@@ -133,7 +136,7 @@
                      </a>
                      <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <li><a class="dropdown-item fs-6" [routerLink]="['etiquetas-gerencial']">Gerencial</a></li>
-                        <li><a class="dropdown-item fs-6" href="#">Relatório 2</a></li>
+                        <li><a class="dropdown-item fs-6" [routerLink]="['cadastro-etiquetas']">Cadastro</a></li>
                      </ul>
                   </li>
                   </ul>
