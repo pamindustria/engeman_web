@@ -13,6 +13,6 @@ export class ListaCarrosService {
   }
 
   getListaCarrosManutencao() {
-    return this.http.get('https://app-etiquetas.herokuapp.com/api/maintenances');
+    return this.http.get('https://app-etiquetas.herokuapp.com/api/maintenances?finishedAt=null');
   }
 }

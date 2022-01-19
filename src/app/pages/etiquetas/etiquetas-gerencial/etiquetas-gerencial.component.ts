@@ -39,7 +39,7 @@ export class EtiquetasGerencialComponent implements OnInit {
       etiquetas.forEach((element: any) => {
         if (element.cartIssues.length === 1) {
           this.dadosClientes.push(element);
-          console.log(this.dadosClientes);
+          // console.log(this.dadosClientes);
           
         }        
       });

@@ -17,7 +17,7 @@ export class ListaCarrosComponent implements OnInit {
     this.listaCarrosService.getListaCarros().subscribe((carros: any) => {
       //buscando lista de carros em manutenção
       this.listaCarrosService.getListaCarrosManutencao().subscribe((manutencao: any) => {
-        // console.log(manutencao);    
+        // console.log(manutencao);
 
         carros.forEach((tipos: any) => {
           //a cada novo objeto do types faça uma nova contagem de carts com status idle/out
@@ -38,7 +38,9 @@ export class ListaCarrosComponent implements OnInit {
           //e adicionando um novo atributo a cada tipo
           if (manutencao.length !== 0) {
             manutencao.forEach((cart: any) => {
-              if (tipos.id === cart.id) {
+              // console.log(tipos.name);
+              // console.log(cart.cart.type.name);
+              if (tipos.name === cart.cart.type.name) {
                 maintenanceStatusCount++;
               }
             });
