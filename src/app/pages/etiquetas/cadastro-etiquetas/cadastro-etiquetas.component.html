@@ -14,13 +14,43 @@
                   <td class="table-item">
                      <app-search placeholderString="Filtrar embalagens" (onTyping)="filterEmbalagem = $event" [value]="filterEmbalagem"></app-search>
                   </td>
-                  <td class="table-item"></td>
+                  <td class="table-item text-end">
+                     <button type="button" class="btn btn-primary" (click)="novaEmbalagem()">
+                        Novo
+                     </button>
+                  </td>
                </tr>
-               <tr *ngFor="let carro of listaCarros | filterEmbalagem: filterEmbalagem">
-                  <td class="text-start">{{ carro.name }}</td>
-                  <td class="d-flex justify-content-evenly">
-                     <i aria-hidden="true" class="fa fa-edit fa-2x"></i>
-                     <i aria-hidden="true" class="fa fa-trash fa-2x"></i>
+               <tr *ngIf="newWasClicked" [formGroup]="embalagensForm">
+                  <td class="table-item">
+                     <input type="text" class="form-control" formControlName="name">
+                  </td>
+                  <td class="table-item text-center">
+                     <!-- <button type="button" class="btn btn-success" (click)="criarNovo()"> -->
+                        <i aria-hidden="true" class="fa fa-check-square fa-2x" (click)="criarNovo()"></i>
+                     <!-- </button> -->
+                  </td>
+               </tr>
+               <tr [formGroup]="updateEmbalagensForm" *ngFor="let carro of listaCarros | filterEmbalagem: filterEmbalagem; index as idx">
+                  <td class="text-start">
+                     <p *ngIf="isEditTrueIndex !== idx">
+                        {{ carro.name }}
+                     </p>
+                     <input 
+                        formControlName="name"
+                        *ngIf="isEditTrueIndex === idx" 
+                        class="form-control" 
+                        type="text"
+                     >
+                  </td>
+                  <td >
+                     <div *ngIf="isEditTrueIndex !== idx" class="d-flex justify-content-evenly">
+                        <i aria-hidden="true" class="fa fa-edit fa-2x" (click)="selectEdit(idx, carro.id)"></i>
+                        <i aria-hidden="true" class="fa fa-trash fa-2x" (click)="deletar(carro.id)"></i>
+                     </div>
+                     <div *ngIf="isEditTrueIndex === idx" class="d-flex justify-content-evenly">
+                        <i aria-hidden="true" class="fa fa-check-square fa-2x" (click)="editar(carro.id)"></i>
+                        <i aria-hidden="true" class="fa fa-arrow-right fa-2x" (click)="voltar()"></i>
+                     </div>
                   </td>
                </tr>
             </tbody>
@@ -48,13 +78,13 @@
                      <div class="form-check">
                         <input class="form-check-input" type="radio" name={{etiqueta.code}} id="ativar">
                         <label class="form-check-label" for="ativar">
-                          Ativar
+                        Ativar
                         </label>
                      </div>
                      <div class="form-check">
                         <input class="form-check-input" type="radio" name={{etiqueta.code}} id="desativar">
                         <label class="form-check-label" for="desativar">
-                          Desativar
+                        Desativar
                         </label>
                      </div>
                   </td>
@@ -84,13 +114,13 @@
                      <div class="form-check">
                         <input class="form-check-input" type="radio" name={{etiqueta.code}} id="patio">
                         <label class="form-check-label" for="patio">
-                          Pátio
+                        Pátio
                         </label>
                      </div>
                      <div class="form-check">
                         <input class="form-check-input" type="radio" name={{etiqueta.code}} id="desativar">
                         <label class="form-check-label" for="desativar">
-                          Desativar
+                        Desativar
                         </label>
                      </div>
                   </td>
@@ -99,5 +129,4 @@
          </table>
       </div>
    </div>
-   
 </main>
