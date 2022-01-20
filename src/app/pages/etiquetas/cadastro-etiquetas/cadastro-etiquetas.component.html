@@ -25,9 +25,7 @@
                      <input type="text" class="form-control" formControlName="name">
                   </td>
                   <td class="table-item text-center">
-                     <!-- <button type="button" class="btn btn-success" (click)="criarNovo()"> -->
-                        <i aria-hidden="true" class="fa fa-check-square fa-2x" (click)="criarNovo()"></i>
-                     <!-- </button> -->
+                     <i aria-hidden="true" class="fa fa-check-square fa-2x" (click)="criarNovo()"></i>
                   </td>
                </tr>
                <tr [formGroup]="updateEmbalagensForm" *ngFor="let carro of listaCarros | filterEmbalagem: filterEmbalagem; index as idx">

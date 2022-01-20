@@ -106,16 +106,25 @@ export class CadastroEtiquetasComponent implements OnInit {
 
   criarNovo() {
     const name = this.embalagensForm.getRawValue() as any;
+    this.novaEmbalagem();
 
     this.etiquetasService.createEmbalagem(name).subscribe(
-      data => console.log(`Embalagem criada ${data}`),
+      data => {
+        this.listaCarros = [];
+        console.log(`Embalagem criada ${data}`);
+        this.getListaEmbalagens();
+      },
       err => console.log('Erro ao criar embalagem')
     )
   }
 
   deletar(id: number) {    
     this.etiquetasService.deleteEmbalagem(id).subscribe(
-      data => console.log(`Embalagem deletada com sucesso: ${data}`),
+      data => {
+        this.listaCarros = [];
+        console.log(`Embalagem deletada com sucesso: ${data}`);
+        this.getListaEmbalagens();
+      },
       err => console.log('Erro ao deletar embalagem')
     )
   }
