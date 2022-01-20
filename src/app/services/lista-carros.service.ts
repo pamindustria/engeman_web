@@ -15,4 +15,8 @@ export class ListaCarrosService {
   getListaCarrosManutencao() {
     return this.http.get('https://app-etiquetas.herokuapp.com/api/maintenances?finishedAt=null');
   }
+  
+  getListaCarrosInativos() {
+    return this.http.get('https://app-etiquetas.herokuapp.com/api/carts?status=INACTIVE');
+  }
 }
