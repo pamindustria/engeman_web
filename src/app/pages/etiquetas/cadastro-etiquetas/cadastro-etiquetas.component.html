@@ -48,7 +48,11 @@
                         <i aria-hidden="true" class="fa fa-trash fa-2x" (click)="deletar(carro.id)"></i>
                      </div>
                      <div *ngIf="isEditTrueIndex === idx" class="d-flex justify-content-evenly">
-                        <i aria-hidden="true" class="fa fa-check-square fa-2x" (click)="editar(carro.id)"></i>
+                        <i 
+                           aria-hidden="true" 
+                           class="fa fa-check-square fa-2x"
+                           (click)="openDialog('Confirmar edição?', carro.id)"
+                        ></i>
                         <i aria-hidden="true" class="fa fa-arrow-right fa-2x" (click)="voltar()"></i>
                      </div>
                   </td>

@@ -21,6 +21,7 @@ import { DateFilterComponent } from '../components/dateFilter/dateFilter.compone
 import { ListaCarrosComponent } from './etiquetas/lista-carros/lista-carros.component';
 import { FilterEmbalagemPipe } from '../components/pipes/filterEmbalagem.pipe';
 import { CadastroEtiquetasComponent } from './etiquetas/cadastro-etiquetas/cadastro-etiquetas.component';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -52,7 +53,8 @@ import { CadastroEtiquetasComponent } from './etiquetas/cadastro-etiquetas/cadas
     MatFormFieldModule,
     MatInputModule,
     MatNativeDateModule,
-    HttpClientModule
+    HttpClientModule,
+    SharedModule
   ],
   exports: [
     BrowserModule,

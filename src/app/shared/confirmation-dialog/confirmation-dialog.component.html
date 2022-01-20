@@ -1,0 +1,10 @@
+<div id="modal-content-wrapper">
+   <section class="d-flex justify-content-center">
+      <h2> {{ data.titulo }} </h2>
+   </section>
+   
+   <footer id="modal-footer">
+      <button mat-raised-button id="modal-nao-button" (click)="closeModal()">Não</button>
+      <button mat-raised-button id="modal-sim-button" (click)="sendEvent()">Sim</button>
+   </footer>
+</div>
