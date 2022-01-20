@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
@@ -24,15 +24,10 @@ export class CadastroEtiquetasComponent implements OnInit {
 
   embalagensForm!: FormGroup;
   updateEmbalagensForm!: FormGroup;
+  inactivateCartForm!: FormGroup;
 
   listaCarros: any[] = [];
-  listaEtiquetas: any[] = [
-    {code: 'PAM1'},
-    {code: 'PAM2'},
-    {code: 'PAM3'},
-    {code: 'PAM4'},
-    {code: 'PAM5'},
-  ]
+  listaEtiquetas: any[] = []
 
   constructor(
     private listaCarrosService: ListaCarrosService, 
@@ -44,11 +39,22 @@ export class CadastroEtiquetasComponent implements OnInit {
     this.getEventSubscription = this.sharedService.getEditEmbalagemEvent()
     .subscribe(() => {
       this.editar(this.idCarro);
-    })
+    });
   }
 
   ngOnInit(): void {
     this.getLista();
+
+    this.etiquetasService.getEtiquetas().subscribe((etiquetas: any) => {
+      // cartIssues pode vir vazio, aqui preencho somente quanto tiver objeto em cartIssues
+      etiquetas.forEach((element: any) => {
+        if (element.cartIssues.length === 1) {
+          this.listaEtiquetas.push(element);
+        }        
+      });
+    },
+    err => console.log(err)
+    );
 
     this.embalagensForm = this.formBuilder.group({
       name: ['']
@@ -57,8 +63,12 @@ export class CadastroEtiquetasComponent implements OnInit {
     this.updateEmbalagensForm = this.formBuilder.group({
       name: ['']
     })
+    
+    this.inactivateCartForm = this.formBuilder.group({
+      status: ['']
+    })
   }
-
+  
   getLista() {
     this.listaCarrosService.getListaCarros().subscribe((carros: any) => {
       carros.forEach((carro: any) => {
@@ -128,5 +138,18 @@ export class CadastroEtiquetasComponent implements OnInit {
     }
 
     const dialog = this.matDialog.open(ConfirmationDialogComponent, dialogConfig);    
+  }
+
+  changeCartStatus(id: number) {
+    const status = this.inactivateCartForm.getRawValue() as any;
+    console.log(status);
+    console.log(id);
+
+    this.etiquetasService.inactivateEtiqueta(id, status)
+    .subscribe(
+      data => console.log(`Inativado com sucesso. ${data}`),
+      err => console.log('Ocorreu um erro ao tentar ativar/desativar a etiqueta'),
+    )
+    
   }
 }

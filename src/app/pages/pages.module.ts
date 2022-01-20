@@ -9,6 +9,7 @@ import { MatFormFieldModule,  } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
 import { HttpClientModule } from "@angular/common/http";
+import { MatRadioModule } from '@angular/material/radio';
 
 import { PaginaInicialComponent } from './pagina-inicial/pagina-inicial.component';
 import { EngemanGerencialComponent } from './engeman-gerencial/engeman-gerencial.component';
@@ -54,7 +55,8 @@ import { SharedModule } from '../shared/shared.module';
     MatInputModule,
     MatNativeDateModule,
     HttpClientModule,
-    SharedModule
+    SharedModule,
+    MatRadioModule
   ],
   exports: [
     BrowserModule,
@@ -66,6 +68,7 @@ import { SharedModule } from '../shared/shared.module';
     MatFormFieldModule,
     MatInputModule,
     MatNativeDateModule,
+    MatRadioModule
   ],
   providers: [{ provide: MAT_DATE_LOCALE, useValue: 'pt-br' }],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]

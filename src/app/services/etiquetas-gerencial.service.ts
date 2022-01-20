@@ -16,6 +16,10 @@ export class EtiquetasGerencialService {
     return this.http.get(`https://app-etiquetas.herokuapp.com/api/carts-types/${id}`);
   }
 
+  inactivateEtiqueta(id: number, status: any) {
+    return this.http.patch(`https://app-etiquetas.herokuapp.com/api/carts/${id}`, status);
+  }
+
   createEmbalagem(name: any){
     return this.http.post('https://app-etiquetas.herokuapp.com/api/carts-types', name);
   }
