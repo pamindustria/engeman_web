@@ -37,7 +37,7 @@ export class EtiquetasGerencialComponent implements OnInit {
     this.etiquetasService.getEtiquetas().subscribe((etiquetas: any) => {
       // cartIssues pode vir vazio, aqui preencho somente quanto tiver objeto em cartIssues
       etiquetas.forEach((element: any) => {
-        if (element.cartIssues.length === 1) {
+        if (element.cartIssues.length >= 1) {
           this.dadosClientes.push(element);
           // console.log(this.dadosClientes);
           
