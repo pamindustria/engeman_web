@@ -43,13 +43,13 @@
                   <td >
                      <div *ngIf="isEditTrueIndex !== idx" class="d-flex justify-content-evenly">
                         <i aria-hidden="true" class="fa fa-edit fa-2x" (click)="selectEdit(idx, carro.id)"></i>
-                        <i aria-hidden="true" class="fa fa-trash fa-2x" (click)="deletar(carro.id)"></i>
+                        <i aria-hidden="true" class="fa fa-trash fa-2x" (click)="openDialog('Deseja realmente excluir o item?', carro.id, 1)"></i>
                      </div>
                      <div *ngIf="isEditTrueIndex === idx" class="d-flex justify-content-evenly">
                         <i 
                            aria-hidden="true" 
                            class="fa fa-check-square fa-2x"
-                           (click)="openDialog('Confirmar edição?', carro.id)"
+                           (click)="openDialog('Confirmar edição?', carro.id, 0)"
                         ></i>
                         <i aria-hidden="true" class="fa fa-arrow-right fa-2x" (click)="voltar()"></i>
                      </div>

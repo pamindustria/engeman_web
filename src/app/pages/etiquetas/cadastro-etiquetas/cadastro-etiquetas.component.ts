@@ -19,7 +19,8 @@ export class CadastroEtiquetasComponent implements OnInit {
   filterManutencao: string = '';
   newWasClicked: boolean = false;
   isEditTrueIndex: number = -1;
-  getEventSubscription!: Subscription;
+  getEditSubscription!: Subscription;
+  getDeleteSubscription!: Subscription;
   idCarro: number = 0;
   statusMaintenance: String = '';
 
@@ -39,9 +40,14 @@ export class CadastroEtiquetasComponent implements OnInit {
     private matDialog: MatDialog,
     private sharedService: SharedService
   ) {
-    this.getEventSubscription = this.sharedService.getEditEmbalagemEvent()
+    this.getEditSubscription = this.sharedService.getEditEmbalagemEvent()
     .subscribe(() => {
       this.editar(this.idCarro);
+    });
+    
+    this.getDeleteSubscription = this.sharedService.getDeleteEmbalagemEvent()
+    .subscribe(() => {
+      this.deletar(this.idCarro);
     });
   }
 
@@ -107,12 +113,13 @@ export class CadastroEtiquetasComponent implements OnInit {
   criarNovo() {
     const name = this.embalagensForm.getRawValue() as any;
     this.novaEmbalagem();
-
+    
     this.etiquetasService.createEmbalagem(name).subscribe(
       data => {
         this.listaCarros = [];
         console.log(`Embalagem criada ${data}`);
         this.getListaEmbalagens();
+        this.embalagensForm.get('name')?.setValue("");
       },
       err => console.log('Erro ao criar embalagem')
     )
@@ -158,15 +165,18 @@ export class CadastroEtiquetasComponent implements OnInit {
     this.isEditTrueIndex = -1;
   }
 
-  openDialog(texto: String, id: number) {    
+  openDialog(texto: String, id: number, idDialog: number) {    
+    // idDialog para identificar quem esta usando o componente
+    // 0 para quando atualizando/1 para quando deletando
     const dialogConfig = new MatDialogConfig();
     this.idCarro = id;
 
     dialogConfig.disableClose = true;
     dialogConfig.width = "250px";
-    dialogConfig.height = "150px";
+    dialogConfig.height = "180px";
     dialogConfig.data = {
       titulo: texto,
+      idDialog: idDialog
     }
 
     const dialog = this.matDialog.open(ConfirmationDialogComponent, dialogConfig);    

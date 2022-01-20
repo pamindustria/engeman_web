@@ -4,7 +4,8 @@ import { Observable, Subject } from "rxjs";
 @Injectable({providedIn: 'root'})
 export class SharedService{
    private method: Subject<any> = new Subject<any>();
-   private embalagemMethod: Subject<void> = new Subject<void>();
+   private editMethod: Subject<void> = new Subject<void>();
+   private deleteMethod: Subject<void> = new Subject<void>();
 
    sendMethodEvent(isVazio: boolean): void {      
       this.method.next(isVazio);
@@ -15,10 +16,18 @@ export class SharedService{
    }
 
    sendEditEmbalagemEvent(): void {      
-      this.embalagemMethod.next();
+      this.editMethod.next();
    } 
 
    getEditEmbalagemEvent(): Observable<any> {
-      return this.embalagemMethod.asObservable();
+      return this.editMethod.asObservable();
+   }
+
+   sendDeleteEmbalagemEvent(): void {      
+      this.deleteMethod.next();
+   } 
+
+   getDeleteEmbalagemEvent(): Observable<any> {
+      return this.deleteMethod.asObservable();
    }
 }

@@ -25,8 +25,13 @@ export class ConfirmationDialogComponent implements OnInit {
   }
 
   sendEvent() {
-    this.sharedService.sendEditEmbalagemEvent();
-    this.closeModal();
+    if (this.data.idDialog === 0) {
+      this.sharedService.sendEditEmbalagemEvent();
+      this.closeModal();
+    } else {
+      this.sharedService.sendDeleteEmbalagemEvent();
+      this.closeModal();
+    }
   }
 
   closeModal() {
