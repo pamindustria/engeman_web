@@ -78,7 +78,7 @@
                </tr>
                <tr *ngFor="let etiqueta of listaEtiquetas | filterByEtiqueta: filterEtiqueta">
                   <td class="text-start">{{ etiqueta.code }}</td>
-                  <td class="d-flex justify-content-evenly">
+                  <td>
                      <mat-radio-group formControlName="status" (change)="changeCartStatus(etiqueta.id)">
                         <mat-radio-button class="me-3" value="IDLE" [checked]="etiqueta.status !== 'INACTIVE'">Ativar</mat-radio-button>
                         <mat-radio-button value="INACTIVE" [checked]="etiqueta.status === 'INACTIVE'">Desativar</mat-radio-button>
@@ -104,21 +104,13 @@
                   </td>
                   <td class="table-item"></td>
                </tr>
-               <tr *ngFor="let etiqueta of listaEtiquetas">
-                  <td class="text-start">Teste</td>
-                  <td class="d-flex justify-content-evenly">
-                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name={{etiqueta.code}} id="patio">
-                        <label class="form-check-label" for="patio">
-                        Pátio
-                        </label>
-                     </div>
-                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name={{etiqueta.code}} id="desativar">
-                        <label class="form-check-label" for="desativar">
-                        Desativar
-                        </label>
-                     </div>
+               <tr *ngFor="let manutencao of listaManutencao">
+                  <td class="text-start">{{ manutencao.cart.type.name }}</td>
+                  <td>
+                     <mat-radio-group [(ngModel)]="statusMaintenance" (change)="changeMaintenanceStatus(manutencao.id, manutencao.cart.id)">
+                        <mat-radio-button class="me-3" [value]="'IDLE'">Pátio</mat-radio-button>
+                        <mat-radio-button [value]="'INACTIVE'">Desativar</mat-radio-button>
+                     </mat-radio-group>
                   </td>
                </tr>
             </tbody>

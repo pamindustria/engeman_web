@@ -21,13 +21,16 @@ export class CadastroEtiquetasComponent implements OnInit {
   isEditTrueIndex: number = -1;
   getEventSubscription!: Subscription;
   idCarro: number = 0;
+  statusMaintenance: String = '';
 
   embalagensForm!: FormGroup;
   updateEmbalagensForm!: FormGroup;
   inactivateCartForm!: FormGroup;
+  finishMaintenanceForm!: FormGroup;
 
   listaCarros: any[] = [];
   listaEtiquetas: any[] = []
+  listaManutencao: any[] = []
 
   constructor(
     private listaCarrosService: ListaCarrosService, 
@@ -43,7 +46,8 @@ export class CadastroEtiquetasComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getLista();
+    this.getListaEmbalagens();
+    this.getListaMaintenances();
 
     this.etiquetasService.getEtiquetas().subscribe((etiquetas: any) => {
       // cartIssues pode vir vazio, aqui preencho somente quanto tiver objeto em cartIssues
@@ -67,14 +71,30 @@ export class CadastroEtiquetasComponent implements OnInit {
     this.inactivateCartForm = this.formBuilder.group({
       status: ['']
     })
+    
+    this.finishMaintenanceForm = this.formBuilder.group({
+      finishedAt: ['']
+    })
   }
   
-  getLista() {
+  getListaEmbalagens() {
     this.listaCarrosService.getListaCarros().subscribe((carros: any) => {
       carros.forEach((carro: any) => {
         this.listaCarros.push(carro);
       });
     })
+  }
+
+  getListaMaintenances() {
+    this.etiquetasService.getAllMaintenances().subscribe((manutencao: any) => {
+      // cartIssues pode vir vazio, aqui preencho somente quanto tiver objeto em cartIssues
+      manutencao.forEach((element: any) => {
+        console.log(element);
+        this.listaManutencao.push(element);
+      });
+    },
+    err => console.log(err)
+    );
   }
 
   novaEmbalagem() {
@@ -116,7 +136,7 @@ export class CadastroEtiquetasComponent implements OnInit {
       data => {
         this.listaCarros = [];
         console.log(`Embalagem atualizada com sucesso.`);
-        this.getLista();
+        this.getListaEmbalagens();
       },
       err => console.log('Erro ao atualizar embalagem.')
     )
@@ -149,6 +169,61 @@ export class CadastroEtiquetasComponent implements OnInit {
       data => console.log(`Função realizada com sucesso. ${data}`),
       err => console.log('Ocorreu um erro ao tentar ativar/desativar a etiqueta'),
     )
-    
+  }
+
+  setFinishedAtMaintenance(idManutencao: number) {
+    var data = new Date().toISOString();
+    const finishedAt = { "finishedAt": data };
+
+    this.etiquetasService.finishMaintenance(idManutencao, finishedAt)
+    .subscribe(
+      data => {
+        console.log(`Manuntenção finalizada. ${data}`);
+      },
+      err => console.log(`Ocorreu um erro ao tentar finalizar manutencao. ${err}`),
+    );
+  }
+
+  changeMaintenanceStatus(idManutencao: number, idCart: number) {
+    console.log(this.statusMaintenance);
+    console.log(idManutencao);
+    console.log(idCart);
+    var data = new Date().toISOString();
+    const status = { "status": "INACTIVE" };
+    const finishedAt = { "finishedAt": data };
+
+    if (this.statusMaintenance === "IDLE") {
+      this.etiquetasService.finishMaintenance(idManutencao, finishedAt)
+      .subscribe(
+        data => {
+          this.listaManutencao = [];
+          console.log(`Manuntenção finalizada. ${data}`);
+          this.getListaMaintenances();
+        },
+        err => console.log(`Ocorreu um erro ao tentar finalizar manutencao. ${err}`),
+      );
+
+    } else {
+      this.etiquetasService.finishMaintenance(idManutencao, finishedAt)
+      .subscribe(
+        data => {
+          console.log(`Manuntenção finalizada. ${data}`);
+
+          console.log('desativando carrinho');
+          this.etiquetasService.inactivateEtiqueta(idCart, status)
+          .subscribe(
+            data => {
+              this.listaManutencao = [];
+              console.log(`Função realizada com sucesso. ${data}`);
+              this.getListaMaintenances();
+            },
+            err => console.log(`Ocorreu um erro ao tentar ativar/desativar o carrinho. ${err}`),
+          );
+        },
+        err => console.log(`Ocorreu um erro ao tentar finalizar manutencao. ${err}`),
+      );
+      
+      
+    }
   }
 }
