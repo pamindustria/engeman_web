@@ -47,18 +47,8 @@ export class CadastroEtiquetasComponent implements OnInit {
 
   ngOnInit(): void {
     this.getListaEmbalagens();
+    this.getListaEtiquetas();
     this.getListaMaintenances();
-
-    this.etiquetasService.getEtiquetas().subscribe((etiquetas: any) => {
-      // cartIssues pode vir vazio, aqui preencho somente quanto tiver objeto em cartIssues
-      etiquetas.forEach((element: any) => {
-        if (element.cartIssues.length === 1) {
-          this.listaEtiquetas.push(element);
-        }        
-      });
-    },
-    err => console.log(err)
-    );
 
     this.embalagensForm = this.formBuilder.group({
       name: ['']
@@ -91,6 +81,19 @@ export class CadastroEtiquetasComponent implements OnInit {
       manutencao.forEach((element: any) => {
         console.log(element);
         this.listaManutencao.push(element);
+      });
+    },
+    err => console.log(err)
+    );
+  }
+
+  getListaEtiquetas() {
+    this.etiquetasService.getEtiquetas().subscribe((etiquetas: any) => {
+      // cartIssues pode vir vazio, aqui preencho somente quanto tiver objeto em cartIssues
+      etiquetas.forEach((element: any) => {
+        if (element.cartIssues.length === 1) {
+          this.listaEtiquetas.push(element);
+        }        
       });
     },
     err => console.log(err)
@@ -166,7 +169,11 @@ export class CadastroEtiquetasComponent implements OnInit {
 
     this.etiquetasService.inactivateEtiqueta(id, status)
     .subscribe(
-      data => console.log(`Função realizada com sucesso. ${data}`),
+      data => {
+        this.listaEtiquetas = [];
+        console.log(`Função realizada com sucesso. ${data}`);
+        this.getListaEtiquetas();
+      },
       err => console.log('Ocorreu um erro ao tentar ativar/desativar a etiqueta'),
     )
   }
