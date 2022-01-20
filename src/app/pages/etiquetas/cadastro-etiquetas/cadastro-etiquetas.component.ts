@@ -143,11 +143,10 @@ export class CadastroEtiquetasComponent implements OnInit {
   changeCartStatus(id: number) {
     const status = this.inactivateCartForm.getRawValue() as any;
     console.log(status);
-    console.log(id);
 
     this.etiquetasService.inactivateEtiqueta(id, status)
     .subscribe(
-      data => console.log(`Inativado com sucesso. ${data}`),
+      data => console.log(`Função realizada com sucesso. ${data}`),
       err => console.log('Ocorreu um erro ao tentar ativar/desativar a etiqueta'),
     )
     
