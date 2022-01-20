@@ -102,7 +102,7 @@
                   </td>
                   <td class="table-item"></td>
                </tr>
-               <tr *ngFor="let manutencao of listaManutencao">
+               <tr *ngFor="let manutencao of listaManutencao | filterManutencao: filterManutencao">
                   <td class="text-start">{{ manutencao.cart.type.name }}</td>
                   <td>
                      <mat-radio-group [(ngModel)]="statusMaintenance" (change)="changeMaintenanceStatus(manutencao.id, manutencao.cart.id)">

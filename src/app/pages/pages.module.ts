@@ -15,7 +15,7 @@ import { PaginaInicialComponent } from './pagina-inicial/pagina-inicial.componen
 import { EngemanGerencialComponent } from './engeman-gerencial/engeman-gerencial.component';
 import { EtiquetasGerencialComponent } from './etiquetas/etiquetas-gerencial/etiquetas-gerencial.component';
 import { SearchComponent } from '../components/search/search.component';
-import { FilterEtiquetaPipe, FilterClientePipe, FilterStatusPipe, FilterDataSaidaPipe, FilterDataRetornoPipe, FilterTipoEmbalagemPipe } from '../components/pipes/filterEtiqueta.pipe';
+import { FilterEtiquetaPipe, FilterClientePipe, FilterStatusPipe, FilterDataSaidaPipe, FilterDataRetornoPipe, FilterTipoEmbalagemPipe, FilterManutencaoPipe } from '../components/pipes/filterEtiqueta.pipe';
 import { SortDirective } from '../util/sort.directive';
 import { FilterEngemanPipe } from '../components/pipes/filterEngeman.pipe';
 import { DateFilterComponent } from '../components/dateFilter/dateFilter.component';
@@ -36,6 +36,7 @@ import { SharedModule } from '../shared/shared.module';
     FilterDataSaidaPipe,
     FilterDataRetornoPipe,
     FilterEngemanPipe,
+    FilterManutencaoPipe,
     SearchComponent,
     SortDirective,
     DateFilterComponent,

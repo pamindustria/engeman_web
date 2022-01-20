@@ -55,7 +55,6 @@ export class ListaCarrosComponent implements OnInit {
                 inactiveStatusCount++;
               }
             });
-            console.log(tipos.name);
   
             //entao adiciono um novo atributo ao objeto
             tipos.disponivel = idleStatusCount;

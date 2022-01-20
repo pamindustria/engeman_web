@@ -71,3 +71,15 @@ export class FilterEtiquetaPipe implements PipeTransform {
    }
  
 }
+
+@Pipe({
+   name: 'filterManutencao'
+ })
+ export class FilterManutencaoPipe implements PipeTransform {
+ 
+   transform(value: any, searchValue: string): any {
+      if (!searchValue) return value;
+      return value.filter((v: any) => v.cart.type.name.toLowerCase().indexOf(searchValue.toLowerCase()) > -1);
+   }
+ 
+}

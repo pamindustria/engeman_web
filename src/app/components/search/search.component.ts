@@ -25,9 +25,6 @@ export class SearchComponent implements OnInit, OnDestroy{
     this.debounce.pipe(debounceTime(300)).subscribe((filter ) => {
       this.onTyping.emit(filter)
 
-      console.log(this.placeholderString);
-      console.log(filter === '');
-
       if (this.placeholderString === 'Filtrar cliente') {
         if (filter !== '') {
           this.sharedService.sendMethodEvent(false);

@@ -79,7 +79,7 @@ export class CadastroEtiquetasComponent implements OnInit {
     this.etiquetasService.getAllMaintenances().subscribe((manutencao: any) => {
       // cartIssues pode vir vazio, aqui preencho somente quanto tiver objeto em cartIssues
       manutencao.forEach((element: any) => {
-        console.log(element);
+        // console.log(element);
         this.listaManutencao.push(element);
       });
     },
@@ -91,9 +91,9 @@ export class CadastroEtiquetasComponent implements OnInit {
     this.etiquetasService.getEtiquetas().subscribe((etiquetas: any) => {
       // cartIssues pode vir vazio, aqui preencho somente quanto tiver objeto em cartIssues
       etiquetas.forEach((element: any) => {
-        if (element.cartIssues.length === 1) {
+        // if (element.cartIssues.length >= 1) {
           this.listaEtiquetas.push(element);
-        }        
+        // }        
       });
     },
     err => console.log(err)
@@ -187,19 +187,6 @@ export class CadastroEtiquetasComponent implements OnInit {
     )
   }
 
-  setFinishedAtMaintenance(idManutencao: number) {
-    var data = new Date().toISOString();
-    const finishedAt = { "finishedAt": data };
-
-    this.etiquetasService.finishMaintenance(idManutencao, finishedAt)
-    .subscribe(
-      data => {
-        console.log(`Manuntenção finalizada. ${data}`);
-      },
-      err => console.log(`Ocorreu um erro ao tentar finalizar manutencao. ${err}`),
-    );
-  }
-
   changeMaintenanceStatus(idManutencao: number, idCart: number) {
     console.log(this.statusMaintenance);
     console.log(idManutencao);
@@ -209,6 +196,7 @@ export class CadastroEtiquetasComponent implements OnInit {
     const finishedAt = { "finishedAt": data };
 
     if (this.statusMaintenance === "IDLE") {
+
       this.etiquetasService.finishMaintenance(idManutencao, finishedAt)
       .subscribe(
         data => {
@@ -220,6 +208,7 @@ export class CadastroEtiquetasComponent implements OnInit {
       );
 
     } else {
+
       this.etiquetasService.finishMaintenance(idManutencao, finishedAt)
       .subscribe(
         data => {
@@ -238,7 +227,6 @@ export class CadastroEtiquetasComponent implements OnInit {
         },
         err => console.log(`Ocorreu um erro ao tentar finalizar manutencao. ${err}`),
       );
-      
       
     }
   }
