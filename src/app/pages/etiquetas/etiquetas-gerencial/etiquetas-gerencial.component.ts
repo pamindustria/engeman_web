@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { LoadingService } from 'src/app/shared/loading/loading.service';
 import { SharedService } from 'src/app/shared/shared.service';
 import { EtiquetasGerencialService } from '../../../services/etiquetas-gerencial.service';
 
@@ -24,7 +23,6 @@ export class EtiquetasGerencialComponent implements OnInit {
   constructor(
     private etiquetasService: EtiquetasGerencialService,
     private sharedService: SharedService,
-    private loadingService: LoadingService
   ) {
     this.getEventsubscription = this.sharedService.getMethodEvent().subscribe(isVazio => {
       this.mostrarFiltroCliente(isVazio);
@@ -36,17 +34,13 @@ export class EtiquetasGerencialComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loadingService.start();
     this.etiquetasService.getEtiquetas().subscribe((etiquetas: any) => {
       // cartIssues pode vir vazio, aqui preencho somente quanto tiver objeto em cartIssues
-      etiquetas.forEach((element: any) => {
-        console.log(element.status);
-        
+      etiquetas.forEach((element: any) => {        
         // if (element.cartIssues.length >= 1) {
-        if (element.status === 'OUT') {
+        if (element.status === 'OUT') {          
           this.dadosClientes.push(element);
-          // console.log(this.dadosClientes);
-          
+          this.dadosClientes = this.dadosClientes.sort((a, b) => b.cartIssues[0].readAt.localeCompare(a.cartIssues[0].readAt));          
         }        
       });
     },
