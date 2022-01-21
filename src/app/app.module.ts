@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 import { NavbarComponent } from './pages/navbar/navbar.component';
 import { PagesModule } from './pages/pages.module';
 import { ConfirmationDialogComponent } from './shared/confirmation-dialog/confirmation-dialog.component';
+import { LoadingModule } from './shared/loading/loading.module';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { ConfirmationDialogComponent } from './shared/confirmation-dialog/confir
     BrowserModule,
     AppRoutingModule,
     PagesModule,
-    MatDialogModule
+    MatDialogModule,
+    LoadingModule
   ],
   bootstrap: [AppComponent],
   entryComponents: [ConfirmationDialogComponent]

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { LoadingService } from 'src/app/shared/loading/loading.service';
 import { SharedService } from 'src/app/shared/shared.service';
 import { EtiquetasGerencialService } from '../../../services/etiquetas-gerencial.service';
 
@@ -22,7 +23,8 @@ export class EtiquetasGerencialComponent implements OnInit {
 
   constructor(
     private etiquetasService: EtiquetasGerencialService,
-    private sharedService: SharedService
+    private sharedService: SharedService,
+    private loadingService: LoadingService
   ) {
     this.getEventsubscription = this.sharedService.getMethodEvent().subscribe(isVazio => {
       this.mostrarFiltroCliente(isVazio);
@@ -34,6 +36,7 @@ export class EtiquetasGerencialComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.loadingService.start();
     this.etiquetasService.getEtiquetas().subscribe((etiquetas: any) => {
       // cartIssues pode vir vazio, aqui preencho somente quanto tiver objeto em cartIssues
       etiquetas.forEach((element: any) => {
