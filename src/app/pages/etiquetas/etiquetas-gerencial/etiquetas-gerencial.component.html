@@ -52,7 +52,7 @@
                         </div>
                      </div>
                   </th>
-                  <th [appSort]="dadosClientes" data-order="desc" data-name="dataUltimoRetorno" class="table-header" [hidden]="!showFiltrosCliente">
+                  <!-- <th [appSort]="dadosClientes" data-order="desc" data-name="dataUltimoRetorno" class="table-header" [hidden]="!showFiltrosCliente">
                      <div class="d-flex justify-content-around align-items-center">
                         Data de Retorno
                         <div class="d-flex flex-column">
@@ -60,7 +60,7 @@
                            <i aria-hidden="true" class="fa fa-caret-down" style="color: #ffffff;"></i>
                         </div>
                      </div>
-                  </th>
+                  </th> -->
                   <th [appSort]="dadosClientes" data-order="desc" data-name="status" class="table-header" [hidden]="!showFiltrosCliente">
                      <div class="d-flex justify-content-around align-items-center">
                         Status
@@ -87,9 +87,9 @@
                   <td class="table-item" [hidden]="!showFiltrosCliente">
                      <app-date-filter (onTyping)="searchDateSaida = $event" [value]="searchDateSaida"></app-date-filter>
                   </td>
-                  <td class="table-item" [hidden]="!showFiltrosCliente">
+                  <!-- <td class="table-item" [hidden]="!showFiltrosCliente">
                      <app-date-filter (onTyping)="searchDateRetorno = $event" [value]="searchDateRetorno"></app-date-filter>
-                  </td>
+                  </td> -->
                   <td class="table-item" [hidden]="!showFiltrosCliente">
                      <app-search placeholderString="Filtrar status" (onTyping)="filterStatus = $event" [value]="filterStatus"></app-search>
                   </td>
@@ -110,9 +110,9 @@
                   <td class="table-item" [hidden]="!showFiltrosCliente">
                      {{ dados.cartIssues[0].readAt.substring(0, 10) }} - {{ dados.cartIssues[0].readAt.substring(11, 16) }}
                   </td>
-                  <td class="table-item" [hidden]="!showFiltrosCliente">
+                  <!-- <td class="table-item" [hidden]="!showFiltrosCliente">
                      {{ dados.cartIssues[0].cartReturnal?.readAt.substring(0, 10) }} - {{ dados.cartIssues[0].cartReturnal?.readAt.substring(11, 16) }}
-                  </td>
+                  </td> -->
                   <td class="table-item" [hidden]="!showFiltrosCliente">{{
                      dados.status == 'IDLE' ? 'Pátio' : (dados.status == 'OUT' ? 'Externo' : 'Interno')
                   }}</td>
