@@ -3,8 +3,8 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 
-import { EtiquetasGerencialService } from 'src/app/services/etiquetas-gerencial.service';
-import { ListaCarrosService } from 'src/app/services/lista-carros.service';
+import { EtiquetasGerencialService } from 'src/app/pages/etiquetas/backend/services/etiquetas-gerencial.service';
+import { ListaCarrosService } from 'src/app/pages/etiquetas/backend/services/lista-carros.service';
 import { ConfirmationDialogComponent } from 'src/app/shared/confirmation-dialog/confirmation-dialog.component';
 import { SharedService } from 'src/app/shared/shared.service';
 

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { EtiquetasGerencialService } from 'src/app/pages/etiquetas/backend/services/etiquetas-gerencial.service';
 import { SharedService } from 'src/app/shared/shared.service';
-import { EtiquetasGerencialService } from '../../../services/etiquetas-gerencial.service';
 
 @Component({
   selector: 'app-etiquetas-gerencial',

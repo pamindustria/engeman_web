@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ListaCarrosService } from 'src/app/services/lista-carros.service';
+import { ListaCarrosService } from 'src/app/pages/etiquetas/backend/services/lista-carros.service';
 
 @Component({
   selector: 'app-lista-carros',

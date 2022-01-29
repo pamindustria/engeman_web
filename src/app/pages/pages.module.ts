@@ -11,18 +11,18 @@ import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
 import { HttpClientModule } from "@angular/common/http";
 import { MatRadioModule } from '@angular/material/radio';
 
-import { PaginaInicialComponent } from './pagina-inicial/pagina-inicial.component';
-import { EngemanGerencialComponent } from './engeman-gerencial/engeman-gerencial.component';
-import { EtiquetasGerencialComponent } from './etiquetas/etiquetas-gerencial/etiquetas-gerencial.component';
 import { SearchComponent } from '../components/search/search.component';
 import { FilterEtiquetaPipe, FilterClientePipe, FilterStatusPipe, FilterDataSaidaPipe, FilterDataRetornoPipe, FilterTipoEmbalagemPipe, FilterManutencaoPipe } from '../components/pipes/filterEtiqueta.pipe';
 import { SortDirective } from '../util/sort.directive';
 import { FilterEngemanPipe } from '../components/pipes/filterEngeman.pipe';
 import { DateFilterComponent } from '../components/dateFilter/dateFilter.component';
-import { ListaCarrosComponent } from './etiquetas/lista-carros/lista-carros.component';
 import { FilterEmbalagemPipe } from '../components/pipes/filterEmbalagem.pipe';
-import { CadastroEtiquetasComponent } from './etiquetas/cadastro-etiquetas/cadastro-etiquetas.component';
+import { CadastroEtiquetasComponent } from './etiquetas/frontend/cadastro-etiquetas/cadastro-etiquetas.component';
 import { SharedModule } from '../shared/shared.module';
+import { EngemanGerencialComponent } from './engeman-gerencial/frontend/engeman-gerencial.component';
+import { EtiquetasGerencialComponent } from './etiquetas/frontend/etiquetas-gerencial/etiquetas-gerencial.component';
+import { ListaCarrosComponent } from './etiquetas/frontend/lista-carros/lista-carros.component';
+import { PaginaInicialComponent } from './pagina-inicial/frontend/pagina-inicial.component';
 
 @NgModule({
   declarations: [

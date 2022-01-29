@@ -1,29 +1,54 @@
 {
   "name": "tela-gerencial",
-  "version": "1.0.0",
-  "description": "Tela Gerencial",
-  "main": "index.js",
+  "version": "2.0.0",
   "scripts": {
     "ng": "ng",
-    "build": "ng build ./web",
-    "start": "nodemon --tls-min-v1.0 server.js",
-    "dev": "nodemon --tls-min-v1.0 server.js"
+    "build": "ng build",
+    "watch": "ng build --watch --configuration development",
+    "test": "ng test",
+    "postinstall": "ngcc",
+    "heroku-postbuild": "ng build --prod"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/pamindustria/engeman_web.git"
+  "engines": {
+    "node": "16.13.1",
+    "npm": "7.19.1"
   },
-  "author": "Adria Vieira Lima",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/pamindustria/engeman_web/issues"
-  },
-  "homepage": "https://github.com/pamindustria/engeman_web#readme",
+  "private": true,
   "dependencies": {
+    "@angular/animations": "~13.1.0",
+    "@angular/cdk": "^13.1.1",
+    "@angular/common": "~13.1.0",
+    "@angular/compiler": "~13.1.0",
+    "@angular/core": "~13.1.0",
+    "@angular/forms": "~13.1.0",
+    "@angular/material": "^13.1.1",
+    "@angular/platform-browser": "~13.1.0",
+    "@angular/platform-browser-dynamic": "~13.1.0",
+    "@angular/router": "~13.1.0",
     "body-parser": "^1.19.1",
+    "bootstrap": "^5.1.3",
     "cors": "^2.8.5",
-    "express": "^4.17.2",
-    "mssql": "^7.3.0",
-    "nodemon": "^2.0.15"
+    "font-awesome": "^4.7.0",
+    "jquery": "^3.6.0",
+    "mysql2": "^2.3.3",
+    "rxjs": "~7.4.0",
+    "tslib": "^2.3.0",
+    "zone.js": "~0.11.4"
+  },
+  "devDependencies": {
+    "@angular-devkit/build-angular": "~13.1.2",
+    "@angular/cli": "^13.1.2",
+    "@angular/compiler-cli": "~13.1.0",
+    "@types/jasmine": "~3.10.0",
+    "@types/jquery": "^3.5.9",
+    "@types/node": "^12.11.1",
+    "angular-cli-ghpages": "^1.0.0",
+    "jasmine-core": "~3.10.0",
+    "karma": "~6.3.0",
+    "karma-chrome-launcher": "~3.1.0",
+    "karma-coverage": "~2.1.0",
+    "karma-jasmine": "~4.0.0",
+    "karma-jasmine-html-reporter": "~1.7.0",
+    "typescript": "~4.5.2"
   }
 }

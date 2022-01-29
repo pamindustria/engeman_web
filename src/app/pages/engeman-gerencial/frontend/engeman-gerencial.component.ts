@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { EngemanGerencialService } from 'src/app/services/engeman-gerencial.service';
+import { EngemanGerencialService } from 'src/app/pages/engeman-gerencial/backend/services/engeman-gerencial.service';
 
 declare var $ :any;
 
