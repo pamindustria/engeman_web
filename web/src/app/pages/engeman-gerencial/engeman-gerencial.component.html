@@ -7,7 +7,7 @@
    <table class="table table-bordered table-striped mt-3">
       <thead>
          <tr>
-            <th [appSort]="tabledata" data-order="desc" data-name="os" class="table-header">
+            <th [appSort]="engemanOS" data-order="desc" data-name="OS" class="table-header">
                <div class="d-flex justify-content-around align-items-center">
                   OS
                   <div class="d-flex flex-column">
@@ -16,7 +16,7 @@
                   </div>
                </div>
             </th>
-            <th [appSort]="tabledata" data-order="desc" data-name="dataInicio" class="table-header">
+            <th [appSort]="engemanOS" data-order="desc" data-name="DataIni" class="table-header">
                <div class="d-flex justify-content-around align-items-center">
                   Hora Iniciada
                   <div class="d-flex flex-column">
@@ -25,7 +25,7 @@
                   </div>
                </div>
             </th>
-            <th [appSort]="tabledata" data-order="desc" data-name="dataFim" class="table-header">
+            <th [appSort]="engemanOS" data-order="desc" data-name="DataFIM" class="table-header">
                <div class="d-flex justify-content-around align-items-center">
                   Hora Finalizada
                   <div class="d-flex flex-column">
@@ -34,7 +34,7 @@
                   </div>
                </div>
             </th>
-            <th [appSort]="tabledata" data-order="desc" data-name="totalHoras" class="table-header">
+            <th [appSort]="engemanOS" data-order="desc" data-name="totalHoras" class="table-header">
                <div class="d-flex justify-content-around align-items-center">
                   Total de Horas
                   <div class="d-flex flex-column">
@@ -43,7 +43,7 @@
                   </div>
                </div>
             </th>
-            <th [appSort]="tabledata" data-order="desc" data-name="funcionarios" class="table-header">
+            <th [appSort]="engemanOS" data-order="desc" data-name="NomeFunc" class="table-header">
                <div class="d-flex justify-content-around align-items-center">
                   Funcionários
                   <div class="d-flex flex-column">
@@ -52,7 +52,7 @@
                   </div>
                </div>
             </th>
-            <th [appSort]="tabledata" data-order="desc" data-name="matricula" class="table-header">
+            <th [appSort]="engemanOS" data-order="desc" data-name="codfun" class="table-header">
                <div class="d-flex justify-content-around align-items-center">
                   Matricula
                   <div class="d-flex flex-column">
@@ -61,9 +61,18 @@
                   </div>
                </div>
             </th>
-            <th [appSort]="tabledata" data-order="desc" data-name="descricao" class="table-header">
+            <th [appSort]="engemanOS" data-order="desc" data-name="Obs" class="table-header">
                <div class="d-flex justify-content-center align-items-center">
                   Descrição
+                  <div class="d-flex flex-column ms-3">
+                     <i aria-hidden="true" class="fa fa-caret-up"></i>
+                     <i aria-hidden="true" class="fa fa-caret-down"></i>
+                  </div>
+               </div>
+            </th>
+            <th [appSort]="engemanOS" data-order="desc" data-name="APLICDescr" class="table-header">
+               <div class="d-flex justify-content-center align-items-center">
+                  Equipamento
                   <div class="d-flex flex-column ms-3">
                      <i aria-hidden="true" class="fa fa-caret-up"></i>
                      <i aria-hidden="true" class="fa fa-caret-down"></i>
@@ -73,14 +82,21 @@
          </tr>
       </thead>
       <tbody>
-         <tr *ngFor="let dados of tabledata | filterEngeman:search | filterEngeman:searchDate">
-            <td class="table-item">{{ dados.os }}</td>
-            <td class="table-item">{{ dados.dataInicio }} ás {{ dados.horaInicio }}</td>
-            <td class="table-item">{{ dados.dataFim }} ás {{ dados.horaFim }}</td>
-            <td class="table-item">{{ dados.totalHoras }}</td>
-            <td class="table-item">{{ dados.funcionarios }}</td>
-            <td class="table-item">{{ dados.matricula }}</td>
-            <td class="table-item">{{ dados.descricao }}</td>
+         <tr *ngFor="let dados of engemanOS | filterEngeman:search | filterEngeman:searchDate">
+            <td class="table-item">{{ dados.OS }}</td>
+            <td class="table-item">{{ dados.DataIni.substring(0, 10) }} - {{ dados.DataIni.substring(11, 16) }}</td>
+            <td class="table-item">
+               {{
+                  dados.DataFim !== null 
+                  ? dados.DataFim.substring(0, 10) + ' - ' + dados.DataFim.substring(11, 16)
+                  : ''
+               }}
+            </td>
+            <td class="table-item"></td>
+            <td class="table-item">{{ dados.NomeFunc }}</td>
+            <td class="table-item">{{ dados.codfun }}</td>
+            <td class="table-item">{{ dados.Obs }}</td>
+            <td class="table-item">{{ dados.APLICDescr }}</td>
          </tr>
       </tbody>
    </table>

@@ -7,10 +7,10 @@ export class FilterEngemanPipe implements PipeTransform {
 
    transform(value: any, searchValue: string): any {
       if (!searchValue) return value;
-      return value.filter((v: any) =>  v.os.toLowerCase().indexOf(searchValue.toLowerCase()) > -1 || 
-      v.funcionarios.toLowerCase().indexOf(searchValue.toLowerCase()) > -1 || 
-      v.matricula.toLowerCase().indexOf(searchValue.toLowerCase()) > -1 ||
-      v.dataInicio.toLowerCase().indexOf(searchValue.toLowerCase()) > -1 ||
-      v.dataFim.toLowerCase().indexOf(searchValue.toLowerCase()) > -1)
+      return value.filter((v: any) =>  v.OS.toLowerCase().indexOf(searchValue.toLowerCase()) > -1 || 
+      v.NomeFunc.toLowerCase().indexOf(searchValue.toLowerCase()) > -1 || 
+      v.codfun.toLowerCase().indexOf(searchValue.toLowerCase()) > -1 ||
+      v.DataIni.toLowerCase().indexOf(searchValue.toLowerCase()) > -1)
+      // v.DataFim.toLowerCase().indexOf(searchValue.toLowerCase()) > -1)
    }
 }
