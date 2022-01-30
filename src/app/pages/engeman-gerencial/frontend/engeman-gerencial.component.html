@@ -1,9 +1,4 @@
 <div class="container-fluid text-center">
-   <div class="d-flex justify-content-between">
-      <app-search placeholderString="OS, Matrícula, Funcionário" (onTyping)="search = $event" [value]="search"></app-search>
-      <app-date-filter (onTyping)="searchDate = $event" [value]="searchDate"></app-date-filter>
-   </div>
-
    <table class="table table-bordered table-striped mt-3">
       <thead>
          <tr>
@@ -25,7 +20,7 @@
                   </div>
                </div>
             </th>
-            <th [appSort]="engemanOS" data-order="desc" data-name="DataFIM" class="table-header">
+            <th [appSort]="engemanOS" data-order="desc" data-name="DataFim" class="table-header">
                <div class="d-flex justify-content-around align-items-center">
                   Hora Finalizada
                   <div class="d-flex flex-column">
@@ -34,7 +29,7 @@
                   </div>
                </div>
             </th>
-            <th [appSort]="engemanOS" data-order="desc" data-name="totalHoras" class="table-header">
+            <!-- <th [appSort]="engemanOS" data-order="desc" data-name="totalHoras" class="table-header">
                <div class="d-flex justify-content-around align-items-center">
                   Total de Horas
                   <div class="d-flex flex-column">
@@ -42,7 +37,7 @@
                      <i aria-hidden="true" class="fa fa-caret-down"></i>
                   </div>
                </div>
-            </th>
+            </th> -->
             <th [appSort]="engemanOS" data-order="desc" data-name="NomeFunc" class="table-header">
                <div class="d-flex justify-content-around align-items-center">
                   Funcionários
@@ -82,7 +77,42 @@
          </tr>
       </thead>
       <tbody>
-         <tr *ngFor="let dados of engemanOS | filterEngeman:search | filterEngeman:searchDate">
+         <tr>
+            <td class="table-item">
+               <app-search placeholderString="Filtrar OS" (onTyping)="filterOS = $event" [value]="filterOS"></app-search>
+            </td>
+            <td class="table-item">
+               <app-date-filter (onTyping)="searchDateInicio = $event" [value]="searchDateInicio"></app-date-filter>
+            </td>
+            <td class="table-item">
+               <app-date-filter (onTyping)="searchDateFim = $event" [value]="searchDateFim"></app-date-filter>
+            </td>
+            <!-- <td class="table-item">
+               Total
+            </td> -->
+            <td class="table-item">
+               <app-search placeholderString="Filtrar Funcionário" (onTyping)="filterFuncionario = $event" [value]="filterFuncionario"></app-search>
+            </td>
+            <td class="table-item">
+               <app-search placeholderString="Filtrar por Matrícula" (onTyping)="filterCodigo = $event" [value]="filterCodigo"></app-search>
+            </td>
+            <td class="table-item">
+               <app-search placeholderString="Filtrar Descrição" (onTyping)="filterDescricao = $event" [value]="filterDescricao"></app-search>
+            </td>
+            <td class="table-item">
+               <app-search placeholderString="Filtrar Equipamento" (onTyping)="filterEquipamento = $event" [value]="filterEquipamento"></app-search>
+            </td>
+         </tr>
+         <tr 
+            *ngFor="let dados of engemanOS | 
+            filterOS: filterOS | 
+            filterDataIni: searchDateInicio | 
+            filterDataFim: searchDateFim | 
+            filterFuncionario: filterFuncionario | 
+            filterMatricula: filterCodigo |
+            filterDescricao: filterDescricao |
+            filterEquipamento: filterEquipamento"
+         >
             <td class="table-item">{{ dados.OS }}</td>
             <td class="table-item">{{ dados.DataIni.substring(0, 10) }} - {{ dados.DataIni.substring(11, 16) }}</td>
             <td class="table-item">
@@ -92,7 +122,7 @@
                   : ''
                }}
             </td>
-            <td class="table-item"></td>
+            <!-- <td class="table-item">TOTAL</td> -->
             <td class="table-item">{{ dados.NomeFunc }}</td>
             <td class="table-item">{{ dados.codfun }}</td>
             <td class="table-item">{{ dados.Obs }}</td>
