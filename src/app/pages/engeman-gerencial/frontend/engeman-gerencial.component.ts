@@ -9,8 +9,13 @@ declare var $ :any;
   styleUrls: ['./engeman-gerencial.component.css']
 })
 export class EngemanGerencialComponent implements OnInit {
-  search: string = '';
-  searchDate: string = '';
+  filterOS: string = '';
+  filterFuncionario: string = '';
+  filterDescricao: string = '';
+  filterEquipamento: string = '';
+  filterCodigo: string = '';
+  searchDateInicio: string = '';
+  searchDateFim: string = '';
   engemanOS: any[] = [];
 
   constructor(

@@ -14,7 +14,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { SearchComponent } from '../components/search/search.component';
 import { FilterEtiquetaPipe, FilterClientePipe, FilterStatusPipe, FilterDataSaidaPipe, FilterDataRetornoPipe, FilterTipoEmbalagemPipe, FilterManutencaoPipe } from '../components/pipes/filterEtiqueta.pipe';
 import { SortDirective } from '../util/sort.directive';
-import { FilterEngemanPipe } from '../components/pipes/filterEngeman.pipe';
+import { FilterOSPipe, FilterDataIniPipe, FilterDataFimPipe, FilterFuncionarioPipe, FilterMatriculaPipe, FilterDescricaoPipe, FilterEquipamentoDescricaoPipe } from '../components/pipes/filterEngeman.pipe';
 import { DateFilterComponent } from '../components/dateFilter/dateFilter.component';
 import { FilterEmbalagemPipe } from '../components/pipes/filterEmbalagem.pipe';
 import { CadastroEtiquetasComponent } from './etiquetas/frontend/cadastro-etiquetas/cadastro-etiquetas.component';
@@ -35,14 +35,20 @@ import { PaginaInicialComponent } from './pagina-inicial/frontend/pagina-inicial
     FilterStatusPipe,
     FilterDataSaidaPipe,
     FilterDataRetornoPipe,
-    FilterEngemanPipe,
     FilterManutencaoPipe,
     SearchComponent,
     SortDirective,
     DateFilterComponent,
     ListaCarrosComponent,
     FilterEmbalagemPipe,
-    CadastroEtiquetasComponent
+    CadastroEtiquetasComponent,
+    FilterOSPipe,
+    FilterDataIniPipe,
+    FilterDataFimPipe,
+    FilterFuncionarioPipe, 
+    FilterMatriculaPipe,
+    FilterDescricaoPipe,
+    FilterEquipamentoDescricaoPipe
   ],
   imports: [
     CommonModule,
