@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-const API_URL = 'http://10.30.6.96:8000/api'
+const API_URL = 'http://10.30.6.96:8000/api/'
 
 @Injectable({ providedIn: 'root' })
 export class EngemanGerencialService {
