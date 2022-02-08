@@ -1,7 +1,4 @@
-<div class="container-fluid text-center">
-   <!-- paginacao -->
-   <ngb-pagination class="d-flex justify-content-end" [collectionSize]="engemanOS.length" #numPages [pageSize]="itemsPerPage" [(page)]="currentPage" (pageChange)="onPageChange(currentPage)"></ngb-pagination>
-      
+<div class="container-fluid text-center">      
    <table class="table table-bordered table-striped mt-3">
       <thead>
          <tr>
@@ -135,4 +132,6 @@
          </tr>
       </tbody>
    </table>
+   <!-- paginacao -->
+   <ngb-pagination class="d-flex justify-content-end" [collectionSize]="engemanOS.length" #numPages [pageSize]="itemsPerPage" [(page)]="currentPage" (pageChange)="onPageChange(currentPage)"></ngb-pagination>
 </div>
