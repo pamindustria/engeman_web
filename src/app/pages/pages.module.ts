@@ -10,6 +10,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
 import { HttpClientModule } from "@angular/common/http";
 import { MatRadioModule } from '@angular/material/radio';
+import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { SearchComponent } from '../components/search/search.component';
 import { FilterEtiquetaPipe, FilterClientePipe, FilterStatusPipe, FilterDataSaidaPipe, FilterDataRetornoPipe, FilterTipoEmbalagemPipe, FilterManutencaoPipe } from '../components/pipes/filterEtiqueta.pipe';
@@ -63,7 +64,8 @@ import { PaginaInicialComponent } from './pagina-inicial/frontend/pagina-inicial
     MatNativeDateModule,
     HttpClientModule,
     SharedModule,
-    MatRadioModule
+    MatRadioModule,
+    NgbPaginationModule
   ],
   exports: [
     BrowserModule,
@@ -75,7 +77,8 @@ import { PaginaInicialComponent } from './pagina-inicial/frontend/pagina-inicial
     MatFormFieldModule,
     MatInputModule,
     MatNativeDateModule,
-    MatRadioModule
+    MatRadioModule,
+    NgbPaginationModule
   ],
   providers: [{ provide: MAT_DATE_LOCALE, useValue: 'pt-br' }],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]

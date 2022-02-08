@@ -3,7 +3,10 @@
       <div class="col">
          <app-lista-carros></app-lista-carros>
       </div>
-      <div class="col border-start">      
+      <div class="col border-start">
+         <!-- paginacao -->
+         <ngb-pagination class="d-flex justify-content-end" [collectionSize]="dadosClientes.length" #numPages [pageSize]="itemsPerPage" [(page)]="currentPage" (pageChange)="onPageChange(currentPage)"></ngb-pagination>
+        
          <table class="table table-bordered table-striped">
             <thead>
                <tr>
@@ -94,8 +97,10 @@
                      <app-search placeholderString="Filtrar status" (onTyping)="filterStatus = $event" [value]="filterStatus"></app-search>
                   </td>
                </tr>
+               <!-- slice: pageSize | slice: 0:itemsPerPage usado para paginacao -->
                <tr 
                   *ngFor="let dados of dadosClientes | 
+                  slice: pageSize | slice: 0:itemsPerPage |
                   filterByEtiqueta: filterEtiqueta | 
                   filterByCliente: filterCliente | 
                   filterTipoEmbalagem: filterEmbalagem | 

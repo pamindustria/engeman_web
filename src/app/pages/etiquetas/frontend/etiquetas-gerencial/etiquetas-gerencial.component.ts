@@ -20,6 +20,11 @@ export class EtiquetasGerencialComponent implements OnInit {
   getEventsubscription!: Subscription;
   showFiltrosCliente: boolean = true;
 
+  // paginação
+  currentPage = 1;
+  itemsPerPage = 10;
+  pageSize!: number;
+
   constructor(
     private etiquetasService: EtiquetasGerencialService,
     private sharedService: SharedService,
@@ -27,10 +32,6 @@ export class EtiquetasGerencialComponent implements OnInit {
     this.getEventsubscription = this.sharedService.getMethodEvent().subscribe(isVazio => {
       this.mostrarFiltroCliente(isVazio);
     })
-  }
-
-  mostrarFiltroCliente(value: boolean) {
-    this.showFiltrosCliente = value;
   }
 
   ngOnInit(): void {
@@ -47,4 +48,16 @@ export class EtiquetasGerencialComponent implements OnInit {
     err => console.log(err)
     );
   } 
+
+  mostrarFiltroCliente(value: boolean) {
+    this.showFiltrosCliente = value;
+  }
+
+  public onPageChange(pageNum: number): void {
+    this.pageSize = this.itemsPerPage*(pageNum - 1);
+  }
+  
+  public changePagesize(num: number): void {
+    this.itemsPerPage = this.pageSize + num;
+  }
 }
