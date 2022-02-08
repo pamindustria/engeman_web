@@ -6,6 +6,7 @@ import { Subscription } from 'rxjs';
 import { EtiquetasGerencialService } from 'src/app/pages/etiquetas/backend/services/etiquetas-gerencial.service';
 import { ListaCarrosService } from 'src/app/pages/etiquetas/backend/services/lista-carros.service';
 import { ConfirmationDialogComponent } from 'src/app/shared/confirmation-dialog/confirmation-dialog.component';
+import { SessionService } from 'src/app/shared/session.service';
 import { SharedService } from 'src/app/shared/shared.service';
 
 @Component({
@@ -35,17 +36,17 @@ export class CadastroEtiquetasComponent implements OnInit {
 
   // paginação Manutencao
   currentPageManutencao = 1;
-  itemsPerPageManutencao = 20;
+  itemsPerPageManutencao: any = 20;
   pageSizeManutencao!: number;
 
   // paginação Etiquetas
   currentPageEtiquetas = 1;
-  itemsPerPageEtiquetas = 20;
+  itemsPerPageEtiquetas: any = 20;
   pageSizeEtiquetas!: number;
 
   // paginação Embalagens
   currentPageEmbalagens = 1;
-  itemsPerPageEmbalagens = 15;
+  itemsPerPageEmbalagens: any = 15;
   pageSizeEmbalagens!: number;
 
   constructor(
@@ -53,7 +54,8 @@ export class CadastroEtiquetasComponent implements OnInit {
     private formBuilder: FormBuilder,
     private etiquetasService: EtiquetasGerencialService,
     private matDialog: MatDialog,
-    private sharedService: SharedService
+    private sharedService: SharedService,
+    private sessionService: SessionService,
   ) {
     this.getEditSubscription = this.sharedService.getEditEmbalagemEvent()
     .subscribe(() => {
@@ -67,6 +69,19 @@ export class CadastroEtiquetasComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    // valerá somente se existir sessao
+    if(this.sessionService.getItemPerPageCadastroEmbalagem()) {
+      this.itemsPerPageEmbalagens = this.sessionService.getItemPerPageCadastroEmbalagem();
+    }
+    // valerá somente se existir sessao
+    if(this.sessionService.getItemPerPageCadastroEtiquetas()) {
+      this.itemsPerPageEtiquetas = this.sessionService.getItemPerPageCadastroEtiquetas();
+    }
+    // valerá somente se existir sessao
+    if(this.sessionService.getItemPerPageManutencao()) {
+      this.itemsPerPageManutencao = this.sessionService.getItemPerPageManutencao();
+    }
+
     this.getListaEmbalagens();
     this.getListaEtiquetas();
     this.getListaMaintenances();
@@ -281,5 +296,20 @@ export class CadastroEtiquetasComponent implements OnInit {
   // paginacao Embalagens
   public changeEmbalagensPagesize(num: number): void {
     this.itemsPerPageEmbalagens = this.pageSizeEmbalagens + num;
+  }
+
+  // salvando valor setado pelo usuario de numero de itens por pagina
+  saveNumberOfItemsPerPageEmbalagens(num: number): void {
+    this.sessionService.setItemPerPageCadastroEmbalagem(num);
+  }
+  
+  // salvando valor setado pelo usuario de numero de itens por pagina
+  saveNumberOfItemsPerPageEtiquetas(num: number): void {
+    this.sessionService.setItemPerPageCadastroEtiquetas(num);
+  }
+  
+  // salvando valor setado pelo usuario de numero de itens por pagina
+  saveNumberOfItemsPerPageManutencao(num: number): void {
+    this.sessionService.setItemPerPageManutencao(num);
   }
 }

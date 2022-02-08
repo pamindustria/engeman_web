@@ -20,12 +20,28 @@ export class SessionService {
       return window.sessionStorage.getItem('ItemPerPageListaEmbalagem');
    }
    
-   // setItemPerPageListaEmbalagem(qtd: any) {
-   //    window.sessionStorage.setItem('ItemPerPageListaEmbalagem', qtd);
-   // }
+   setItemPerPageCadastroEmbalagem(qtd: any) {
+      window.sessionStorage.setItem('ItemPerPageCadastroEmbalagem', qtd);
+   }
 
-   // getIdUser() {
-   //    return window.sessionStorage.getItem('ItemPerPageListaEmbalagem');
-   // }
+   getItemPerPageCadastroEmbalagem() {
+      return window.sessionStorage.getItem('ItemPerPageCadastroEmbalagem');
+   }
+   
+   setItemPerPageCadastroEtiquetas(qtd: any) {
+      window.sessionStorage.setItem('ItemPerPageCadastroEtiquetas', qtd);
+   }
+
+   getItemPerPageCadastroEtiquetas() {
+      return window.sessionStorage.getItem('ItemPerPageCadastroEtiquetas');
+   }
+
+   setItemPerPageManutencao(qtd: any) {
+      window.sessionStorage.setItem('ItemPerPageManutencao', qtd);
+   }
+
+   getItemPerPageManutencao() {
+      return window.sessionStorage.getItem('ItemPerPageManutencao');
+   }
 
 }

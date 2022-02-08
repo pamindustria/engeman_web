@@ -58,7 +58,20 @@
             </tbody>
          </table>
          <!-- paginacao -->
-         <ngb-pagination class="d-flex justify-content-end" [collectionSize]="listaCarros.length" #numPages [pageSize]="itemsPerPageEmbalagens" [(page)]="currentPageEmbalagens" (pageChange)="onPageEmbalagensChange(currentPageEmbalagens)"></ngb-pagination>
+         <div class="d-flex justify-content-between">
+            <div>
+               <label>itemsPerPage: </label>
+               <input 
+                  type="number" 
+                  [(ngModel)]="itemsPerPageEmbalagens" 
+                  min="0" 
+                  max={{listaCarros.length}}
+                  style="padding: 5px; margin-left: 15px;"
+                  (change)="saveNumberOfItemsPerPageEmbalagens(itemsPerPageEmbalagens)"
+               >
+            </div>
+            <ngb-pagination [collectionSize]="listaCarros.length" #numPages [pageSize]="itemsPerPageEmbalagens" [(page)]="currentPageEmbalagens" (pageChange)="onPageEmbalagensChange(currentPageEmbalagens)"></ngb-pagination>
+         </div>
       </div>
       <div class="col border-start">
          <table class="table table-bordered table-striped">
@@ -88,7 +101,20 @@
             </tbody>
          </table>
          <!-- paginacao -->
-         <ngb-pagination class="d-flex justify-content-end" [collectionSize]="listaEtiquetas.length" #numPages [pageSize]="itemsPerPageEtiquetas" [(page)]="currentPageEtiquetas" (pageChange)="onPageEtiquetasChange(currentPageEtiquetas)"></ngb-pagination>
+         <div class="d-flex justify-content-between">
+            <div>
+               <label>itemsPerPage: </label>
+               <input 
+                  type="number" 
+                  [(ngModel)]="itemsPerPageEtiquetas" 
+                  min="0" 
+                  max={{listaEtiquetas.length}}
+                  style="padding: 5px; margin-left: 15px;"
+                  (change)="saveNumberOfItemsPerPageEtiquetas(itemsPerPageEtiquetas)"
+               >
+            </div>
+            <ngb-pagination [collectionSize]="listaEtiquetas.length" #numPages [pageSize]="itemsPerPageEtiquetas" [(page)]="currentPageEtiquetas" (pageChange)="onPageEtiquetasChange(currentPageEtiquetas)"></ngb-pagination>
+         </div>
       </div>
       <div class="col border-start">
          <table class="table table-bordered table-striped">
@@ -118,7 +144,20 @@
             </tbody>
          </table>
          <!-- paginacao -->
-         <ngb-pagination class="d-flex justify-content-end" [collectionSize]="listaManutencao.length" #numPages [pageSize]="itemsPerPageManutencao" [(page)]="currentPageManutencao" (pageChange)="onPageManuntencaoChange(currentPageManutencao)"></ngb-pagination>
+         <div class="d-flex justify-content-between">
+            <div>
+               <label>itemsPerPage: </label>
+               <input 
+                  type="number" 
+                  [(ngModel)]="itemsPerPageManutencao" 
+                  min="0" 
+                  max={{listaManutencao.length}}
+                  style="padding: 5px; margin-left: 15px;"
+                  (change)="saveNumberOfItemsPerPageEtiquetas(itemsPerPageManutencao)"
+               >
+            </div>
+            <ngb-pagination [collectionSize]="listaManutencao.length" #numPages [pageSize]="itemsPerPageManutencao" [(page)]="currentPageManutencao" (pageChange)="onPageManuntencaoChange(currentPageManutencao)"></ngb-pagination>
+         </div>
       </div>
    </div>
 </main>
