@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { EtiquetasGerencialService } from 'src/app/pages/etiquetas/backend/services/etiquetas-gerencial.service';
+import { SessionService } from 'src/app/shared/session.service';
 import { SharedService } from 'src/app/shared/shared.service';
 
 @Component({
@@ -22,12 +23,13 @@ export class EtiquetasGerencialComponent implements OnInit {
 
   // paginação
   currentPage = 1;
-  itemsPerPage = 20;
+  itemsPerPage: any = 14;
   pageSize!: number;
 
   constructor(
     private etiquetasService: EtiquetasGerencialService,
     private sharedService: SharedService,
+    private sessionService: SessionService,
   ) {
     this.getEventsubscription = this.sharedService.getMethodEvent().subscribe(isVazio => {
       this.mostrarFiltroCliente(isVazio);
@@ -35,6 +37,11 @@ export class EtiquetasGerencialComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    // valerá somente se existir sessao
+    if(this.sessionService.getItemPerPageListaEtiqueta()) {
+      this.itemsPerPage = this.sessionService.getItemPerPageListaEtiqueta();
+    }
+
     this.etiquetasService.getEtiquetas().subscribe((etiquetas: any) => {
       // cartIssues pode vir vazio, aqui preencho somente quanto tiver objeto em cartIssues
       etiquetas.forEach((element: any) => {        
@@ -60,5 +67,10 @@ export class EtiquetasGerencialComponent implements OnInit {
   // paginacao
   public changePagesize(num: number): void {
     this.itemsPerPage = this.pageSize + num;
+  }
+  
+  // salvando valor setado pelo usuario de numero de itens por pagina
+  saveNumberOfItemssPerPage(num: number): void {
+    this.sessionService.setItemPerPageListaEtiqueta(num);
   }
 }
