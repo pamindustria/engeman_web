@@ -33,6 +33,21 @@ export class CadastroEtiquetasComponent implements OnInit {
   listaEtiquetas: any[] = []
   listaManutencao: any[] = []
 
+  // paginação Manutencao
+  currentPageManutencao = 1;
+  itemsPerPageManutencao = 20;
+  pageSizeManutencao!: number;
+
+  // paginação Etiquetas
+  currentPageEtiquetas = 1;
+  itemsPerPageEtiquetas = 20;
+  pageSizeEtiquetas!: number;
+
+  // paginação Embalagens
+  currentPageEmbalagens = 1;
+  itemsPerPageEmbalagens = 15;
+  pageSizeEmbalagens!: number;
+
   constructor(
     private listaCarrosService: ListaCarrosService, 
     private formBuilder: FormBuilder,
@@ -239,5 +254,32 @@ export class CadastroEtiquetasComponent implements OnInit {
       );
       
     }
+  }
+
+  // paginacao Manutencao
+  public onPageManuntencaoChange(pageNum: number): void {
+    this.pageSizeManutencao = this.itemsPerPageManutencao*(pageNum - 1);
+  }
+  // paginacao Manutencao
+  public changeManutencaoPagesize(num: number): void {
+    this.itemsPerPageManutencao = this.pageSizeManutencao + num;
+  }
+  
+  // paginacao Etiquetas
+  public onPageEtiquetasChange(pageNum: number): void {
+    this.pageSizeEtiquetas = this.itemsPerPageEtiquetas*(pageNum - 1);
+  }
+  // paginacao Etiquetas
+  public changeEtiquetasPagesize(num: number): void {
+    this.itemsPerPageEtiquetas = this.pageSizeEtiquetas + num;
+  }
+  
+  // paginacao Embalagens
+  public onPageEmbalagensChange(pageNum: number): void {
+    this.pageSizeEmbalagens = this.itemsPerPageEmbalagens*(pageNum - 1);
+  }
+  // paginacao Embalagens
+  public changeEmbalagensPagesize(num: number): void {
+    this.itemsPerPageEmbalagens = this.pageSizeEmbalagens + num;
   }
 }

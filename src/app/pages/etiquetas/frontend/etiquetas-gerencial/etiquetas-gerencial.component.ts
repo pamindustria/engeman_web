@@ -22,7 +22,7 @@ export class EtiquetasGerencialComponent implements OnInit {
 
   // paginação
   currentPage = 1;
-  itemsPerPage = 10;
+  itemsPerPage = 20;
   pageSize!: number;
 
   constructor(
