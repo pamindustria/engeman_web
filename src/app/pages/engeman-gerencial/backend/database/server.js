@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
-const router = express.Router();
+// const router = express.Router();
 const db = require('./dboperations');
 const port = 8000;
 const config = require('./dbconfig');
@@ -14,7 +14,7 @@ app.use(cors());
 // formata e transforma os dados para o formato de objeto javascript
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use('/api', router);
+// app.use('/api', router);
 
 //database
 sql.connect(config).then(() => {
@@ -24,7 +24,7 @@ sql.connect(config).then(() => {
       console.log(error);
    });
 
-router.route('/getOS').get((request, response) => {
+app.get('/getOS').get((request, response) => {
    db.getOrdXFunc().then((data) => {
       response.json(data.recordset);
    });
