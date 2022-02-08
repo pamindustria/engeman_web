@@ -30,8 +30,4 @@ router.route('/getOS').get((request, response) => {
    });
 });
 
-// app.use(express.static('./web/dist/tela-gerencial/'));
-
-// app.get('/', (request, response) => response.sendFile('./web/dist/tela-gerencial/index.html'));
-
 app.listen(port, () => console.info(`Servidor rodando na porta: ${port}`));

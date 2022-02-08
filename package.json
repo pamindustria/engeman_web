@@ -2,6 +2,7 @@
   "name": "tela-gerencial",
   "version": "2.0.0",
   "scripts": {
+    "start": "nodemon server.js",
     "ng": "ng",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
@@ -34,7 +35,9 @@
     "mysql2": "^2.3.3",
     "rxjs": "~7.4.0",
     "tslib": "^2.3.0",
-    "zone.js": "~0.11.4"
+    "zone.js": "~0.11.4",
+    "express": "^4.17.2",
+    "nodemon": "^2.0.15"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~13.1.2",
