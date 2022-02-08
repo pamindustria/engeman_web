@@ -16,7 +16,7 @@ export class SessionService {
       window.sessionStorage.setItem('ItemPerPageListaEmbalagem', qtd);
    }
 
-   getIdUser() {
+   getItemPerPageListaEmbalagem() {
       return window.sessionStorage.getItem('ItemPerPageListaEmbalagem');
    }
    

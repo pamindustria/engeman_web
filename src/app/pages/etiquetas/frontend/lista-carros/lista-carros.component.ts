@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ListaCarrosService } from 'src/app/pages/etiquetas/backend/services/lista-carros.service';
+import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
   selector: 'app-lista-carros',
@@ -13,12 +14,20 @@ export class ListaCarrosComponent implements OnInit {
 
   // paginação
   currentPage = 1;
-  itemsPerPage = 30;
+  itemsPerPage: any = 14;
   pageSize!: number;
 
-  constructor(private listaCarrosService: ListaCarrosService) { }
+  constructor(
+    private listaCarrosService: ListaCarrosService,
+    private sessionService: SessionService,
+    ) { }
 
   ngOnInit(): void {
+    // valerá somente se existir sessao
+    if(this.sessionService.getItemPerPageListaEmbalagem()) {
+      this.itemsPerPage = this.sessionService.getItemPerPageListaEmbalagem();
+    }
+
     this.listaCarrosService.getListaCarros().subscribe((carros: any) => {
       //buscando lista de carros em manutenção
       this.listaCarrosService.getListaCarrosManutencao().subscribe((manutencao: any) => {
@@ -80,5 +89,10 @@ export class ListaCarrosComponent implements OnInit {
   // paginacao
   public changePagesize(num: number): void {
     this.itemsPerPage = this.pageSize + num;
+  }
+
+  // salvando valor setado pelo usuario de numero de itens por pagina
+  saveNumberOfItemssPerPage(num: number): void {
+    this.sessionService.setItemPerPageListaEmbalagem(num);
   }
 }

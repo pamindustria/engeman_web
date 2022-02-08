@@ -79,4 +79,17 @@
    </tbody>
 </table>
 <!-- paginacao -->
-<ngb-pagination class="d-flex justify-content-end" [collectionSize]="listaCarros.length" #numPages [pageSize]="itemsPerPage" [(page)]="currentPage" (pageChange)="onPageChange(currentPage)"></ngb-pagination>
+<div class="d-flex justify-content-between">
+   <div>
+      <label>itemsPerPage: </label>
+      <input 
+         type="number" 
+         [(ngModel)]="itemsPerPage" 
+         min="0"
+         max={{listaCarros.length}}
+         style="padding: 5px; margin-left: 15px;"
+         (change)="saveNumberOfItemssPerPage(itemsPerPage)"
+      >
+   </div>
+   <ngb-pagination [collectionSize]="listaCarros.length" #numPages [pageSize]="itemsPerPage" [(page)]="currentPage" (pageChange)="onPageChange(currentPage)"></ngb-pagination>
+</div>
