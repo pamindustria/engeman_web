@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { EngemanGerencialService } from 'src/app/pages/engeman-gerencial/backend/services/engeman-gerencial.service';
+import { SessionService } from 'src/app/shared/session.service';
 
 declare var $ :any;
 
@@ -20,14 +21,20 @@ export class EngemanGerencialComponent implements OnInit {
 
    // paginação
    currentPage = 1;
-   itemsPerPage = 10;
+   itemsPerPage: any = 20;
    pageSize!: number;
 
   constructor(
-    private engemanService: EngemanGerencialService
+    private engemanService: EngemanGerencialService,
+    private sessionService: SessionService,
   ) { }
   
   ngOnInit() {
+    // valerá somente se existir sessao
+    if(this.sessionService.getItemPerPageEngeman()) {
+      this.itemsPerPage = this.sessionService.getItemPerPageEngeman();
+    }
+
     this.engemanService.getEngemanList().subscribe((engeman: any) => {
       engeman.forEach((os: any) => {
         this.engemanOS.push(os);
@@ -42,5 +49,10 @@ export class EngemanGerencialComponent implements OnInit {
   // paginacao
   public changePagesize(num: number): void {
     this.itemsPerPage = this.pageSize + num;
+  }
+
+   // salvando valor setado pelo usuario de numero de itens por pagina
+   saveNumberOfItemsPerPage(num: number): void {
+    this.sessionService.setItemPerPageEngeman(num);
   }
 }

@@ -44,4 +44,11 @@ export class SessionService {
       return window.sessionStorage.getItem('ItemPerPageManutencao');
    }
 
+   setItemPerPageEngeman(qtd: any) {
+      window.sessionStorage.setItem('ItemPerPageEngeman', qtd);
+   }
+
+   getItemPerPageEngeman() {
+      return window.sessionStorage.getItem('ItemPerPageEngeman');
+   }
 }
