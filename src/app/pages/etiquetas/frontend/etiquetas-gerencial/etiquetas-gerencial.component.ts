@@ -53,10 +53,11 @@ export class EtiquetasGerencialComponent implements OnInit {
     this.showFiltrosCliente = value;
   }
 
+  // paginacao
   public onPageChange(pageNum: number): void {
     this.pageSize = this.itemsPerPage*(pageNum - 1);
   }
-  
+  // paginacao
   public changePagesize(num: number): void {
     this.itemsPerPage = this.pageSize + num;
   }

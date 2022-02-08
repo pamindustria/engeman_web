@@ -18,6 +18,11 @@ export class EngemanGerencialComponent implements OnInit {
   searchDateFim: string = '';
   engemanOS: any[] = [];
 
+   // paginação
+   currentPage = 1;
+   itemsPerPage = 10;
+   pageSize!: number;
+
   constructor(
     private engemanService: EngemanGerencialService
   ) { }
@@ -28,5 +33,14 @@ export class EngemanGerencialComponent implements OnInit {
         this.engemanOS.push(os);
       });
     });
+  }
+
+   // paginacao
+   public onPageChange(pageNum: number): void {
+    this.pageSize = this.itemsPerPage*(pageNum - 1);
+  }
+  // paginacao
+  public changePagesize(num: number): void {
+    this.itemsPerPage = this.pageSize + num;
   }
 }
