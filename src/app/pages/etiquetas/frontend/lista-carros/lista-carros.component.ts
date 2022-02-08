@@ -11,6 +11,11 @@ export class ListaCarrosComponent implements OnInit {
   listaCarros: any[] = [];
   listaCarrosManutencao: any[] = [];
 
+  // paginação
+  currentPage = 1;
+  itemsPerPage = 30;
+  pageSize!: number;
+
   constructor(private listaCarrosService: ListaCarrosService) { }
 
   ngOnInit(): void {
@@ -66,5 +71,14 @@ export class ListaCarrosComponent implements OnInit {
         });
       });
     });
+  }
+
+  // paginacao
+  public onPageChange(pageNum: number): void {
+    this.pageSize = this.itemsPerPage*(pageNum - 1);
+  }
+  // paginacao
+  public changePagesize(num: number): void {
+    this.itemsPerPage = this.pageSize + num;
   }
 }
