@@ -15,9 +15,7 @@ app.use(bodyParser.json());
 
 app.use(express.static('./dist/tela-gerencial/'));
 
-// app.get('*', (request, response) => response.sendFile('./dist/tela-gerencial/index.html'));
-
-//angular routing funcionando a partir daqui
+//a aplicação roda a partir daqui
 app.get('*',(req,res) =>{
     res.sendFile(path.join(__dirname,'dist/tela-gerencial/index.html'));
 });
