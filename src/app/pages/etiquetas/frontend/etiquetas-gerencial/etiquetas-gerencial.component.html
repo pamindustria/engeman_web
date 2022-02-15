@@ -97,13 +97,18 @@
                <!-- slice: pageSize | slice: 0:itemsPerPage usado para paginacao -->
                <tr 
                   *ngFor="let dados of dadosClientes | 
-                  slice: pageSize | slice: 0:itemsPerPage |
                   filterByEtiqueta: filterEtiqueta | 
                   filterByCliente: filterCliente | 
                   filterTipoEmbalagem: filterEmbalagem | 
                   filterByStatus: filterStatus | 
                   filterByDataSaida: searchDateSaida |
-                  filterByDataRetorno: searchDateRetorno"
+                  filterByDataRetorno: searchDateRetorno | 
+                  paginate: {
+                     id: 'listing-etiquetas',
+                     itemsPerPage: itemsPerPage,
+                     currentPage: currentPage,
+                     totalItems: totalRecords
+                  }"
                >
                   <td class="table-item" [hidden]="!showFiltrosCliente">{{ dados.code }}</td>
                   <td class="table-item">{{ dados.cartIssues[0].client.name }}</td>
@@ -134,7 +139,9 @@
                   (change)="saveNumberOfItemssPerPage(itemsPerPage)"
                >
             </div>
-            <ngb-pagination  [collectionSize]="dadosClientes.length" #numPages [pageSize]="itemsPerPage" [(page)]="currentPage" (pageChange)="onPageChange(currentPage)"></ngb-pagination>
+            <div>
+               <pagination-controls id="listing-etiquetas" [maxSize]="6" [directionLinks]="true" (pageChange)="currentPage = $event"></pagination-controls>
+            </div>
          </div>
       </div>
    </div>

@@ -12,10 +12,10 @@ export class ListaCarrosComponent implements OnInit {
   listaCarros: any[] = [];
   listaCarrosManutencao: any[] = [];
 
-  // paginação
-  currentPage = 1;
+  // ngx-pagination
   itemsPerPage: any = 14;
-  pageSize!: number;
+  currentPage: number = 1;
+  totalRecords!: number;
 
   constructor(
     private listaCarrosService: ListaCarrosService,
@@ -76,19 +76,11 @@ export class ListaCarrosComponent implements OnInit {
             tipos.manutencao = maintenanceStatusCount;
             tipos.inativos = inactiveStatusCount;
             this.listaCarros.push(tipos);
+            this.totalRecords = this.listaCarros.length;
           });
         });
       });
     });
-  }
-
-  // paginacao
-  public onPageChange(pageNum: number): void {
-    this.pageSize = this.itemsPerPage*(pageNum - 1);
-  }
-  // paginacao
-  public changePagesize(num: number): void {
-    this.itemsPerPage = this.pageSize + num;
   }
 
   // salvando valor setado pelo usuario de numero de itens por pagina

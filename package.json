@@ -34,6 +34,7 @@
     "font-awesome": "^4.7.0",
     "jquery": "^3.6.0",
     "mysql2": "^2.3.3",
+    "ngx-pagination": "^5.1.1",
     "nodemon": "^2.0.15",
     "path": "^0.12.7",
     "rxjs": "~7.4.0",

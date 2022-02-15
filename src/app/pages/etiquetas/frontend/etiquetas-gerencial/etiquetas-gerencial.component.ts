@@ -20,11 +20,11 @@ export class EtiquetasGerencialComponent implements OnInit {
   dadosClientes: any[] = [];
   getEventsubscription!: Subscription;
   showFiltrosCliente: boolean = true;
-
-  // paginação
-  currentPage = 1;
+  
+  // ngx-pagination
   itemsPerPage: any = 14;
-  pageSize!: number;
+  currentPage: number = 1;
+  totalRecords!: number;
 
   constructor(
     private etiquetasService: EtiquetasGerencialService,
@@ -49,6 +49,7 @@ export class EtiquetasGerencialComponent implements OnInit {
         if (element.status === 'OUT') {          
           this.dadosClientes.push(element);
           this.dadosClientes = this.dadosClientes.sort((a, b) => b.cartIssues[0].readAt.localeCompare(a.cartIssues[0].readAt));          
+          this.totalRecords = this.dadosClientes.length;
         }        
       });
     },
@@ -60,15 +61,6 @@ export class EtiquetasGerencialComponent implements OnInit {
     this.showFiltrosCliente = value;
   }
 
-  // paginacao
-  public onPageChange(pageNum: number): void {
-    this.pageSize = this.itemsPerPage*(pageNum - 1);
-  }
-  // paginacao
-  public changePagesize(num: number): void {
-    this.itemsPerPage = this.pageSize + num;
-  }
-  
   // salvando valor setado pelo usuario de numero de itens por pagina
   saveNumberOfItemssPerPage(num: number): void {
     this.sessionService.setItemPerPageListaEtiqueta(num);

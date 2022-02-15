@@ -28,7 +28,15 @@
                      <i aria-hidden="true" class="fa fa-check-square fa-2x" (click)="criarNovo()"></i>
                   </td>
                </tr>
-               <tr [formGroup]="updateEmbalagensForm" *ngFor="let carro of listaCarros | slice: pageSizeEmbalagens | slice: 0:itemsPerPageEmbalagens | filterEmbalagem: filterEmbalagem; index as idx">
+               <tr [formGroup]="updateEmbalagensForm" *ngFor="let carro of listaCarros | 
+                  paginate: {
+                     id: 'listing-embalagens',
+                     itemsPerPage: itemsPerPageEmbalagens,
+                     currentPage: currentPageEmbalagens,
+                     totalItems: totalRecordsEmabalages
+                  } |
+                  filterEmbalagem: filterEmbalagem; index as idx"
+               >
                   <td class="text-start">
                      <p *ngIf="isEditTrueIndex !== idx">
                         {{ carro.name }}
@@ -70,7 +78,9 @@
                   (change)="saveNumberOfItemsPerPageEmbalagens(itemsPerPageEmbalagens)"
                >
             </div>
-            <ngb-pagination [collectionSize]="listaCarros.length" #numPages [pageSize]="itemsPerPageEmbalagens" [(page)]="currentPageEmbalagens" (pageChange)="onPageEmbalagensChange(currentPageEmbalagens)"></ngb-pagination>
+            <div>
+               <pagination-controls id="listing-embalagens" [maxSize]="6" [directionLinks]="true" (pageChange)="currentPageEmbalagens = $event"></pagination-controls>
+            </div>
          </div>
       </div>
       <div class="col border-start">
@@ -89,7 +99,15 @@
                   </td>
                   <td class="table-item"></td>
                </tr>
-               <tr *ngFor="let etiqueta of listaEtiquetas | slice: pageSizeEtiquetas | slice: 0:itemsPerPageEtiquetas | filterByEtiqueta: filterEtiqueta">
+               <tr *ngFor="let etiqueta of listaEtiquetas | 
+                  filterByEtiqueta: filterEtiqueta | 
+                  paginate: {
+                     id: 'listing-etiquetas',
+                     itemsPerPage: itemsPerPageEtiquetas,
+                     currentPage: currentPageEtiquetas,
+                     totalItems: totalRecordsEtiquetas
+                  }"
+               >
                   <td class="text-start">{{ etiqueta.code }}</td>
                   <td>
                      <mat-radio-group formControlName="status" (change)="changeCartStatus(etiqueta.id)">
@@ -113,7 +131,9 @@
                   (change)="saveNumberOfItemsPerPageEtiquetas(itemsPerPageEtiquetas)"
                >
             </div>
-            <ngb-pagination [collectionSize]="listaEtiquetas.length" #numPages [pageSize]="itemsPerPageEtiquetas" [(page)]="currentPageEtiquetas" (pageChange)="onPageEtiquetasChange(currentPageEtiquetas)"></ngb-pagination>
+            <div>
+               <pagination-controls id="listing-etiquetas" [maxSize]="6" [directionLinks]="true" (pageChange)="currentPageEtiquetas = $event"></pagination-controls>
+            </div>
          </div>
       </div>
       <div class="col border-start">
@@ -132,7 +152,15 @@
                   </td>
                   <td class="table-item"></td>
                </tr>
-               <tr *ngFor="let manutencao of listaManutencao | slice: pageSizeManutencao | slice: 0:itemsPerPageManutencao | filterManutencao: filterManutencao">
+               <tr *ngFor="let manutencao of listaManutencao | 
+                  filterManutencao: filterManutencao |
+                  paginate: {
+                     id: 'listing-manutencao',
+                     itemsPerPage: itemsPerPageManutencao,
+                     currentPage: currentPageManutencao,
+                     totalItems: totalRecordsManutencao
+                  }"
+               >
                   <td class="text-start">{{ manutencao.cart.type.name }}</td>
                   <td>
                      <mat-radio-group [(ngModel)]="statusMaintenance" (change)="changeMaintenanceStatus(manutencao.id, manutencao.cart.id)">
@@ -156,7 +184,9 @@
                   (change)="saveNumberOfItemsPerPageEtiquetas(itemsPerPageManutencao)"
                >
             </div>
-            <ngb-pagination [collectionSize]="listaManutencao.length" #numPages [pageSize]="itemsPerPageManutencao" [(page)]="currentPageManutencao" (pageChange)="onPageManuntencaoChange(currentPageManutencao)"></ngb-pagination>
+            <div>
+               <pagination-controls id="listing-manutencao" [maxSize]="6" [directionLinks]="true" (pageChange)="currentPageManutencao = $event"></pagination-controls>
+            </div>
          </div>
       </div>
    </div>

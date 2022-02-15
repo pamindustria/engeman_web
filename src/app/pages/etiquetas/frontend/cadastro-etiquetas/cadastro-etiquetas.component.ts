@@ -37,17 +37,17 @@ export class CadastroEtiquetasComponent implements OnInit {
   // paginação Manutencao
   currentPageManutencao = 1;
   itemsPerPageManutencao: any = 20;
-  pageSizeManutencao!: number;
+  totalRecordsManutencao!: number;
 
   // paginação Etiquetas
   currentPageEtiquetas = 1;
   itemsPerPageEtiquetas: any = 20;
-  pageSizeEtiquetas!: number;
+  totalRecordsEtiquetas!: number;
 
   // paginação Embalagens
   currentPageEmbalagens = 1;
   itemsPerPageEmbalagens: any = 15;
-  pageSizeEmbalagens!: number;
+  totalRecordsEmabalages!: number;
 
   constructor(
     private listaCarrosService: ListaCarrosService, 
@@ -107,6 +107,7 @@ export class CadastroEtiquetasComponent implements OnInit {
     this.listaCarrosService.getListaCarros().subscribe((carros: any) => {
       carros.forEach((carro: any) => {
         this.listaCarros.push(carro);
+        this.totalRecordsEmabalages = this.listaCarros.length;
       });
     })
   }
@@ -117,6 +118,7 @@ export class CadastroEtiquetasComponent implements OnInit {
       manutencao.forEach((element: any) => {
         // console.log(element);
         this.listaManutencao.push(element);
+        this.totalRecordsManutencao = this.listaManutencao.length;
       });
     },
     err => console.log(err)
@@ -129,6 +131,7 @@ export class CadastroEtiquetasComponent implements OnInit {
       etiquetas.forEach((element: any) => {
         // if (element.cartIssues.length >= 1) {
           this.listaEtiquetas.push(element);
+          this.totalRecordsEtiquetas = this.listaEtiquetas.length;
         // }        
       });
     },
@@ -269,33 +272,6 @@ export class CadastroEtiquetasComponent implements OnInit {
       );
       
     }
-  }
-
-  // paginacao Manutencao
-  public onPageManuntencaoChange(pageNum: number): void {
-    this.pageSizeManutencao = this.itemsPerPageManutencao*(pageNum - 1);
-  }
-  // paginacao Manutencao
-  public changeManutencaoPagesize(num: number): void {
-    this.itemsPerPageManutencao = this.pageSizeManutencao + num;
-  }
-  
-  // paginacao Etiquetas
-  public onPageEtiquetasChange(pageNum: number): void {
-    this.pageSizeEtiquetas = this.itemsPerPageEtiquetas*(pageNum - 1);
-  }
-  // paginacao Etiquetas
-  public changeEtiquetasPagesize(num: number): void {
-    this.itemsPerPageEtiquetas = this.pageSizeEtiquetas + num;
-  }
-  
-  // paginacao Embalagens
-  public onPageEmbalagensChange(pageNum: number): void {
-    this.pageSizeEmbalagens = this.itemsPerPageEmbalagens*(pageNum - 1);
-  }
-  // paginacao Embalagens
-  public changeEmbalagensPagesize(num: number): void {
-    this.itemsPerPageEmbalagens = this.pageSizeEmbalagens + num;
   }
 
   // salvando valor setado pelo usuario de numero de itens por pagina
