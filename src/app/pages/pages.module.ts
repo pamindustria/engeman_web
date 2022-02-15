@@ -10,7 +10,6 @@ import { MatInputModule } from '@angular/material/input';
 import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
 import { HttpClientModule } from "@angular/common/http";
 import { MatRadioModule } from '@angular/material/radio';
-import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxPaginationModule } from 'ngx-pagination';
 
 import { SearchComponent } from '../components/search/search.component';
@@ -66,7 +65,6 @@ import { PaginaInicialComponent } from './pagina-inicial/frontend/pagina-inicial
     HttpClientModule,
     SharedModule,
     MatRadioModule,
-    NgbPaginationModule,
     NgxPaginationModule
   ],
   exports: [
@@ -80,7 +78,6 @@ import { PaginaInicialComponent } from './pagina-inicial/frontend/pagina-inicial
     MatInputModule,
     MatNativeDateModule,
     MatRadioModule,
-    NgbPaginationModule,
     NgxPaginationModule
   ],
   providers: [{ provide: MAT_DATE_LOCALE, useValue: 'pt-br' }],
