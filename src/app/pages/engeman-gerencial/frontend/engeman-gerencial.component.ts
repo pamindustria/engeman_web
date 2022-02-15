@@ -19,10 +19,10 @@ export class EngemanGerencialComponent implements OnInit {
   searchDateFim: string = '';
   engemanOS: any[] = [];
 
-   // paginação
-   currentPage = 1;
-   itemsPerPage: any = 20;
-   pageSize!: number;
+  // ngx-pagination
+  itemsPerPage: any = 20;
+  currentPage: number = 1;
+  totalRecords!: number;
 
   constructor(
     private engemanService: EngemanGerencialService,
@@ -38,21 +38,13 @@ export class EngemanGerencialComponent implements OnInit {
     this.engemanService.getEngemanList().subscribe((engeman: any) => {
       engeman.forEach((os: any) => {
         this.engemanOS.push(os);
+        this.totalRecords = this.engemanOS.length;
       });
     });
   }
 
-   // paginacao
-   public onPageChange(pageNum: number): void {
-    this.pageSize = this.itemsPerPage*(pageNum - 1);
-  }
-  // paginacao
-  public changePagesize(num: number): void {
-    this.itemsPerPage = this.pageSize + num;
-  }
-
-   // salvando valor setado pelo usuario de numero de itens por pagina
-   saveNumberOfItemsPerPage(num: number): void {
+  // salvando valor setado pelo usuario de numero de itens por pagina
+  saveNumberOfItemsPerPage(num: number): void {
     this.sessionService.setItemPerPageEngeman(num);
   }
 }

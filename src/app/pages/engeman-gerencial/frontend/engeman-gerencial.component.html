@@ -106,14 +106,19 @@
          <!-- slice: pageSize | slice: 0:itemsPerPage usado para paginacao -->
          <tr 
             *ngFor="let dados of engemanOS | 
-            slice: pageSize | slice: 0:itemsPerPage |
             filterOS: filterOS | 
             filterDataIni: searchDateInicio | 
             filterDataFim: searchDateFim | 
             filterFuncionario: filterFuncionario | 
             filterMatricula: filterCodigo |
             filterDescricao: filterDescricao |
-            filterEquipamento: filterEquipamento"
+            filterEquipamento: filterEquipamento |
+            paginate: {
+               id: 'listing-engeman',
+               itemsPerPage: itemsPerPage,
+               currentPage: currentPage,
+               totalItems: totalRecords
+            }"
          >
             <td class="table-item">{{ dados.OS }}</td>
             <td class="table-item">{{ dados.DataIni.substring(0, 10) }} - {{ dados.DataIni.substring(11, 16) }}</td>
@@ -145,6 +150,8 @@
             (change)="saveNumberOfItemsPerPage(itemsPerPage)"
          >
       </div>
-      <ngb-pagination [collectionSize]="engemanOS.length" #numPages [pageSize]="itemsPerPage" [(page)]="currentPage" (pageChange)="onPageChange(currentPage)"></ngb-pagination>
+      <div>
+         <pagination-controls id="listing-engeman" [maxSize]="10" [directionLinks]="true" (pageChange)="currentPage = $event"></pagination-controls>
+      </div>
    </div>
 </div>
