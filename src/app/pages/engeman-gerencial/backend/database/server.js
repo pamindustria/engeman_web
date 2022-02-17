@@ -24,10 +24,29 @@ sql.connect(config).then(() => {
       console.log(error);
    });
 
+// para engeman web
 router.route('/getOS').get((request, response) => {
    db.getOrdXFunc().then((data) => {
       response.json(data.recordset);
    });
 });
+
+// para engeman app
+
+app.get('/getOSabertas/:codigo', (request, response) => {
+   const codigo = request.params.codigo;
+
+   db.getOrdServ(codigo).then((data) => {
+      response.json(data.recordset);
+   });
+}); 
+
+app.get('/getFuncionario/:tag', (request, response) => {
+   const matricula = request.params.tag;
+
+   db.getFunc(matricula).then((data) => {
+      response.json(data.recordset);
+   });
+}); 
 
 app.listen(port, () => console.info(`Servidor rodando na porta: ${port}`));

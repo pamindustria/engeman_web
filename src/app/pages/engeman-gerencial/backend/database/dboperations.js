@@ -1,6 +1,8 @@
 const config = require('./dbconfig');
 const sql = require('mssql');
 
+// para engeman web
+
 async function getOrdXFunc() {
    try {
       let pool = await sql.connect(config);
@@ -23,4 +25,39 @@ async function getOrdXFunc() {
    }
 }
 
-module.exports = {getOrdXFunc: getOrdXFunc};
+// para engeman app
+async function getOrdServ(codigo) {
+   try {
+      let pool = await sql.connect(config);
+      let func = await pool.request()
+      .query(
+         `SELECT [CODEMP], [CODORD] FROM [ENGEMAN].[ORDSERV] WHERE CODORD = '${codigo}'`
+      )
+
+      return func;
+   } catch (error) {
+      console.log('Erro ao fazer select no OrdServ');
+      console.log(error);
+   }
+}
+
+async function getFunc(tag) {
+   try {
+      let pool = await sql.connect(config);
+      let func = await pool.request()
+      .query(
+         `SELECT [CODFUN], [TAG], [NOME] FROM [ENGEMAN].[FUNC] WHERE TAG = '${tag}'`
+      )
+
+      return func;
+   } catch (error) {
+      console.log('Erro ao fazer select no Func');
+      console.log(error);
+   }
+}
+
+module.exports = {
+   getOrdXFunc: getOrdXFunc, 
+   getOrdServ: getOrdServ,
+   getFunc: getFunc,
+};
