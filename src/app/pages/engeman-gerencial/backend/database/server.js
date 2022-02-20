@@ -49,4 +49,12 @@ app.get('/getFuncionario/:tag', (request, response) => {
    });
 }); 
 
+app.post('/inserirOS', (request, response) => {
+   const { codOS, codFunc, dataInicio, dataFim } = request.body;
+
+   db.insertOrdFunc(codOS, codFunc, dataInicio, dataFim).then((data) => {
+      response.json(data);
+   });
+}); 
+
 app.listen(port, () => console.info(`Servidor rodando na porta: ${port}`));

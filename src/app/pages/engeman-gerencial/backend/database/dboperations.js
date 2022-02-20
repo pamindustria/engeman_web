@@ -56,8 +56,70 @@ async function getFunc(tag) {
    }
 }
 
+async function insertOrdFunc(codOs, codFunc, dataInicio, dataFim) {
+   var tzoffset = (new Date()).getTimezoneOffset() * 60000;
+   const newDate = new Date(Date.now() - tzoffset).toISOString().slice(0, 23).replace('T', ' ');
+
+   try {
+      let pool = await sql.connect(config);
+      let func = await pool.request()
+      .query(
+         `INSERT INTO [ENGEMAN].[ORDXFUN]
+            ([CODEMP]
+            ,[CODORD]
+            ,[CODFUN]
+            ,[DATHORINI]
+            ,[DATHORFIM]
+            ,[HEXTRA]
+            ,[VENDA_HORA]
+            ,[CODMOE]
+            ,[PREVISTO]
+            ,[DATALT]
+            ,[LATITUDE]
+            ,[LONGITUDE]
+            ,[CODMOEXMOE]
+            ,[CODMOEO]
+            ,[CODMOED]
+            ,[FATORX]
+            ,[DATACOT]
+            ,[HASH_MOBILE]
+            ,[LATITUDEF]
+            ,[LONGITUDEF]
+            ,[ORIGEM])
+         VALUES
+            (${1}
+            ,${codOs}
+            ,${codFunc}
+            ,${dataInicio ? `'${newDate}'` : null}
+            ,${dataFim ? `'${newDate}'` : null}
+            ,null
+            ,${0}
+            ,${1}
+            ,'R'
+            ,null
+            ,null
+            ,null
+            ,null
+            ,null
+            ,null
+            ,${1}
+            ,null
+            ,null
+            ,null
+            ,null
+            ,null)`
+      )
+
+      return func;
+   } catch (error) {
+      console.log('Erro ao inserir em ORDXFUNC');
+      console.log(error);
+   }
+}
+
 module.exports = {
    getOrdXFunc: getOrdXFunc, 
    getOrdServ: getOrdServ,
    getFunc: getFunc,
+   insertOrdFunc: insertOrdFunc,
 };
