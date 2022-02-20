@@ -2,7 +2,6 @@ const config = require('./dbconfig');
 const sql = require('mssql');
 
 // para engeman web
-
 async function getOrdXFunc() {
    try {
       let pool = await sql.connect(config);
@@ -90,8 +89,8 @@ async function insertOrdFunc(codOs, codFunc, dataInicio, dataFim) {
             (${1}
             ,${codOs}
             ,${codFunc}
-            ,${dataInicio ? `'${newDate}'` : null}
-            ,${dataFim ? `'${newDate}'` : null}
+            ,${dataInicio === true ? `'${newDate}'` : null}
+            ,${dataFim === true ? `'${newDate}'` : null}
             ,null
             ,${0}
             ,${1}
@@ -110,10 +109,11 @@ async function insertOrdFunc(codOs, codFunc, dataInicio, dataFim) {
             ,null)`
       )
 
-      return func;
+      return {statusCode: 200};
    } catch (error) {
       console.log('Erro ao inserir em ORDXFUNC');
       console.log(error);
+      return {statusCode: 200, error: error};
    }
 }
 

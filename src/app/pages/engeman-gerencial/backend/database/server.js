@@ -32,7 +32,6 @@ router.route('/getOS').get((request, response) => {
 });
 
 // para engeman app
-
 app.get('/getOSabertas/:codigo', (request, response) => {
    const codigo = request.params.codigo;
 
@@ -53,6 +52,7 @@ app.post('/inserirOS', (request, response) => {
    const { codOS, codFunc, dataInicio, dataFim } = request.body;
 
    db.insertOrdFunc(codOS, codFunc, dataInicio, dataFim).then((data) => {
+      console.log(data);
       response.json(data);
    });
 }); 
