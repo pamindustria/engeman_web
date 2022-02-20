@@ -8,7 +8,7 @@ async function getOrdXFunc() {
       let pool = await sql.connect(config);
       let func = await pool.request()
       .query(
-         `SELECT upper(func.NOME) NomeFunc, func.TAG codfun, ordfun.DATHORINI DataIni, ordfun.DATHORFIM DataFim, ORDSERV.TAG OS,
+         `SELECT upper(func.NOME) NomeFunc, func.TAG codfun, ordfun.DATHORINI DataIni, ordfun.DATHORFIM DataFim, ORDSERV.CODORD OS,
          upper(cast(ORDSERV.Obs as varchar(500))) Obs, Case when ordfun.DATHORFIM is null then 1 else 2 end XX,
          Upper(APLIC.DESCRICAO) APLICDescr
          FROM engeman.ORDXFUN ordfun
