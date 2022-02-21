@@ -66,4 +66,12 @@ app.post('/getOSFunc', (request, response) => {
    });
 }); 
 
+app.put('/atualizarOS', (request, response) => {
+   const { codOS, tag } = request.body;
+
+   db.updateOrdFunc(codOS, tag).then((data) => {
+      response.json(data);
+   });
+});
+
 app.listen(port, () => console.info(`Servidor rodando na porta: ${port}`));

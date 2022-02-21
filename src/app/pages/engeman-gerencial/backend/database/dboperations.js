@@ -117,6 +117,24 @@ async function insertOrdFunc(codOs, codFunc, dataInicio, dataFim) {
    }
 }
 
+async function updateOrdFunc(codOs, tag) {
+   try {
+      let pool = await sql.connect(config);
+      let func = await pool.request()
+      .query(
+         `UPDATE [ENGEMAN].[ORDXFUN]
+            SET [DATHORFIM] = GETDATE()
+         WHERE CODORD Like ${codOs} AND CODFUN Like ${tag}`
+      )
+
+      return 200;
+   } catch (error) {
+      console.log('Erro ao fazer select no OrdXFunc');
+      console.log(error);
+      return 408;
+   }
+}
+
 async function getOSFunc(codOS, tag) {
    try {
       let pool = await sql.connect(config);
@@ -142,5 +160,6 @@ module.exports = {
    getOrdServ: getOrdServ,
    getFunc: getFunc,
    insertOrdFunc: insertOrdFunc,
+   updateOrdFunc: updateOrdFunc,
    getOSFunc: getOSFunc,
 };
