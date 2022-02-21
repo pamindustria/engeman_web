@@ -50,7 +50,7 @@ async function getFunc(tag) {
 
       return func;
    } catch (error) {
-      console.log('Erro ao fazer select no Func');
+      console.log('Erro ao fazer select no getFunc');
       console.log(error);
    }
 }
@@ -129,7 +129,7 @@ async function updateOrdFunc(codOs, tag) {
 
       return 200;
    } catch (error) {
-      console.log('Erro ao fazer select no OrdXFunc');
+      console.log('Erro ao atualizar OS');
       console.log(error);
       return 408;
    }
@@ -150,9 +150,25 @@ async function getOSFunc(codOS, tag) {
 
       return func;
    } catch (error) {
-      console.log('Erro ao fazer select no OrdXFunc');
+      console.log('Erro ao fazer select dos funcionarios na OS');
       console.log(error);
       return error;
+   }
+}
+
+async function countFuncNaOS(codOs) {
+   try {
+      let pool = await sql.connect(config);
+      let func = await pool.request()
+      .query(
+         `SELECT COUNT(*) as Count FROM [ENGEMAN].[ORDXFUN] WHERE CODORD Like ${codOs} AND DATHORFIM IS NULL`
+      )
+
+      return func;
+   } catch (error) {
+      console.log('Erro ao contar Funcionarios na OS');
+      console.log(error);
+      return 408;
    }
 }
 
@@ -163,4 +179,5 @@ module.exports = {
    insertOrdFunc: insertOrdFunc,
    updateOrdFunc: updateOrdFunc,
    getOSFunc: getOSFunc,
+   countFuncNaOS: countFuncNaOS,
 };

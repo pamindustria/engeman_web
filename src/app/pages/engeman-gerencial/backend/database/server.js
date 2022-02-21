@@ -73,4 +73,12 @@ app.put('/atualizarOS', (request, response) => {
    });
 });
 
+app.get('/countFuncNaOS/:codOS', (request, response) => {
+   const { codOS } = request.params;
+
+   db.countFuncNaOS(codOS).then((data) => {
+      response.json(data.recordset);
+   });
+});
+
 app.listen(port, () => console.info(`Servidor rodando na porta: ${port}`));
