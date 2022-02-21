@@ -49,9 +49,9 @@ app.get('/getFuncionario/:tag', (request, response) => {
 }); 
 
 app.post('/inserirOS', (request, response) => {
-   const { codOS, codFunc, dataInicio, dataFim } = request.body;
+   const { codOS, codFunc, dataInicio } = request.body;
 
-   db.insertOrdFunc(codOS, codFunc, dataInicio, dataFim).then((data) => {
+   db.insertOrdFunc(codOS, codFunc, dataInicio).then((data) => {
       console.log(data);
       response.json(data);
    });
@@ -59,12 +59,11 @@ app.post('/inserirOS', (request, response) => {
 
 app.post('/getOSFunc', (request, response) => {
    const { codOS, tag } = request.body;
-   var result = [];
 
    db.getOSFunc(codOS, tag).then((data) => {
       response.json(data.recordset);
    });
-}); 
+});
 
 app.put('/atualizarOS', (request, response) => {
    const { codOS, tag } = request.body;

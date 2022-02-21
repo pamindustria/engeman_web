@@ -55,7 +55,7 @@ async function getFunc(tag) {
    }
 }
 
-async function insertOrdFunc(codOs, codFunc, dataInicio, dataFim) {
+async function insertOrdFunc(codOs, codFunc, dataInicio) {
    var tzoffset = (new Date()).getTimezoneOffset() * 60000;
    const newDate = new Date(Date.now() - tzoffset).toISOString().slice(0, 23).replace('T', ' ');
 
@@ -90,7 +90,7 @@ async function insertOrdFunc(codOs, codFunc, dataInicio, dataFim) {
             ,${codOs}
             ,${codFunc}
             ,${dataInicio === true ? `'${newDate}'` : null}
-            ,${dataFim === true ? `'${newDate}'` : null}
+            ,null
             ,null
             ,${0}
             ,${1}
@@ -140,7 +140,7 @@ async function getOSFunc(codOS, tag) {
       let pool = await sql.connect(config);
       let func = await pool.request()
       .query(
-         `SELECT upper(func.NOME) NomeFunc, func.TURNO turno, ORDSERV.CODORD OS, ordfun.DATHORINI DataIni, ordfun.DATHORFIM DataFim
+         `SELECT upper(func.NOME) NomeFunc, func.TURNO turno, ORDSERV.CODORD OS, ordfun.CODFUN codFun, ordfun.DATHORINI DataIni, ordfun.DATHORFIM DataFim
          FROM engeman.ORDXFUN ordfun
          inner join engeman.FUNC func on(ordfun.codfun = func.codfun)
          INNER JOIN engeman.ORDSERV ORDSERV on(ordfun.CODORD = ORDSERV.CODORD)
@@ -152,6 +152,7 @@ async function getOSFunc(codOS, tag) {
    } catch (error) {
       console.log('Erro ao fazer select no OrdXFunc');
       console.log(error);
+      return error;
    }
 }
 
