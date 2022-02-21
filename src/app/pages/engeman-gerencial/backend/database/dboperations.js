@@ -109,11 +109,31 @@ async function insertOrdFunc(codOs, codFunc, dataInicio, dataFim) {
             ,null)`
       )
 
-      return {statusCode: 200};
+      return 200;
    } catch (error) {
       console.log('Erro ao inserir em ORDXFUNC');
       console.log(error);
-      return {statusCode: 200, error: error};
+      return 408;
+   }
+}
+
+async function getOSFunc(codOS, tag) {
+   try {
+      let pool = await sql.connect(config);
+      let func = await pool.request()
+      .query(
+         `SELECT upper(func.NOME) NomeFunc, func.TURNO turno, ORDSERV.CODORD OS, ordfun.DATHORINI DataIni, ordfun.DATHORFIM DataFim
+         FROM engeman.ORDXFUN ordfun
+         inner join engeman.FUNC func on(ordfun.codfun = func.codfun)
+         INNER JOIN engeman.ORDSERV ORDSERV on(ordfun.CODORD = ORDSERV.CODORD)
+		   WHERE ORDSERV.CODORD Like '${codOS}' AND func.TAG Like '${tag}' AND ordfun.DATHORFIM IS NULL
+         ORDER BY func.NOME DESC`
+      )
+
+      return func;
+   } catch (error) {
+      console.log('Erro ao fazer select no OrdXFunc');
+      console.log(error);
    }
 }
 
@@ -122,4 +142,5 @@ module.exports = {
    getOrdServ: getOrdServ,
    getFunc: getFunc,
    insertOrdFunc: insertOrdFunc,
+   getOSFunc: getOSFunc,
 };

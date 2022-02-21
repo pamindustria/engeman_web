@@ -57,4 +57,13 @@ app.post('/inserirOS', (request, response) => {
    });
 }); 
 
+app.post('/getOSFunc', (request, response) => {
+   const { codOS, tag } = request.body;
+   var result = [];
+
+   db.getOSFunc(codOS, tag).then((data) => {
+      response.json(data.recordset);
+   });
+}); 
+
 app.listen(port, () => console.info(`Servidor rodando na porta: ${port}`));
