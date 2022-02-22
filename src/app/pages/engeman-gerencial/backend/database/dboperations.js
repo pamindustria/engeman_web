@@ -89,7 +89,7 @@ async function insertOrdFunc(codOs, codFunc, dataInicio) {
             (${1}
             ,${codOs}
             ,${codFunc}
-            ,${dataInicio === true ? `'${newDate}'` : null}
+            ,GETDATE()
             ,null
             ,null
             ,${0}
