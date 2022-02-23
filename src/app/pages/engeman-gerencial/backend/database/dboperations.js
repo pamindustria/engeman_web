@@ -30,7 +30,7 @@ async function getOrdServ(codigo) {
       let pool = await sql.connect(config);
       let func = await pool.request()
       .query(
-         `SELECT [CODEMP], [CODORD] FROM [ENGEMAN].[ORDSERV] WHERE CODORD = '${codigo}'`
+         `SELECT [CODEMP], [CODORD], [TAG] FROM [ENGEMAN].[ORDSERV] WHERE TAG = '${codigo}'`
       )
 
       return func;
@@ -56,9 +56,6 @@ async function getFunc(tag) {
 }
 
 async function insertOrdFunc(codOs, codFunc, dataInicio) {
-   var tzoffset = (new Date()).getTimezoneOffset() * 60000;
-   const newDate = new Date(Date.now() - tzoffset).toISOString().slice(0, 23).replace('T', ' ');
-
    try {
       let pool = await sql.connect(config);
       let func = await pool.request()
@@ -140,11 +137,11 @@ async function getOSFunc(codOS, tag) {
       let pool = await sql.connect(config);
       let func = await pool.request()
       .query(
-         `SELECT upper(func.NOME) NomeFunc, func.TURNO turno, ORDSERV.CODORD OS, ordfun.CODFUN codFun, ordfun.DATHORINI DataIni, ordfun.DATHORFIM DataFim
+         `SELECT upper(func.NOME) NomeFunc, func.TURNO turno, ORDSERV.TAG OS, ordfun.CODFUN codFun, ORDSERV.CODORD codord
          FROM engeman.ORDXFUN ordfun
          inner join engeman.FUNC func on(ordfun.codfun = func.codfun)
          INNER JOIN engeman.ORDSERV ORDSERV on(ordfun.CODORD = ORDSERV.CODORD)
-		   WHERE ORDSERV.CODORD Like '${codOS}' AND func.TAG Like '${tag}' AND ordfun.DATHORFIM IS NULL
+		   WHERE ORDSERV.TAG Like '${codOS}' AND func.TAG Like '${tag}' AND ordfun.DATHORFIM IS NULL
          ORDER BY func.NOME DESC`
       )
 
