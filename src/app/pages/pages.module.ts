@@ -24,6 +24,7 @@ import { EngemanGerencialComponent } from './engeman-gerencial/frontend/engeman-
 import { EtiquetasGerencialComponent } from './etiquetas/frontend/etiquetas-gerencial/etiquetas-gerencial.component';
 import { ListaCarrosComponent } from './etiquetas/frontend/lista-carros/lista-carros.component';
 import { PaginaInicialComponent } from './pagina-inicial/frontend/pagina-inicial.component';
+import { GraficoOsComponent } from './engeman-gerencial/frontend/grafico_os/grafico-os.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import { PaginaInicialComponent } from './pagina-inicial/frontend/pagina-inicial
     FilterFuncionarioPipe, 
     FilterMatriculaPipe,
     FilterDescricaoPipe,
-    FilterEquipamentoDescricaoPipe
+    FilterEquipamentoDescricaoPipe,
+    GraficoOsComponent
   ],
   imports: [
     CommonModule,
