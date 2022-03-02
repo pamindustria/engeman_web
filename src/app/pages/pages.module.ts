@@ -20,7 +20,7 @@ import { DateFilterComponent } from '../components/dateFilter/dateFilter.compone
 import { FilterEmbalagemPipe } from '../components/pipes/filterEmbalagem.pipe';
 import { CadastroEtiquetasComponent } from './etiquetas/frontend/cadastro-etiquetas/cadastro-etiquetas.component';
 import { SharedModule } from '../shared/shared.module';
-import { EngemanGerencialComponent } from './engeman-gerencial/frontend/engeman-gerencial.component';
+import { EngemanGerencialComponent } from './engeman-gerencial/frontend/engeman-gerencial/engeman-gerencial.component';
 import { EtiquetasGerencialComponent } from './etiquetas/frontend/etiquetas-gerencial/etiquetas-gerencial.component';
 import { ListaCarrosComponent } from './etiquetas/frontend/lista-carros/lista-carros.component';
 import { PaginaInicialComponent } from './pagina-inicial/frontend/pagina-inicial.component';
