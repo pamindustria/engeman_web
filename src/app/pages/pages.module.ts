@@ -11,6 +11,7 @@ import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
 import { HttpClientModule } from "@angular/common/http";
 import { MatRadioModule } from '@angular/material/radio';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { NgChartsModule } from 'ng2-charts';
 
 import { SearchComponent } from '../components/search/search.component';
 import { FilterEtiquetaPipe, FilterClientePipe, FilterStatusPipe, FilterDataSaidaPipe, FilterDataRetornoPipe, FilterTipoEmbalagemPipe, FilterManutencaoPipe } from '../components/pipes/filterEtiqueta.pipe';
@@ -67,7 +68,8 @@ import { GraficoOsComponent } from './engeman-gerencial/frontend/grafico_os/graf
     HttpClientModule,
     SharedModule,
     MatRadioModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    NgChartsModule
   ],
   exports: [
     BrowserModule,
@@ -80,7 +82,8 @@ import { GraficoOsComponent } from './engeman-gerencial/frontend/grafico_os/graf
     MatInputModule,
     MatNativeDateModule,
     MatRadioModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    NgChartsModule
   ],
   providers: [{ provide: MAT_DATE_LOCALE, useValue: 'pt-br' }],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]

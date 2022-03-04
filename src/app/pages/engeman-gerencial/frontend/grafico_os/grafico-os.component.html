@@ -1,1 +1,11 @@
-<p>grafico-os works!</p>
+<div style="margin: 0 auto; width: 95%; border: 2px solid black;">
+    <div style="display: block">
+        <canvas baseChart
+            [data]="barChartData"
+            [options]="barChartOptions"
+            [type]="barChartType"
+            (chartHover)="chartHovered($event)"
+            (chartClick)="chartClicked($event)">
+        </canvas>
+    </div>
+</div>
