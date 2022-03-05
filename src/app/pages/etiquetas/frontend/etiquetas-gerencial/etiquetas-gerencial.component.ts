@@ -57,16 +57,6 @@ export class EtiquetasGerencialComponent implements OnInit {
     );
   } 
 
-  calculateDiff(sentOn: any) {
-    let todayDate = new Date();
-    let sentOnDate = new Date(sentOn);
-    sentOnDate.setDate(sentOnDate.getDate());
-    let differenceInTime = todayDate.getTime() - sentOnDate.getTime();
-    // To calculate the no. of days between two dates
-    let differenceInDays = Math.floor(differenceInTime / (1000 * 3600 * 24));
-    return differenceInDays;
-  }
-
   mostrarFiltroCliente(value: boolean) {
     this.showFiltrosCliente = value;
   }

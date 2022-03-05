@@ -61,11 +61,6 @@
                         </div>
                      </div>
                   </th> -->
-                  <th class="table-header" [hidden]="!showFiltrosCliente">
-                     <div class="d-flex justify-content-around align-items-center">
-                        Qtd. Dias Externo
-                     </div>
-                  </th>
                   <th [appSort]="dadosClientes" data-order="desc" data-name="status" class="table-header" [hidden]="!showFiltrosCliente">
                      <div class="d-flex justify-content-around align-items-center">
                         Status
@@ -96,9 +91,6 @@
                      <app-date-filter (onTyping)="searchDateRetorno = $event" [value]="searchDateRetorno"></app-date-filter>
                   </td> -->
                   <td class="table-item" [hidden]="!showFiltrosCliente">
-                     <!-- <app-search placeholderString="Filtrar status" (onTyping)="filterStatus = $event" [value]="filterStatus"></app-search> -->
-                  </td>
-                  <td class="table-item" [hidden]="!showFiltrosCliente">
                      <app-search placeholderString="Filtrar status" (onTyping)="filterStatus = $event" [value]="filterStatus"></app-search>
                   </td>
                </tr>
@@ -124,9 +116,6 @@
                   <td class="table-item" [hidden]="showFiltrosCliente"></td>
                   <td class="table-item" [hidden]="!showFiltrosCliente">
                      {{ dados.cartIssues[0].readAt.substring(0, 10) }} - {{ dados.cartIssues[0].readAt.substring(11, 16) }}
-                  </td>
-                  <td class="table-item" [hidden]="!showFiltrosCliente">
-                     {{ calculateDiff(dados.cartIssues[0].readAt.substring(0, 10)) }} 
                   </td>
                   <!-- <td class="table-item" [hidden]="!showFiltrosCliente">
                      {{ dados.cartIssues[0].cartReturnal?.readAt.substring(0, 10) }} - {{ dados.cartIssues[0].cartReturnal?.readAt.substring(11, 16) }}
