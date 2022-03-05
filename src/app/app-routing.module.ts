@@ -5,6 +5,7 @@ import { EngemanGerencialComponent } from './pages/engeman-gerencial/frontend/en
 import { GraficoOsComponent } from './pages/engeman-gerencial/frontend/grafico_os/grafico-os.component';
 import { CadastroEtiquetasComponent } from './pages/etiquetas/frontend/cadastro-etiquetas/cadastro-etiquetas.component';
 import { EtiquetasGerencialComponent } from './pages/etiquetas/frontend/etiquetas-gerencial/etiquetas-gerencial.component';
+import { RelatorioComponent } from './pages/etiquetas/frontend/relatorio/relatorio.component';
 import { PaginaInicialComponent } from './pages/pagina-inicial/frontend/pagina-inicial.component';
 
 const routes: Routes = [
@@ -27,6 +28,10 @@ const routes: Routes = [
   { 
     path: "cadastro-etiquetas",
     component: CadastroEtiquetasComponent,
+  },
+  { 
+    path: "relatorio-etiquetas",
+    component: RelatorioComponent,
   },
 ];
 
