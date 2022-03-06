@@ -5,12 +5,8 @@
             <thead>
                <tr>
                   <th [appSort]="dadosClientes" data-order="desc" data-name="cliente" class="table-header">
-                     <div class="d-flex justify-content-around align-items-center">
+                     <div class="d-flex justify-content-center align-items-center">
                         Cliente
-                        <div class="d-flex flex-column">
-                           <i aria-hidden="true" class="fa fa-caret-up" style="color: #ffffff;"></i>
-                           <i aria-hidden="true" class="fa fa-caret-down" style="color: #ffffff;"></i>
-                        </div>
                      </div>
                   </th>
                   <th class="table-header">
@@ -63,7 +59,7 @@
                </tr>
                <!-- slice: pageSize | slice: 0:itemsPerPage usado para paginacao -->
                <tr 
-                  *ngFor="let dados of dadosClientes | 
+                  *ngFor="let dados of dadosPorData | 
                   filterByEtiqueta: filterEtiqueta | 
                   filterByCliente: filterCliente | 
                   filterTipoEmbalagem: filterEmbalagem | 
@@ -77,15 +73,11 @@
                      totalItems: totalRecords
                   }"
                >
-                  <td class="table-item">{{ dados.cartIssues[0].client.name }}</td>
-                  <td class="table-item">{{ dados.type.name }}</td>
-                  <td class="table-item"></td>
-                  <td class="table-item">
-                     {{ dados.cartIssues[0].readAt.substring(0, 10) }} - {{ dados.cartIssues[0].readAt.substring(11, 16) }}
-                  </td>
-                  <td class="table-item">
-                     {{ calculateDiff(dados.cartIssues[0].readAt.substring(0, 10)) }} 
-                  </td>
+                  <td class="table-item">{{ dados.nome }}</td>
+                  <td class="table-item">{{ dados.embalagem }}</td>
+                  <td class="table-item">{{ dados.total }}</td>
+                  <td class="table-item">{{ dados.data }}</td>
+                  <td class="table-item">{{ calculateDiff(dados.data.substring(0, 10)) }}</td>
                </tr>
             </tbody>
          </table>

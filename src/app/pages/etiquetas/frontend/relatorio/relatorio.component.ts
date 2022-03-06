@@ -21,10 +21,11 @@ export class RelatorioComponent implements OnInit {
   datas: any[] = [];
   total: number = 0;
   quantidade: any[] = [];
+  dadosPorData: any[] = [];
 
   clienteAtual: String = "";
   embalagemAtual: String = "";
-  teste: any[] = [];
+  dataAtual: String = "";
 
   // ngx-pagination
   itemsPerPage: any = 14;
@@ -45,6 +46,11 @@ export class RelatorioComponent implements OnInit {
     this.etiquetasService.getEtiquetas().subscribe((etiquetas: any) => {
       etiquetas.forEach((element: any) => {
         if (element.status === 'OUT') {          
+          this.dadosClientes.push(element);
+          this.dadosClientes = this.dadosClientes.sort((a, b) => b.cartIssues[0].readAt.localeCompare(a.cartIssues[0].readAt));          
+          this.totalRecords = this.dadosClientes.length;
+          
+          // ! código para pegar a quantidade de embalagens no cliente por dia
           if (!this.nomeClientes.includes(element.cartIssues[0].client.name)) {
             this.nomeClientes.push(element.cartIssues[0].client.name);
           }
@@ -57,16 +63,104 @@ export class RelatorioComponent implements OnInit {
             this.datas.push(element.cartIssues[0].readAt.substring(0, 10));
           }
 
-          this.dadosClientes.push(element);
-          this.dadosClientes = this.dadosClientes.sort((a, b) => b.cartIssues[0].readAt.localeCompare(a.cartIssues[0].readAt));          
-          this.totalRecords = this.dadosClientes.length;
         }        
       });
       
-      // console.log(this.nomeClientes);
-      // console.log(this.embalagens);
-      // console.log(this.datas);
-      // console.log(this.dadosClientes);      
+      // ! código para pegar a quantidade de embalagens no cliente por dia
+
+      for (let a = 0; a < this.datas.length; a++) {
+        // se a data mudar, a contagem zera
+        this.total = 0;
+
+        // é preciso verificar se quantidade já não foi zerada antes
+        if (this.quantidade.length !== 0) {
+          this.dadosPorData.push({
+            data: this.dataAtual, 
+            nome: this.clienteAtual, 
+            embalagem: this.embalagemAtual,
+            total: this.quantidade.length
+          });
+        }
+        this.quantidade = [];
+        
+        // buscando datas iguais
+        for (let b = 0; b < this.dadosClientes.length; b++) {
+     
+          if (this.dadosClientes[b].cartIssues[0].readAt.substring(0, 10) === this.datas[a]) {
+            // buscando nome igual
+            for (let c = 0; c < this.nomeClientes.length; c++) {
+     
+              if (this.dadosClientes[b].cartIssues[0].client.name === this.nomeClientes[c]) {
+                if (this.clienteAtual !== this.dadosClientes[b].cartIssues[0].client.name) {
+                  // se o nome mudar, a contagem zera
+                  this.total = 0;
+
+                  // é preciso verificar se quantidade já não foi zerada antes
+                  if (this.quantidade.length !== 0) {
+                    this.dadosPorData.push({
+                      data: this.dataAtual, 
+                      nome: this.clienteAtual, 
+                      embalagem: this.embalagemAtual,
+                      total: this.quantidade.length
+                    });
+                  }
+                  this.quantidade = [];
+
+                }
+     
+                // buscando embalagem
+                for (let d = 0; d < this.embalagens.length; d++) {
+                  if (this.embalagemAtual !== this.dadosClientes[b].type.name) {
+                    // se a embalagem mudar, a contagem zera
+                    this.total = 0;
+
+                    // é preciso verificar se quantidade já não foi zerada antes
+                    if (this.quantidade.length !== 0) {
+                      this.dadosPorData.push({
+                        data: this.dataAtual, 
+                        nome: this.clienteAtual, 
+                        embalagem: this.embalagemAtual,
+                        total: this.quantidade.length
+                      });
+                    }
+                    this.quantidade = [];
+
+                  }
+
+                  if (this.dadosClientes[b].type.name === this.embalagens[d]) {
+                    this.total++;
+                    this.clienteAtual = this.dadosClientes[b].cartIssues[0].client.name;
+                    this.embalagemAtual = this.dadosClientes[b].type.name;
+                    this.dataAtual = `${this.datas[a]} - ${this.dadosClientes[b].cartIssues[0].readAt.substring(11, 16)}`;
+     
+                    this.quantidade.push({
+                      data: this.dadosClientes[b].cartIssues[0].readAt.substring(0, 10), 
+                      nome: this.dadosClientes[b].cartIssues[0].client.name, 
+                      embalagem: this.dadosClientes[b].type.name,
+                      total: this.total
+                    });
+                    
+                  }           
+                }
+              } 
+            }
+          }
+        }
+      }
+
+      // é preciso verificar se quantidade já não foi zerada antes
+      if (this.quantidade.length !== 0) {
+        this.dadosPorData.push({
+          data: this.dataAtual, 
+          nome: this.clienteAtual, 
+          embalagem: this.embalagemAtual,
+          total: this.quantidade.length
+        });
+
+        this.dadosPorData = this.dadosPorData.sort((a, b) => b.data.localeCompare(a.data));
+      }
+      this.quantidade = [];
+      
     },
     err => console.log(err)
     );
