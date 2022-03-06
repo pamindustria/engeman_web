@@ -1,4 +1,16 @@
 <main class="container-fluid text-center">
+   <div *ngIf="loadData" style="margin: 0 auto;" class="mb-4">
+      <div style="display: block">
+          <canvas baseChart
+            [height]="100"
+            [data]="barChartData"
+            [options]="barChartOptions"
+            [type]="barChartType"
+            (chartHover)="chartHovered($event)"
+            (chartClick)="chartClicked($event)">
+          </canvas>
+      </div>
+  </div>
    <div class="row">
       <div class="col border-start">        
          <table class="table table-bordered table-striped">

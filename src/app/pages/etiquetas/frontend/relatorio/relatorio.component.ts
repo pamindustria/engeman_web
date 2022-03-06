@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { ChartConfiguration, ChartData, ChartEvent, ChartType } from 'chart.js';
+import { BaseChartDirective } from 'ng2-charts';
+
 import { SessionService } from 'src/app/shared/session.service';
 import { EtiquetasGerencialService } from '../../backend/services/etiquetas-gerencial.service';
 
@@ -8,6 +11,13 @@ import { EtiquetasGerencialService } from '../../backend/services/etiquetas-gere
   styleUrls: ['./relatorio.component.css']
 })
 export class RelatorioComponent implements OnInit {
+  @ViewChild(BaseChartDirective) chart: BaseChartDirective | undefined;
+  labelData: String[] = [];
+  tipoEmbalagemData: String[] = [];
+  quantidadeData: number[] = [];
+  loadData: boolean = false;
+  dataset: any[] = [];
+
   filterEtiqueta: string = '';
   filterCliente: string = '';
   filterStatus: string = '';
@@ -158,6 +168,14 @@ export class RelatorioComponent implements OnInit {
         });
 
         this.dadosPorData = this.dadosPorData.sort((a, b) => b.data.localeCompare(a.data));
+
+        this.dadosPorData.forEach(element => {
+          this.labelData.push(element.data.substring(0, 10));
+          this.quantidadeData.push(element.total);
+          
+          this.dataset.push({label: element.embalagem, data: element.total});
+          this.loadData = true;
+        });
       }
       this.quantidade = [];
       
@@ -181,5 +199,48 @@ export class RelatorioComponent implements OnInit {
     // To calculate the no. of days between two dates
     let differenceInDays = Math.floor(differenceInTime / (1000 * 3600 * 24));
     return differenceInDays;
+  }
+
+  public barChartOptions: ChartConfiguration['options'] = {
+    responsive: true,
+    // We use these empty structures as placeholders for dynamic theming.
+    scales: {
+      x: {},
+      y: {
+        min: 0,
+        // display: false
+      }
+    },
+    plugins: {
+      legend: {
+        display: false,
+      },
+    }
+  };
+
+  public barChartType: ChartType = 'bar';
+
+  public barChartData: ChartData<'bar'> = {
+    labels: this.labelData,
+    datasets: [{
+      data: this.quantidadeData,
+      // label: 'Adria Gostosa',
+      // backgroundColor: [
+      //   'rgba(153, 102, 255)',
+      // ],
+      // hoverBackgroundColor: [
+      //   'rgba(153, 102, 255)',
+      // ],
+
+    }]
+  };
+
+  // events
+  public chartClicked({ event, active }: { event?: ChartEvent, active?: {}[] }): void {
+    // console.log(event, active);
+  }
+
+  public chartHovered({ event, active }: { event?: ChartEvent, active?: {}[] }): void {
+    // console.log(event, active);
   }
 }
