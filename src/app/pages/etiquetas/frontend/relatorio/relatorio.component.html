@@ -16,17 +16,21 @@
          <table class="table table-bordered table-striped">
             <thead>
                <tr>
-                  <th [appSort]="dadosClientes" data-order="desc" data-name="cliente" class="table-header">
-                     <div class="d-flex justify-content-center align-items-center">
+                  <th [appSort]="dadosPorData" data-order="desc" data-name="nome" class="table-header">
+                     <div class="d-flex justify-content-around align-items-center">
                         Cliente
+                        <div class="d-flex flex-column">
+                           <i aria-hidden="true" class="fa fa-caret-up"></i>
+                           <i aria-hidden="true" class="fa fa-caret-down"></i>
+                        </div>
                      </div>
                   </th>
-                  <th class="table-header">
+                  <th [appSort]="dadosPorData" data-order="desc" data-name="embalagem" class="table-header">
                      <div class="d-flex justify-content-around align-items-center">
                         Embal.
                         <div class="d-flex flex-column">
-                           <i aria-hidden="true" class="fa fa-caret-up" style="color: #ffffff;"></i>
-                           <i aria-hidden="true" class="fa fa-caret-down" style="color: #ffffff;"></i>
+                           <i aria-hidden="true" class="fa fa-caret-up"></i>
+                           <i aria-hidden="true" class="fa fa-caret-down"></i>
                         </div>
                      </div>
                   </th>
@@ -39,12 +43,12 @@
                         </div>
                      </div>
                   </th>
-                  <th [appSort]="dadosClientes" data-order="desc" data-name="dataUltimaSaida" class="table-header">
+                  <th [appSort]="dadosPorData" data-order="desc" data-name="data" class="table-header">
                      <div class="d-flex justify-content-around align-items-center">
                         Data de Saída
                         <div class="d-flex flex-column">
-                           <i aria-hidden="true" class="fa fa-caret-up" style="color: #ffffff;"></i>
-                           <i aria-hidden="true" class="fa fa-caret-down" style="color: #ffffff;"></i>
+                           <i aria-hidden="true" class="fa fa-caret-up"></i>
+                           <i aria-hidden="true" class="fa fa-caret-down"></i>
                         </div>
                      </div>
                   </th>
@@ -101,7 +105,7 @@
                   type="number" 
                   [(ngModel)]="itemsPerPage" 
                   min="0" 
-                  max={{dadosClientes.length}}
+                  max={{dadosPorData.length}}
                   style="padding: 5px; margin-left: 15px;"
                   (change)="saveNumberOfItemssPerPage(itemsPerPage)"
                >
