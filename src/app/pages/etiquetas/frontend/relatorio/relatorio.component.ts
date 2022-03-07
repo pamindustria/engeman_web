@@ -56,7 +56,6 @@ export class RelatorioComponent implements OnInit {
         if (element.status === 'OUT') {          
           this.dadosClientes.push(element);
           this.dadosClientes = this.dadosClientes.sort((a, b) => b.cartIssues[0].readAt.localeCompare(a.cartIssues[0].readAt));          
-          this.totalRecords = this.dadosClientes.length;
           
           // ! código para pegar a quantidade de embalagens no cliente por dia
           if (!this.nomeClientes.includes(element.cartIssues[0].client.name)) {
@@ -166,6 +165,7 @@ export class RelatorioComponent implements OnInit {
         });
 
         this.dadosPorData = this.dadosPorData.sort((a, b) => b.data.localeCompare(a.data));
+        this.totalRecords = this.dadosPorData.length;
 
         this.dadosPorData.forEach(element => {
           this.labelData.push(element.data.substring(0, 10));
@@ -185,7 +185,7 @@ export class RelatorioComponent implements OnInit {
   }
 
   // salvando valor setado pelo usuario de numero de itens por pagina
-  saveNumberOfItemssPerPage(num: number): void {
+  saveNumberOfItemsPerPage(num: number): void {
     this.sessionService.setItemPerPageListaEtiqueta(num);
   }
 

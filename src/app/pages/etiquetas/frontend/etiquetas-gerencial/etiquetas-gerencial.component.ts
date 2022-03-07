@@ -62,7 +62,7 @@ export class EtiquetasGerencialComponent implements OnInit {
   }
 
   // salvando valor setado pelo usuario de numero de itens por pagina
-  saveNumberOfItemssPerPage(num: number): void {
+  saveNumberOfItemsPerPage(num: number): void {
     this.sessionService.setItemPerPageListaEtiqueta(num);
   }
 }
