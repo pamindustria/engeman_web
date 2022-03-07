@@ -14,7 +14,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { NgChartsModule } from 'ng2-charts';
 
 import { SearchComponent } from '../components/search/search.component';
-import { FilterEtiquetaPipe, FilterClientePipe, FilterStatusPipe, FilterDataSaidaPipe, FilterDataRetornoPipe, FilterTipoEmbalagemPipe, FilterManutencaoPipe } from '../components/pipes/filterEtiqueta.pipe';
+import { FilterEtiquetaPipe, FilterClientePipe, FilterStatusPipe, FilterDataSaidaPipe, FilterDataRetornoPipe, FilterTipoEmbalagemPipe, FilterManutencaoPipe, RelatorioClientePipe, RelatorioEmabalagemPipe, RelatorioFiltroTotalPipe, RelatorioFilterByDataSaidaPipe } from '../components/pipes/filterEtiqueta.pipe';
 import { SortDirective } from '../util/sort.directive';
 import { FilterOSPipe, FilterDataIniPipe, FilterDataFimPipe, FilterFuncionarioPipe, FilterMatriculaPipe, FilterDescricaoPipe, FilterEquipamentoDescricaoPipe } from '../components/pipes/filterEngeman.pipe';
 import { DateFilterComponent } from '../components/dateFilter/dateFilter.component';
@@ -54,7 +54,11 @@ import { RelatorioComponent } from './etiquetas/frontend/relatorio/relatorio.com
     FilterDescricaoPipe,
     FilterEquipamentoDescricaoPipe,
     GraficoOsComponent,
-    RelatorioComponent
+    RelatorioComponent,
+    RelatorioClientePipe,
+    RelatorioEmabalagemPipe,
+    RelatorioFiltroTotalPipe,
+    RelatorioFilterByDataSaidaPipe
   ],
   imports: [
     CommonModule,

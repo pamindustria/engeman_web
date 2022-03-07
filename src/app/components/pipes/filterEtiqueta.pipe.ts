@@ -83,3 +83,52 @@ export class FilterEtiquetaPipe implements PipeTransform {
    }
  
 }
+
+// FILTROS TELA RELATORIO
+@Pipe({
+   name: 'relatorioCliente'
+ })
+ export class RelatorioClientePipe implements PipeTransform {
+ 
+   transform(value: any, searchValue: string): any {
+      if (!searchValue) return value;
+      return value.filter((v: any) => v.nome.toLowerCase().indexOf(searchValue.toLowerCase()) > -1);
+   }
+ 
+}
+
+@Pipe({
+   name: 'relatorioEmabalagem'
+ })
+ export class RelatorioEmabalagemPipe implements PipeTransform {
+ 
+   transform(value: any, searchValue: string): any {
+      if (!searchValue) return value;
+      return value.filter((v: any) => v.embalagem.toLowerCase().indexOf(searchValue.toLowerCase()) > -1);
+   }
+ 
+}
+
+@Pipe({
+   name: 'relatorioFilterTotal'
+ })
+ export class RelatorioFiltroTotalPipe implements PipeTransform {
+ 
+   transform(value: any, searchValue: string): any {
+      if (!searchValue) return value;
+      return value.filter((v: any) => v.total = searchValue);
+   }
+ 
+}
+
+@Pipe({
+   name: 'relatorioFilterByDataSaida'
+ })
+ export class RelatorioFilterByDataSaidaPipe implements PipeTransform {
+ 
+   transform(value: any, searchValue: string): any {
+      if (!searchValue) return value;
+      return value.filter((v: any) => v.data.toLowerCase().indexOf(searchValue.toLowerCase()) > -1);
+   }
+ 
+}

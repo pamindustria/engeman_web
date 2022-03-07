@@ -18,12 +18,10 @@ export class RelatorioComponent implements OnInit {
   loadData: boolean = false;
   dataset: any[] = [];
 
-  filterEtiqueta: string = '';
   filterCliente: string = '';
-  filterStatus: string = '';
+  filterTotal: string = '';
   filterEmbalagem: string = '';
   searchDateSaida: string = '';
-  searchDateRetorno: string = '';
 
   dadosClientes: any[] = [];
   nomeClientes: any[] = [];
