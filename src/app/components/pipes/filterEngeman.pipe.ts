@@ -18,7 +18,7 @@ export class FilterOSPipe implements PipeTransform {
  
    transform(value: any, searchValue: string): any {
       if (!searchValue) return value;
-      return value.filter((v: any) => v.DataIni.toLowerCase().indexOf(searchValue.toLowerCase()) > -1)
+      return value.filter((v: any) => v.DataIni !== null && v.DataIni.toLowerCase().indexOf(searchValue.toLowerCase()) > -1)
    }
 }
 
@@ -29,7 +29,7 @@ export class FilterOSPipe implements PipeTransform {
  
    transform(value: any, searchValue: string): any {
       if (!searchValue) return value;
-      return value.filter((v: any) => v.DataFim.toLowerCase().indexOf(searchValue.toLowerCase()) > -1)
+      return value.filter((v: any) => v.DataFim !== null && v.DataFim.toLowerCase().indexOf(searchValue.toLowerCase()) > -1)
    }
 }
 
@@ -62,7 +62,7 @@ export class FilterOSPipe implements PipeTransform {
  
    transform(value: any, searchValue: string): any {
       if (!searchValue) return value;
-      return value.filter((v: any) => v.Obs.toLowerCase().indexOf(searchValue.toLowerCase()) > -1)
+      return value.filter((v: any) => v.Obs !== null && v.Obs.toLowerCase().indexOf(searchValue.toLowerCase()) > -1)
    }
 }
 
@@ -73,6 +73,6 @@ export class FilterOSPipe implements PipeTransform {
  
    transform(value: any, searchValue: string): any {
       if (!searchValue) return value;
-      return value.filter((v: any) => v.APLICDescr.toLowerCase().indexOf(searchValue.toLowerCase()) > -1)
+      return value.filter((v: any) =>  v.Obs !== null && v.APLICDescr.toLowerCase().indexOf(searchValue.toLowerCase()) > -1)
    }
 }
