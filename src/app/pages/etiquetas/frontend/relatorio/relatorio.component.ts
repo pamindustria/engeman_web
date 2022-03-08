@@ -16,7 +16,6 @@ export class RelatorioComponent implements OnInit {
   tipoEmbalagemData: String[] = [];
   quantidadeData: number[] = [];
   loadData: boolean = false;
-  dataset: any[] = [];
 
   filterCliente: string = '';
   filterTotal: string = '';
@@ -36,7 +35,7 @@ export class RelatorioComponent implements OnInit {
   dataAtual: String = "";
 
   // ngx-pagination
-  itemsPerPage: any = 14;
+  itemsPerPage: any = 15;
   currentPage: number = 1;
   totalRecords!: number;
 
@@ -53,9 +52,14 @@ export class RelatorioComponent implements OnInit {
 
     this.etiquetasService.getEtiquetas().subscribe((etiquetas: any) => {
       etiquetas.forEach((element: any) => {
-        if (element.status === 'OUT') {          
-          this.dadosClientes.push(element);
-          this.dadosClientes = this.dadosClientes.sort((a, b) => b.cartIssues[0].readAt.localeCompare(a.cartIssues[0].readAt));          
+        if (element.status === 'OUT') {
+          this.dadosClientes.push({
+            data: element.cartIssues[0].readAt.substring(0, 10), 
+            nomeCliente: element.cartIssues[0].client.name, 
+            embalagem: element.type.name,
+          });          
+
+          this.dadosClientes = this.dadosClientes.sort((a, b) => b.data.localeCompare(a.data));          
           
           // ! código para pegar a quantidade de embalagens no cliente por dia
           if (!this.nomeClientes.includes(element.cartIssues[0].client.name)) {
@@ -93,12 +97,12 @@ export class RelatorioComponent implements OnInit {
         // buscando datas iguais
         for (let b = 0; b < this.dadosClientes.length; b++) {
      
-          if (this.dadosClientes[b].cartIssues[0].readAt.substring(0, 10) === this.datas[a]) {
+          if (this.dadosClientes[b].data === this.datas[a]) {
             // buscando nome igual
             for (let c = 0; c < this.nomeClientes.length; c++) {
      
-              if (this.dadosClientes[b].cartIssues[0].client.name === this.nomeClientes[c]) {
-                if (this.clienteAtual !== this.dadosClientes[b].cartIssues[0].client.name) {
+              if (this.dadosClientes[b].nomeCliente === this.nomeClientes[c]) {
+                if (this.clienteAtual !== this.dadosClientes[b].nomeCliente) {
                   // se o nome mudar, a contagem zera
                   this.total = 0;
 
@@ -117,7 +121,7 @@ export class RelatorioComponent implements OnInit {
      
                 // buscando embalagem
                 for (let d = 0; d < this.embalagens.length; d++) {
-                  if (this.embalagemAtual !== this.dadosClientes[b].type.name) {
+                  if (this.embalagemAtual !== this.dadosClientes[b].embalagem) {
                     // se a embalagem mudar, a contagem zera
                     this.total = 0;
 
@@ -134,16 +138,16 @@ export class RelatorioComponent implements OnInit {
 
                   }
 
-                  if (this.dadosClientes[b].type.name === this.embalagens[d]) {
+                  if (this.dadosClientes[b].embalagem === this.embalagens[d]) {
                     this.total++;
-                    this.clienteAtual = this.dadosClientes[b].cartIssues[0].client.name;
-                    this.embalagemAtual = this.dadosClientes[b].type.name;
-                    this.dataAtual = `${this.datas[a]} - ${this.dadosClientes[b].cartIssues[0].readAt.substring(11, 16)}`;
+                    this.clienteAtual = this.dadosClientes[b].nomeCliente;
+                    this.embalagemAtual = this.dadosClientes[b].embalagem;
+                    this.dataAtual = this.datas[a];
      
                     this.quantidade.push({
-                      data: this.dadosClientes[b].cartIssues[0].readAt.substring(0, 10), 
-                      nome: this.dadosClientes[b].cartIssues[0].client.name, 
-                      embalagem: this.dadosClientes[b].type.name,
+                      data: this.dadosClientes[b].data, 
+                      nome: this.dadosClientes[b].nomeCliente, 
+                      embalagem: this.dadosClientes[b].embalagem,
                       total: this.total
                     });
                     
@@ -171,7 +175,6 @@ export class RelatorioComponent implements OnInit {
           this.labelData.push(element.data.substring(0, 10));
           this.quantidadeData.push(element.total);
           
-          this.dataset.push({label: element.embalagem, data: element.total});
           this.loadData = true;
         });
       }
