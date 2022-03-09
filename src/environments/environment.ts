@@ -4,8 +4,7 @@
 
 export const environment = {
   production: false,
-  // server: 'https://etiquetas-server.herokuapp.com'
-  server: 'http://10.30.2.253:8000/api'
+  server: 'https://etiquetas-server.herokuapp.com'
 };
 
 /*
