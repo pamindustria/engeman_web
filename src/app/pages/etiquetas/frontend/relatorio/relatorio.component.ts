@@ -249,6 +249,7 @@ export class RelatorioComponent implements OnInit {
     this.barChartData.datasets[0].data = [];
     this.barChartData.labels = [];
     
+    // populando com os dados do cliente escolhido
     this.dadosPorData.forEach(element => {
       if (element.nome === this.clienteEscolhido) {
         this.labelData.push(element.data);
@@ -282,14 +283,12 @@ export class RelatorioComponent implements OnInit {
     if (event.value) {
       startDateFormatada = this.datepipe.transform(this.startDate, 'yyyy-MM-dd');
       endDateFormatada = this.datepipe.transform(event.value, 'yyyy-MM-dd');
-      console.log(startDateFormatada);
-      console.log(endDateFormatada);
     }
 
+    // populando com os dados do cliente escolhido
     this.dadosPorData.forEach(element => {
       if (element.nome === this.clienteEscolhido) {
         if (element.data >= startDateFormatada && element.data <= endDateFormatada) {
-          console.log(element);
           this.labelData.push(element.data);
           this.quantidadeData.push(element.total);
         }
@@ -307,10 +306,7 @@ export class RelatorioComponent implements OnInit {
     event.stopPropagation();
     this.startDate = null;
     this.endDate = null;
-    this.clienteSelecionado();
-    console.log(this.startDate);
-    console.log(this.endDate);
-    
+    this.clienteSelecionado();    
   }
   
   // events
