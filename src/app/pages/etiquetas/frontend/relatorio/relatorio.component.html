@@ -1,9 +1,27 @@
 <main class="container-fluid text-center">
    <div class="row">
       <div *ngIf="loadData" style="margin: 0 auto;" class="col">
-         <select class="form-select mb-4" [(ngModel)]="clienteEscolhido" (change)="clienteSelecionado()">
-            <option *ngFor="let clientes of nomeClientes">{{ clientes }}</option>
-         </select>
+
+         <div class="row mb-4 d-flex justify-content-between">
+            <div class="col">
+               <select class="form-select" [(ngModel)]="clienteEscolhido" (change)="clienteSelecionado()">
+                  <option *ngFor="let clientes of nomeClientes">{{ clientes }}</option>
+               </select>
+            </div>
+
+            <div class="col d-flex align-items-end justify-content-end">
+               <mat-form-field>
+                  <mat-label>Range de Data</mat-label>
+                  <mat-date-range-input [rangePicker]="picker">
+                    <input matStartDate [(ngModel)]="startDate" placeholder="Data Início">
+                    <input matEndDate [(ngModel)]="endDate" placeholder="Data Fim" (dateChange)="dateRange('end', $event)">
+                  </mat-date-range-input>
+                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                  <mat-date-range-picker #picker></mat-date-range-picker>
+               </mat-form-field>
+               <mat-icon matDatepickerToggleIcon (click)="clearDate($event)">clear</mat-icon>
+            </div>
+         </div>
 
          <div style="display: block">
             <canvas baseChart

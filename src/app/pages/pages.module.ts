@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from "@angular/router";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -7,6 +7,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule,  } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
 import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
 import { HttpClientModule } from "@angular/common/http";
 import { MatRadioModule } from '@angular/material/radio';
@@ -58,7 +59,7 @@ import { RelatorioComponent } from './etiquetas/frontend/relatorio/relatorio.com
     RelatorioClientePipe,
     RelatorioEmabalagemPipe,
     RelatorioFiltroTotalPipe,
-    RelatorioFilterByDataSaidaPipe
+    RelatorioFilterByDataSaidaPipe,
   ],
   imports: [
     CommonModule,
@@ -70,6 +71,7 @@ import { RelatorioComponent } from './etiquetas/frontend/relatorio/relatorio.com
     MatDatepickerModule,
     MatFormFieldModule,
     MatInputModule,
+    MatIconModule,
     MatNativeDateModule,
     HttpClientModule,
     SharedModule,
@@ -91,7 +93,7 @@ import { RelatorioComponent } from './etiquetas/frontend/relatorio/relatorio.com
     NgxPaginationModule,
     NgChartsModule
   ],
-  providers: [{ provide: MAT_DATE_LOCALE, useValue: 'pt-br' }],
+  providers: [{ provide: MAT_DATE_LOCALE, useValue: 'pt-br' }, DatePipe],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })
 export class PagesModule { }

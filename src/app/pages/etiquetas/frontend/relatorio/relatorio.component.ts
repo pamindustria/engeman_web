@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ChartConfiguration, ChartData, ChartEvent, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
@@ -17,6 +18,8 @@ export class RelatorioComponent implements OnInit {
   quantidadeData: any[] = [];
   loadData: boolean = false;
   clienteEscolhido: String = 'HONDA';
+  startDate: any;
+  endDate: any;
 
   filterCliente: string = '';
   filterTotal: string = '';
@@ -43,6 +46,7 @@ export class RelatorioComponent implements OnInit {
   constructor(
     private etiquetasService: EtiquetasGerencialService,
     private sessionService: SessionService,
+    public datepipe: DatePipe
   ) { }
 
   ngOnInit(): void {
@@ -175,7 +179,7 @@ export class RelatorioComponent implements OnInit {
         // * populando os dados para o grafico
         this.dadosPorData.forEach(element => {
           if (element.nome === 'HONDA') {
-            this.labelData.push(element.data.substring(0, 10));
+            this.labelData.push(element.data);
             this.quantidadeData.push(element.total);
           }
           
@@ -235,11 +239,11 @@ export class RelatorioComponent implements OnInit {
       // hoverBackgroundColor: [
       //   'rgba(153, 102, 255)',
       // ],
-
     }]
   };
 
   clienteSelecionado() {
+    // resetando os valores do grafico
     this.labelData = [];
     this.quantidadeData = [];
     this.barChartData.datasets[0].data = [];
@@ -247,15 +251,66 @@ export class RelatorioComponent implements OnInit {
     
     this.dadosPorData.forEach(element => {
       if (element.nome === this.clienteEscolhido) {
-        this.labelData.push(element.data.substring(0, 10));
+        this.labelData.push(element.data);
         this.quantidadeData.push(element.total);
       }  
     });
 
+    // passando os valores atualizados
     this.barChartData.labels = this.labelData;
     this.barChartData.datasets[0].data = this.quantidadeData;
 
     this.chart?.update();
+
+    if (this.startDate !== null) {
+      this.startDate = null;
+      this.endDate = null;
+    }
+
+  }
+
+  dateRange(type: any, event: any) {
+      // resetando os valores do grafico
+    this.labelData = [];
+    this.quantidadeData = [];
+    this.barChartData.datasets[0].data = [];
+    this.barChartData.labels = [];
+
+    var startDateFormatada: any;
+    var endDateFormatada: any;
+    
+    if (event.value) {
+      startDateFormatada = this.datepipe.transform(this.startDate, 'yyyy-MM-dd');
+      endDateFormatada = this.datepipe.transform(event.value, 'yyyy-MM-dd');
+      console.log(startDateFormatada);
+      console.log(endDateFormatada);
+    }
+
+    this.dadosPorData.forEach(element => {
+      if (element.nome === this.clienteEscolhido) {
+        if (element.data >= startDateFormatada && element.data <= endDateFormatada) {
+          console.log(element);
+          this.labelData.push(element.data);
+          this.quantidadeData.push(element.total);
+        }
+      }  
+    });
+
+    // passando os valores atualizados
+    this.barChartData.labels = this.labelData;
+    this.barChartData.datasets[0].data = this.quantidadeData;
+
+    this.chart?.update();
+  }
+
+  clearDate(event: any) {
+    event.stopPropagation();
+    this.startDate = null;
+    this.endDate = null;
+    this.clienteSelecionado();
+    console.log(this.startDate);
+    console.log(this.endDate);
+    
   }
   
   // events
