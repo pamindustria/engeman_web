@@ -14,8 +14,9 @@ export class RelatorioComponent implements OnInit {
   @ViewChild(BaseChartDirective) chart: BaseChartDirective | undefined;
   labelData: String[] = [];
   tipoEmbalagemData: String[] = [];
-  quantidadeData: number[] = [];
+  quantidadeData: any[] = [];
   loadData: boolean = false;
+  clienteEscolhido: String = 'HONDA';
 
   filterCliente: string = '';
   filterTotal: string = '';
@@ -171,9 +172,12 @@ export class RelatorioComponent implements OnInit {
         this.dadosPorData = this.dadosPorData.sort((a, b) => b.data.localeCompare(a.data));
         this.totalRecords = this.dadosPorData.length;
 
+        // * populando os dados para o grafico
         this.dadosPorData.forEach(element => {
-          this.labelData.push(element.data.substring(0, 10));
-          this.quantidadeData.push(element.total);
+          if (element.nome === 'HONDA') {
+            this.labelData.push(element.data.substring(0, 10));
+            this.quantidadeData.push(element.total);
+          }
           
           this.loadData = true;
         });
@@ -225,7 +229,6 @@ export class RelatorioComponent implements OnInit {
     labels: this.labelData,
     datasets: [{
       data: this.quantidadeData,
-      // label: 'Adria Gostosa',
       // backgroundColor: [
       //   'rgba(153, 102, 255)',
       // ],
@@ -236,6 +239,25 @@ export class RelatorioComponent implements OnInit {
     }]
   };
 
+  clienteSelecionado() {
+    this.labelData = [];
+    this.quantidadeData = [];
+    this.barChartData.datasets[0].data = [];
+    this.barChartData.labels = [];
+    
+    this.dadosPorData.forEach(element => {
+      if (element.nome === this.clienteEscolhido) {
+        this.labelData.push(element.data.substring(0, 10));
+        this.quantidadeData.push(element.total);
+      }  
+    });
+
+    this.barChartData.labels = this.labelData;
+    this.barChartData.datasets[0].data = this.quantidadeData;
+
+    this.chart?.update();
+  }
+  
   // events
   public chartClicked({ event, active }: { event?: ChartEvent, active?: {}[] }): void {
     // console.log(event, active);
