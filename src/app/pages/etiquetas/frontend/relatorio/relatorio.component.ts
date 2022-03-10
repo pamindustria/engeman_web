@@ -175,7 +175,7 @@ export class RelatorioComponent implements OnInit {
           total: this.quantidade.length
         });
 
-        this.dadosPorData = this.dadosPorData.sort((a, b) => b.data.localeCompare(a.data));
+        this.dadosPorData = this.dadosPorData;
         this.totalRecords = this.dadosPorData.length;
 
         // * populando os dados para o grafico
