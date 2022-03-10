@@ -5,6 +5,7 @@ import { BaseChartDirective } from 'ng2-charts';
 
 import { SessionService } from 'src/app/shared/session.service';
 import { EtiquetasGerencialService } from '../../backend/services/etiquetas-gerencial.service';
+import { ListaCarrosService } from '../../backend/services/lista-carros.service';
 
 @Component({
   selector: 'app-relatorio',
@@ -46,7 +47,8 @@ export class RelatorioComponent implements OnInit {
   constructor(
     private etiquetasService: EtiquetasGerencialService,
     private sessionService: SessionService,
-    public datepipe: DatePipe
+    public datepipe: DatePipe,
+    private listaCarrosService: ListaCarrosService,
   ) { }
 
   ngOnInit(): void {
@@ -191,6 +193,27 @@ export class RelatorioComponent implements OnInit {
     },
     err => console.log(err)
     );
+    
+
+    // * LISTANDO QUANTIDADE DE CARROS QUE A EMPRESA POSSUI
+    var totalEmpresa;
+    setTimeout(() => {
+      
+      this.listaCarrosService.getListaCarros().subscribe((carros: any) => {
+        totalEmpresa = 0;
+
+        for (let c = 0; c < carros.length; c++) {
+          // console.log(carros[c].name);
+
+          for (let e = 0; e < this.dadosPorData.length; e++) {
+            if (carros[c].name === this.dadosPorData[e].embalagem) {
+              totalEmpresa = carros[c].carts.length;
+              this.dadosPorData[e].totalEmpresa = totalEmpresa;
+            }            
+          }
+        }
+      });
+    }, 2000);
     
     
   }
