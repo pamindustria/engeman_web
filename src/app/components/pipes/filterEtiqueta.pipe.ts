@@ -1,4 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { SharedService } from 'src/app/shared/shared.service';
 
 @Pipe({
   name: 'filterByEtiqueta'
@@ -89,12 +91,26 @@ export class FilterEtiquetaPipe implements PipeTransform {
    name: 'relatorioCliente'
  })
  export class RelatorioClientePipe implements PipeTransform {
+   // * ao filtrar o cliente na tabel tambem devo filtrar o grafico
+   constructor(private sharedService: SharedService) { }
  
    transform(value: any, searchValue: string): any {
-      if (!searchValue) return value;
+      if (!searchValue) {
+         // * se vazio retorno o primeiro nome da lista e passo para o evento
+         if (value.length !== 0) {
+            console.log(value[0].nome);
+            this.sharedService.sendFiltroClienteRelatorioEvent(value[0].nome);
+         }
+         
+         return value;
+      };
+
+      // * se nao vazio, passo o primeiro nome da lista filtrada
+      var filtro = value.filter((v: any) => v.nome.toLowerCase().indexOf(searchValue.toLowerCase()) > -1);
+      this.sharedService.sendFiltroClienteRelatorioEvent(filtro[0].nome);
+      
       return value.filter((v: any) => v.nome.toLowerCase().indexOf(searchValue.toLowerCase()) > -1);
-   }
- 
+   } 
 }
 
 @Pipe({

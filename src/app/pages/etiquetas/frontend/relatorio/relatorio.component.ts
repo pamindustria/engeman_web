@@ -2,8 +2,10 @@ import { DatePipe } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ChartConfiguration, ChartData, ChartEvent, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
+import { Subscription } from 'rxjs';
 
 import { SessionService } from 'src/app/shared/session.service';
+import { SharedService } from 'src/app/shared/shared.service';
 import { EtiquetasGerencialService } from '../../backend/services/etiquetas-gerencial.service';
 import { ListaCarrosService } from '../../backend/services/lista-carros.service';
 
@@ -14,6 +16,7 @@ import { ListaCarrosService } from '../../backend/services/lista-carros.service'
 })
 export class RelatorioComponent implements OnInit {
   @ViewChild(BaseChartDirective) chart: BaseChartDirective | undefined;
+  getEventsubscription!: Subscription;
   labelData: String[] = [];
   tipoEmbalagemData: String[] = [];
   quantidadeData: any[] = [];
@@ -49,7 +52,14 @@ export class RelatorioComponent implements OnInit {
     private sessionService: SessionService,
     public datepipe: DatePipe,
     private listaCarrosService: ListaCarrosService,
-  ) { }
+    private sharedService: SharedService,
+  ) {
+    this.getEventsubscription = this.sharedService.getFiltroClienteRelatorioEvent().subscribe(valorCliente => {
+      console.log(valorCliente);
+      this.clienteEscolhido = valorCliente;
+      this.clienteSelecionado();
+    });
+  }
 
   ngOnInit(): void {
     // valerá somente se existir sessao
