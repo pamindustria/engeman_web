@@ -18,7 +18,6 @@ export class DateFilterComponent implements OnInit, OnDestroy{
   ngOnInit() {
     this.debounce.pipe(debounceTime(300)).subscribe((filter) => {
       this.onTyping.emit(filter)
-      console.log(filter);
     });
   }
 
