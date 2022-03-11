@@ -84,7 +84,7 @@
             <tbody>
                <tr>
                   <td class="table-item">
-                     <app-search placeholderString="Filtrar cliente" (onTyping)="filterCliente = $event" [value]="filterCliente"></app-search>
+                     <app-search placeholderString="Filtrar Cliente" (onTyping)="filterCliente = $event" [value]="filterCliente"></app-search>
                   </td>
                   <td class="table-item">
                      <app-search placeholderString="Filtrar embalagem" (onTyping)="filterEmbalagem = $event" [value]="filterEmbalagem"></app-search>
@@ -113,7 +113,7 @@
                >
                   <td class="table-item">{{ dados.nome }}</td>
                   <td class="table-item">{{ dados.embalagem }}</td>
-                  <td class="table-item">{{ dados.total }}/{{ dados.totalEmpresa }} </td>
+                  <td class="table-item">{{ dados.totalEmpresa }}/{{ dados.total }}</td>
                   <td class="table-item">{{ dados.data }}</td>
                   <td class="table-item">{{ calculateDiff(dados.data.substring(0, 10)) }}</td>
                </tr>
