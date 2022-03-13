@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { Pipe, PipeTransform } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { SharedService } from 'src/app/shared/shared.service';
@@ -91,12 +92,12 @@ export class FilterEtiquetaPipe implements PipeTransform {
    name: 'relatorioCliente'
  })
  export class RelatorioClientePipe implements PipeTransform {
-   // * ao filtrar o cliente na tabel tambem devo filtrar o grafico
+   // * ao filtrar o cliente na tabela tambem devo filtrar o grafico
    constructor(private sharedService: SharedService) { }
  
    transform(value: any, searchValue: string): any {
       if (!searchValue) {
-         // * se vazio retorno o primeiro nome da lista e passo para o evento
+         // * se vazio, retorno o primeiro nome da lista e passo para o evento
          if (value.length !== 0) {
             console.log(value[0].nome);
             this.sharedService.sendFiltroClienteRelatorioEvent(value[0].nome);
@@ -141,10 +142,19 @@ export class FilterEtiquetaPipe implements PipeTransform {
    name: 'relatorioFilterByDataSaida'
  })
  export class RelatorioFilterByDataSaidaPipe implements PipeTransform {
+   // filtro por range de data
+   constructor(public datepipe: DatePipe) {}
  
-   transform(value: any, searchValue: string): any {
-      if (!searchValue) return value;
-      return value.filter((v: any) => v.data.toLowerCase().indexOf(searchValue.toLowerCase()) > -1);
+   transform(value: any, startDate: any, endDate: any): any {
+      if(!startDate || !endDate){         
+         return value;
+     
+      } else {
+         let startDateFormatada = this.datepipe.transform(startDate, 'yyyy-MM-dd');
+         let endDateFormatada = this.datepipe.transform(endDate, 'yyyy-MM-dd');
+         let dados = value.filter((v:any) => v.data >= startDateFormatada! && v.data <= endDateFormatada!);
+         return dados;
+      }
    }
  
 }

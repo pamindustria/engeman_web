@@ -13,8 +13,8 @@
                <mat-form-field>
                   <mat-label>Range de Data</mat-label>
                   <mat-date-range-input [rangePicker]="picker">
-                    <input matStartDate [(ngModel)]="startDate" placeholder="Data Início">
-                    <input matEndDate [(ngModel)]="endDate" placeholder="Data Fim" (dateChange)="dateRange('end', $event)">
+                    <input matStartDate [(ngModel)]="startDateGrafico" placeholder="Data Início">
+                    <input matEndDate [(ngModel)]="endDateGrafico" placeholder="Data Fim" (dateChange)="dateRange('end', $event)">
                   </mat-date-range-input>
                   <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                   <mat-date-range-picker #picker></mat-date-range-picker>
@@ -93,7 +93,19 @@
                      <!-- <app-search placeholderString="Filtrar total" (onTyping)="filterTotal = $event" [value]="filterTotal"></app-search> -->
                   </td>
                   <td class="table-item">
-                     <app-date-filter (onTyping)="searchDateSaida = $event" [value]="searchDateSaida"></app-date-filter>
+                     <!-- <app-date-filter (onTyping)="searchDateSaida = $event" [value]="searchDateSaida"></app-date-filter> -->
+                     <div class="col d-flex align-items-end justify-content-end">
+                        <mat-form-field >
+                           <mat-label>Range de Data</mat-label>
+                           <mat-date-range-input [rangePicker]="picker">
+                             <input matStartDate [(ngModel)]="startDateTabela" placeholder="Data Início">
+                             <input matEndDate [(ngModel)]="endDateTabela" placeholder="Data Fim" (dateChange)="dateRangeTable('end', $event)">
+                           </mat-date-range-input>
+                           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                           <mat-date-range-picker #picker></mat-date-range-picker>
+                        </mat-form-field>
+                        <mat-icon matDatepickerToggleIcon (click)="clearDateTable($event)">clear</mat-icon>
+                     </div>     
                   </td>
                   <td class="table-item"></td>
                </tr>
@@ -103,7 +115,7 @@
                   relatorioCliente: filterCliente | 
                   relatorioEmabalagem: filterEmbalagem | 
                   relatorioFilterTotal: filterTotal | 
-                  relatorioFilterByDataSaida: searchDateSaida | 
+                  relatorioFilterByDataSaida: startDateTabela : endDateTabela | 
                   paginate: {
                      id: 'listing-etiquetas',
                      itemsPerPage: itemsPerPage,

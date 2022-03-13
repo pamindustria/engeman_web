@@ -22,8 +22,10 @@ export class RelatorioComponent implements OnInit {
   quantidadeData: any[] = [];
   loadData: boolean = false;
   clienteEscolhido: String = 'HONDA';
-  startDate: any;
-  endDate: any;
+  startDateGrafico: any;
+  endDateGrafico: any;
+  startDateTabela: any;
+  endDateTabela: any;
 
   filterCliente: string = '';
   filterTotal: string = '';
@@ -296,9 +298,9 @@ export class RelatorioComponent implements OnInit {
 
     this.chart?.update();
 
-    if (this.startDate !== null) {
-      this.startDate = null;
-      this.endDate = null;
+    if (this.startDateGrafico !== null) {
+      this.startDateGrafico = null;
+      this.endDateGrafico = null;
     }
 
   }
@@ -314,8 +316,8 @@ export class RelatorioComponent implements OnInit {
     var endDateFormatada: any;
     
     if (event.value) {
-      startDateFormatada = this.datepipe.transform(this.startDate, 'yyyy-MM-dd');
-      endDateFormatada = this.datepipe.transform(event.value, 'yyyy-MM-dd');
+      startDateFormatada = this.datepipe.transform(this.startDateGrafico, 'yyyy-MM-dd');
+      endDateFormatada = this.datepipe.transform(this.endDateGrafico, 'yyyy-MM-dd');
     }
 
     // populando com os dados do cliente escolhido
@@ -337,11 +339,24 @@ export class RelatorioComponent implements OnInit {
 
   clearDate(event: any) {
     event.stopPropagation();
-    this.startDate = null;
-    this.endDate = null;
+    this.startDateGrafico = null;
+    this.endDateGrafico = null;
     this.clienteSelecionado();    
   }
-  
+
+  dateRangeTable(type: any, event: any) {
+    this.startDateGrafico = this.startDateTabela;
+    this.endDateGrafico = this.endDateTabela;
+    this.dateRange(type, event);
+  }
+
+  clearDateTable(event: any) {
+    event.stopPropagation();
+    this.startDateTabela = null;
+    this.endDateTabela = null;
+    this.clearDate(event);
+  }
+
   // events
   public chartClicked({ event, active }: { event?: ChartEvent, active?: {}[] }): void {
     // console.log(event, active);
