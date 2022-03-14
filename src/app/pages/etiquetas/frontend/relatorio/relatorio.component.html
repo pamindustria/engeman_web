@@ -84,13 +84,14 @@
             <tbody>
                <tr>
                   <td class="table-item">
-                     <app-search placeholderString="Filtrar Cliente" (onTyping)="filterCliente = $event" [value]="filterCliente"></app-search>
+                     <app-search placeholderString="Filtrar Cliente" (onTyping)="filterCliente = $event" [value]="filterCliente" (onTyping)="teste()"></app-search>
                   </td>
                   <td class="table-item">
-                     <app-search placeholderString="Filtrar embalagem" (onTyping)="filterEmbalagem = $event" [value]="filterEmbalagem"></app-search>
+                     <app-search placeholderString="Filtrar embalagem" (onTyping)="filterEmbalagem = $event" [value]="filterEmbalagem" (onTyping)="teste()"></app-search>
                   </td>
                   <td class="table-item">
-                     <!-- <app-search placeholderString="Filtrar total" (onTyping)="filterTotal = $event" [value]="filterTotal"></app-search> -->
+                     <span [hidden]="!showTotal">{{ totalEmbalagemCadastrada }}/{{ totalEmbalagemFora }}</span>
+                     <!-- <span [hidden]="!showUnico">{{ totalEmbalagemCadastrada }}/{{ totalEmbalagemFora }}</span> -->
                   </td>
                   <td class="table-item">
                      <!-- <app-date-filter (onTyping)="searchDateSaida = $event" [value]="searchDateSaida"></app-date-filter> -->

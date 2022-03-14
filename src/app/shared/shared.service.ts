@@ -7,6 +7,8 @@ export class SharedService{
    private editMethod: Subject<void> = new Subject<void>();
    private deleteMethod: Subject<void> = new Subject<void>();
    private filtroClienteRelatorioMethod: Subject<any> = new Subject<any>();
+   private arrayFiltradaClienteMethod: Subject<any> = new Subject<any>();
+   private arrayFiltradaEmbalagemMethod: Subject<any> = new Subject<any>();
 
    sendMethodEvent(isVazio: boolean): void {      
       this.method.next(isVazio);
@@ -38,5 +40,21 @@ export class SharedService{
 
    getFiltroClienteRelatorioEvent(): Observable<any> {
       return this.filtroClienteRelatorioMethod.asObservable();
+   }
+   
+   retornaArrayFiltradaClienteEvent(array: any): void {      
+      this.arrayFiltradaClienteMethod.next(array);
+   } 
+
+   getArrayFiltradaClienteEvent(): Observable<any> {
+      return this.arrayFiltradaClienteMethod.asObservable();
+   }
+
+   retornaArrayFiltradaEmbalagemEvent(array: any): void {      
+      this.arrayFiltradaEmbalagemMethod.next(array);
+   } 
+
+   getArrayFiltradaEmbalagemEvent(): Observable<any> {
+      return this.arrayFiltradaEmbalagemMethod.asObservable();
    }
 }

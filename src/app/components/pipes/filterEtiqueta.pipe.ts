@@ -109,6 +109,8 @@ export class FilterEtiquetaPipe implements PipeTransform {
       // * se nao vazio, passo o primeiro nome da lista filtrada
       var filtro = value.filter((v: any) => v.nome.toLowerCase().indexOf(searchValue.toLowerCase()) > -1);
       this.sharedService.sendFiltroClienteRelatorioEvent(filtro[0].nome);
+      // passando array filtrada
+      this.sharedService.retornaArrayFiltradaClienteEvent(value.filter((v: any) => v.nome.toLowerCase().indexOf(searchValue.toLowerCase()) > -1));
       
       return value.filter((v: any) => v.nome.toLowerCase().indexOf(searchValue.toLowerCase()) > -1);
    } 
@@ -118,9 +120,12 @@ export class FilterEtiquetaPipe implements PipeTransform {
    name: 'relatorioEmabalagem'
  })
  export class RelatorioEmabalagemPipe implements PipeTransform {
- 
+   
+   constructor(private sharedService: SharedService) { }
+
    transform(value: any, searchValue: string): any {
       if (!searchValue) return value;
+      this.sharedService.retornaArrayFiltradaEmbalagemEvent(value.filter((v: any) => v.embalagem.toLowerCase().indexOf(searchValue.toLowerCase()) > -1));
       return value.filter((v: any) => v.embalagem.toLowerCase().indexOf(searchValue.toLowerCase()) > -1);
    }
  

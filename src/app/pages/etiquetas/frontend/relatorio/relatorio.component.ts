@@ -40,6 +40,14 @@ export class RelatorioComponent implements OnInit {
   quantidade: any[] = [];
   dadosPorData: any[] = [];
 
+  carrosCadastrados: any[] = [];
+  totalEmbalagemCadastrada: number = 0;
+  totalEmbalagemFora: number = 0;
+  arrayFiltradaCliente: any[] = [];
+  arrayFiltradaEmbalagem: any[] = [];
+  showTotal: boolean = false;
+  showUnico: boolean = false;
+
   clienteAtual: String = "";
   embalagemAtual: String = "";
   dataAtual: String = "";
@@ -60,6 +68,16 @@ export class RelatorioComponent implements OnInit {
       console.log(valorCliente);
       this.clienteEscolhido = valorCliente;
       this.clienteSelecionado();
+    });
+    
+    this.getEventsubscription = this.sharedService.getArrayFiltradaClienteEvent().subscribe(array => {
+      this.arrayFiltradaCliente = array;
+      console.log(this.arrayFiltradaCliente);
+    });
+    
+    this.getEventsubscription = this.sharedService.getArrayFiltradaEmbalagemEvent().subscribe(array => {
+      this.arrayFiltradaEmbalagem = array;
+      console.log(this.arrayFiltradaEmbalagem);
     });
   }
 
@@ -207,27 +225,12 @@ export class RelatorioComponent implements OnInit {
     );
     
 
-    // * LISTANDO QUANTIDADE DE CARROS QUE A EMPRESA POSSUI
-    var totalEmpresa;
-    setTimeout(() => {
-      
-      this.listaCarrosService.getListaCarros().subscribe((carros: any) => {
-        totalEmpresa = 0;
-
-        for (let c = 0; c < carros.length; c++) {
-          // console.log(carros[c].name);
-
-          for (let e = 0; e < this.dadosPorData.length; e++) {
-            if (carros[c].name === this.dadosPorData[e].embalagem) {
-              totalEmpresa = carros[c].carts.length;
-              this.dadosPorData[e].totalEmpresa = totalEmpresa;
-            }            
-          }
-        }
+    // * QUANTIDADE DE CARROS QUE A EMPRESA POSSUI
+    this.listaCarrosService.getListaCarros().subscribe((carros: any) => {
+      carros.forEach((element: any) => {
+        this.carrosCadastrados.push(element);
       });
-    }, 2000);
-    
-    
+    });
   }
 
   // salvando valor setado pelo usuario de numero de itens por pagina
@@ -355,6 +358,120 @@ export class RelatorioComponent implements OnInit {
     this.startDateTabela = null;
     this.endDateTabela = null;
     this.clearDate(event);
+  }
+
+  teste() {
+    var embalagemNome: string;
+    var total = 0;
+    this.showTotal = false;
+    this.showUnico = false;
+
+    if (this.filterCliente === "" || this.filterEmbalagem === "") {
+      this.totalEmbalagemFora = 0;
+      this.totalEmbalagemCadastrada = 0;
+    }
+
+    // ! se cliente vazio
+    if (this.filterCliente === "") {
+      var embalagens: any[] = [];
+      
+      this.carrosCadastrados.forEach(carro => {
+        // console.log(carro);
+        if (carro.name.toLowerCase().indexOf(this.filterEmbalagem.toLowerCase()) > -1) {
+          embalagemNome = carro.name.toLowerCase();
+          this.totalEmbalagemCadastrada = carro.carts.length;
+        }
+      });
+      
+      setTimeout(() => {
+        this.arrayFiltradaEmbalagem.forEach(dados => {
+          // contando as embalagens nesse cliente
+          if (!embalagens.includes(dados.embalagem)) {
+            embalagens.push(dados.embalagem);
+          }
+          
+          // verificandos se existe mais de uma embalagem no cliente
+          if (embalagens.length > 1) {
+            this.showUnico = false;
+
+          } else {
+            this.showUnico = true;
+            total = total + dados.total;
+          }
+        });
+        
+        this.totalEmbalagemFora = total;
+        
+        total = 0;
+      }, 300);
+
+      
+  
+    
+      // ! se cliente e embalagem preenchidos
+    } else if(this.filterCliente !== "" && this.filterEmbalagem !== "") {
+      // depois que filtra por cliente, identifico as embalagens que estao nesse cliente e passo para a variavel o que for
+      // referente ao que o usuario digito
+      this.arrayFiltradaCliente.forEach(item => {
+        if (item.embalagem.toLowerCase().indexOf(this.filterEmbalagem.toLowerCase()) > -1) {
+          embalagemNome = item.embalagem.toLowerCase();          
+        }
+      });
+     
+      // identifico a quantidade produzida dessa embalagem na empresa
+      this.carrosCadastrados.forEach(carro => {
+        if (carro.name.toLowerCase().indexOf(embalagemNome.toLowerCase()) > -1) {          
+          this.totalEmbalagemCadastrada = carro.carts.length;
+        }
+      });
+
+      // depois identifico a quantidade de embalagens no cliente filtrado
+      this.dadosPorData.forEach(dados => {        
+        if (dados.embalagem.toLowerCase() === embalagemNome.toLowerCase() && dados.nome.toLowerCase().indexOf(this.filterCliente.toLowerCase()) > -1) {
+          total = total + dados.total;
+          this.showTotal = true;
+        }      
+      });
+
+      this.totalEmbalagemFora = total;
+      total = 0;
+    
+    // ! se embalagem vazio
+    } else if(this.filterCliente !== "") {
+      // setTimeout pois preciso aguardar o filtro de cliente me retornar uma array filtrada
+      setTimeout(() => {
+        var embalagens: any[] = [];
+        
+        for (let index = 0; index < this.arrayFiltradaCliente.length; index++) {
+          // contando as embalagens nesse cliente
+          if (!embalagens.includes(this.arrayFiltradaCliente[index].embalagem)) {
+            embalagens.push(this.arrayFiltradaCliente[index].embalagem);
+          }
+          
+          // verificandos se existe mais de uma embalagem no cliente
+          if (embalagens.length > 1) {
+            this.showTotal = false;
+
+          } else {
+            this.showTotal = true;
+
+            // identifico a quantidade produzida dessa embalagem na empresa
+            this.carrosCadastrados.forEach(carro => {
+              if (carro.name.toLowerCase().indexOf(this.arrayFiltradaCliente[0].embalagem.toLowerCase()) > -1) {          
+                this.totalEmbalagemCadastrada = carro.carts.length;
+              }
+            });
+          }
+
+          total = total + this.arrayFiltradaCliente[index].total;
+        }
+
+        this.totalEmbalagemFora = total;
+        total = 0;
+      }, 300);
+    }
+
+    
   }
 
   // events
