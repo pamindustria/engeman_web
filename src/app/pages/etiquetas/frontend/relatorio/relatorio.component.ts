@@ -65,19 +65,19 @@ export class RelatorioComponent implements OnInit {
     private sharedService: SharedService,
   ) {
     this.getEventsubscription = this.sharedService.getFiltroClienteRelatorioEvent().subscribe(valorCliente => {
-      console.log(valorCliente);
+      // console.log(valorCliente);
       this.clienteEscolhido = valorCliente;
       this.clienteSelecionadoFunction();
     });
     
     this.getEventsubscription = this.sharedService.getArrayFiltradaClienteEvent().subscribe(array => {
       this.arrayFiltradaCliente = array;
-      console.log(this.arrayFiltradaCliente);
+      // console.log(this.arrayFiltradaCliente);
     });
     
     this.getEventsubscription = this.sharedService.getArrayFiltradaEmbalagemEvent().subscribe(array => {
       this.arrayFiltradaEmbalagem = array;
-      console.log(this.arrayFiltradaEmbalagem);
+      // console.log(this.arrayFiltradaEmbalagem);
     });
   }
 

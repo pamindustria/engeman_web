@@ -99,7 +99,7 @@ export class FilterEtiquetaPipe implements PipeTransform {
       if (!searchValue) {
          // * se vazio, retorno o primeiro nome da lista e passo para o evento
          if (value.length !== 0) {
-            console.log(value[0].nome);
+            // console.log(value[0].nome);
             this.sharedService.sendFiltroClienteRelatorioEvent(value[0].nome);
          }
          
