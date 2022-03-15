@@ -4,7 +4,7 @@
 
          <div class="row mb-4 d-flex justify-content-between">
             <div class="col">
-               <select class="form-select" [(ngModel)]="clienteEscolhido" (change)="clienteSelecionado()">
+               <select class="form-select" [(ngModel)]="clienteEscolhido" (change)="clienteSelecionadoFunction()">
                   <option *ngFor="let clientes of nomeClientes">{{ clientes }}</option>
                </select>
             </div>
@@ -84,10 +84,10 @@
             <tbody>
                <tr>
                   <td class="table-item">
-                     <app-search placeholderString="Filtrar Cliente" (onTyping)="filterCliente = $event" [value]="filterCliente" (onTyping)="teste()"></app-search>
+                     <app-search placeholderString="Filtrar Cliente" (onTyping)="filterCliente = $event" [value]="filterCliente" (onTyping)="contagemDeEmbalagens()"></app-search>
                   </td>
                   <td class="table-item">
-                     <app-search placeholderString="Filtrar embalagem" (onTyping)="filterEmbalagem = $event" [value]="filterEmbalagem" (onTyping)="teste()"></app-search>
+                     <app-search placeholderString="Filtrar embalagem" (onTyping)="filterEmbalagem = $event" [value]="filterEmbalagem" (onTyping)="contagemDeEmbalagens()"></app-search>
                   </td>
                   <td class="table-item">
                      <span [hidden]="!showTotal">{{ totalEmbalagemCadastrada }}/{{ totalEmbalagemFora }}</span>

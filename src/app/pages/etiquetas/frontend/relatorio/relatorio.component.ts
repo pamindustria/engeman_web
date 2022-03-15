@@ -67,7 +67,7 @@ export class RelatorioComponent implements OnInit {
     this.getEventsubscription = this.sharedService.getFiltroClienteRelatorioEvent().subscribe(valorCliente => {
       console.log(valorCliente);
       this.clienteEscolhido = valorCliente;
-      this.clienteSelecionado();
+      this.clienteSelecionadoFunction();
     });
     
     this.getEventsubscription = this.sharedService.getArrayFiltradaClienteEvent().subscribe(array => {
@@ -280,7 +280,7 @@ export class RelatorioComponent implements OnInit {
     }]
   };
 
-  clienteSelecionado() {
+  clienteSelecionadoFunction() {
     // resetando os valores do grafico
     this.labelData = [];
     this.quantidadeData = [];
@@ -344,7 +344,7 @@ export class RelatorioComponent implements OnInit {
     event.stopPropagation();
     this.startDateGrafico = null;
     this.endDateGrafico = null;
-    this.clienteSelecionado();    
+    this.clienteSelecionadoFunction();    
   }
 
   dateRangeTable(type: any, event: any) {
@@ -360,7 +360,7 @@ export class RelatorioComponent implements OnInit {
     this.clearDate(event);
   }
 
-  teste() {
+  contagemDeEmbalagens() {
     var embalagemNome: string;
     var total = 0;
     this.showTotal = false;
@@ -410,6 +410,12 @@ export class RelatorioComponent implements OnInit {
     
       // ! se cliente e embalagem preenchidos
     } else if(this.filterCliente !== "" && this.filterEmbalagem !== "") {
+      // resetando os valores do grafico
+      this.labelData = [];
+      this.quantidadeData = [];
+      this.barChartData.datasets[0].data = [];
+      this.barChartData.labels = [];
+
       // depois que filtra por cliente, identifico as embalagens que estao nesse cliente e passo para a variavel o que for
       // referente ao que o usuario digito
       this.arrayFiltradaCliente.forEach(item => {
@@ -430,14 +436,31 @@ export class RelatorioComponent implements OnInit {
         if (dados.embalagem.toLowerCase() === embalagemNome.toLowerCase() && dados.nome.toLowerCase().indexOf(this.filterCliente.toLowerCase()) > -1) {
           total = total + dados.total;
           this.showTotal = true;
+
+          this.labelData.push(dados.data);
+          this.quantidadeData.push(dados.total);
+          
         }      
       });
+
+
+      // passando os valores atualizados
+      this.barChartData.labels = this.labelData;
+      this.barChartData.datasets[0].data = this.quantidadeData;
+
+      this.chart?.update();
+
+      if (this.startDateGrafico !== null) {
+        this.startDateGrafico = null;
+        this.endDateGrafico = null;
+      }
 
       this.totalEmbalagemFora = total;
       total = 0;
     
     // ! se embalagem vazio
     } else if(this.filterCliente !== "") {
+      this.clienteSelecionadoFunction();
       // setTimeout pois preciso aguardar o filtro de cliente me retornar uma array filtrada
       setTimeout(() => {
         var embalagens: any[] = [];
