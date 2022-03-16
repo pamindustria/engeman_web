@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ChartConfiguration, ChartData, ChartEvent, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
+import { EngemanGerencialService } from '../../backend/services/engeman-gerencial.service';
 
 @Component({
   selector: 'app-grafico-os',
@@ -8,9 +9,52 @@ import { BaseChartDirective } from 'ng2-charts';
   styleUrls: ['./grafico-os.component.css']
 })
 export class GraficoOsComponent implements OnInit {
-  ngOnInit(): void {}
-
   @ViewChild(BaseChartDirective) chart: BaseChartDirective | undefined;
+  datas: any[] = [];
+  primeiroTrintaDias: any[] = [];
+  dataLabel: String[] = [];
+  quantidadesOS: number[] = [];
+  loadData: boolean = false;
+
+  constructor(
+    private engemanService: EngemanGerencialService,
+  ) { }
+
+  ngOnInit() {
+    this.engemanService.getEngemanList().subscribe((engeman: any) => {
+      engeman.forEach((element: any) => {
+        // * adiciona somente a data, sem a hora a array Datas
+        this.datas.push(element.DataIni.substring(0, 10));
+      });
+
+      // * nessa função, verifico a quantidade de vezes em que o mesmo dia se repete,
+      // * significa que mais de uma OS foi aberta no dia
+      let quantidadeOsPorDias = Object.values(this.datas.reduce((c, v) => {
+        c[v] = c[v] || [v, 0];
+        c[v][1]++;
+        return c;
+      },{})).map((o: any)=>(`${[o[0]]}: ${o[1]}`));
+      
+      // * exibo somente os primeiros dias 30
+      quantidadeOsPorDias.slice(0, 30).map((item: any, i: any) => {
+        this.primeiroTrintaDias.push(item);
+      });
+
+      // * populando os dados para o grafico
+      setTimeout(() => {
+        this.primeiroTrintaDias.forEach((element: any) => {
+          this.dataLabel.push(element.substring(0, 10));
+          this.quantidadesOS.push(parseInt(element.substring(12, element.length)));
+
+          this.loadData = true;
+          
+        });
+      }, 1000);
+    });
+
+    
+  }
+
 
   public barChartOptions: ChartConfiguration['options'] = {
     responsive: true,
@@ -18,8 +62,7 @@ export class GraficoOsComponent implements OnInit {
     scales: {
       x: {},
       y: {
-        min: 10,
-        display: false
+        min: 0,
       }
     },
     plugins: {
@@ -31,18 +74,10 @@ export class GraficoOsComponent implements OnInit {
   public barChartType: ChartType = 'bar';
 
   public barChartData: ChartData<'bar'> = {
-    labels: [
-      '01/03/2022', 
-      '02/03/2022', 
-      '03/03/2022', 
-      '04/03/2022', 
-      '05/03/2022', 
-      '06/03/2022', 
-      '07/03/2022'
-    ],
+    labels: this.dataLabel,
     datasets: [{
-      data: [ 65, 59, 80, 81, 56, 55, 40 ], 
-      label: 'Series A',
+      data: this.quantidadesOS, 
+      label: 'OS por Dia',
       // backgroundColor: [
       //   'rgba(153, 102, 255)',
       // ],
@@ -52,12 +87,12 @@ export class GraficoOsComponent implements OnInit {
     }]
   };
 
-  // events
+  // graph events
   public chartClicked({ event, active }: { event?: ChartEvent, active?: {}[] }): void {
-    console.log(event, active);
+    // console.log(event, active);
   }
 
   public chartHovered({ event, active }: { event?: ChartEvent, active?: {}[] }): void {
-    console.log(event, active);
+    // console.log(event, active);
   }
 }

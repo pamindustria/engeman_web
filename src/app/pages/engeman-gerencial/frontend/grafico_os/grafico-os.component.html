@@ -1,6 +1,7 @@
-<div style="margin: 0 auto; width: 95%; border: 2px solid black;">
+<div *ngIf="loadData">
     <div style="display: block">
         <canvas baseChart
+            [height]="100"
             [data]="barChartData"
             [options]="barChartOptions"
             [type]="barChartType"
