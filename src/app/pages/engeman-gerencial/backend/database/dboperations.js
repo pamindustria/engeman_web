@@ -14,6 +14,7 @@ async function getOrdXFunc() {
          inner join engeman.FUNC func on(ordfun.codfun = func.codfun)
          INNER JOIN engeman.ORDSERV ORDSERV on(ordfun.CODORD = ORDSERV.CODORD)
          INNER JOIN engeman.APLIC APLIC ON(ORDSERV.CODAPL = APLIC.CODAPL)
+         WHERE ordfun.DATHORINI >= '2021-01-01'
          ORDER BY XX, ordfun.DATHORINI DESC`
       )
 
