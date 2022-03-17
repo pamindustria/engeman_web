@@ -26,6 +26,11 @@ export class RelatorioComponent implements OnInit {
   endDateGrafico: any;
   startDateTabela: any;
   endDateTabela: any;
+  today = new Date();
+  date = this.today.getDate();
+  month = this.today.getMonth();
+  year = this.today.getFullYear();
+  maxDate = new Date(this.year, this.month, this.date);
 
   filterCliente: string = '';
   filterTotal: string = '';

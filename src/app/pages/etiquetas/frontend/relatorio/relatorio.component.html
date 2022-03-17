@@ -12,7 +12,7 @@
             <div class="col d-flex align-items-end justify-content-end">
                <mat-form-field>
                   <mat-label>Range de Data</mat-label>
-                  <mat-date-range-input [rangePicker]="picker">
+                  <mat-date-range-input [rangePicker]="picker" [max]="maxDate">
                     <input matStartDate [(ngModel)]="startDateGrafico" placeholder="Data Início">
                     <input matEndDate [(ngModel)]="endDateGrafico" placeholder="Data Fim" (dateChange)="dateRange('end', $event)">
                   </mat-date-range-input>
@@ -98,7 +98,7 @@
                      <div class="col d-flex align-items-end justify-content-end">
                         <mat-form-field >
                            <mat-label>Range de Data</mat-label>
-                           <mat-date-range-input [rangePicker]="picker">
+                           <mat-date-range-input [rangePicker]="picker" [max]="maxDate">
                              <input matStartDate [(ngModel)]="startDateTabela" placeholder="Data Início">
                              <input matEndDate [(ngModel)]="endDateTabela" placeholder="Data Fim" (dateChange)="dateRangeTable('end', $event)">
                            </mat-date-range-input>
