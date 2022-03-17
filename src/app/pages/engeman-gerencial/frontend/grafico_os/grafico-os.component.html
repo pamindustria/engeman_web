@@ -1,12 +1,28 @@
-<div *ngIf="loadData">
-    <div style="display: block">
-        <canvas baseChart
-            [height]="100"
-            [data]="barChartData"
-            [options]="barChartOptions"
-            [type]="barChartType"
-            (chartHover)="chartHovered($event)"
-            (chartClick)="chartClicked($event)">
-        </canvas>
+<main class="container-fluid">
+    <div *ngIf="loadData" style="margin: 0 auto;" class="col">
+        <div class="col d-flex align-items-end justify-content-end">
+            <mat-form-field>
+                <mat-label>Range de Data</mat-label>
+                <mat-date-range-input [rangePicker]="picker" [max]="maxDate">
+                  <input matStartDate [(ngModel)]="startDateGrafico" placeholder="Data Início">
+                  <input matEndDate [(ngModel)]="endDateGrafico" placeholder="Data Fim" (dateChange)="dateRange('end', $event)">
+                </mat-date-range-input>
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-date-range-picker #picker></mat-date-range-picker>
+            </mat-form-field>
+            <mat-icon matDatepickerToggleIcon (click)="clearDate($event)">clear</mat-icon>
+        </div>
+    
+        <div style="display: block">
+            <canvas baseChart
+                [height]="100"
+                [data]="barChartData"
+                [options]="barChartOptions"
+                [type]="barChartType"
+                (chartHover)="chartHovered($event)"
+                (chartClick)="chartClicked($event)">
+            </canvas>
+        </div>
     </div>
-</div>
+    
+</main>
