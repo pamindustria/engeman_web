@@ -1,28 +1,69 @@
 <main class="container-fluid">
     <div *ngIf="loadData" style="margin: 0 auto;" class="col">
-        <div class="col d-flex align-items-end justify-content-end">
-            <mat-form-field>
-                <mat-label>Range de Data</mat-label>
-                <mat-date-range-input [rangePicker]="picker" [max]="maxDate">
-                  <input matStartDate [(ngModel)]="startDateGrafico" placeholder="Data Início">
-                  <input matEndDate [(ngModel)]="endDateGrafico" placeholder="Data Fim" (dateChange)="dateRange('end', $event)">
-                </mat-date-range-input>
-                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                <mat-date-range-picker #picker></mat-date-range-picker>
-            </mat-form-field>
-            <mat-icon matDatepickerToggleIcon (click)="clearDate($event)">clear</mat-icon>
+        <div class="col" id="primeiro-turno">
+            <div class="col d-flex align-items-end justify-content-end">
+                <mat-form-field>
+                    <mat-label>Range de Data</mat-label>
+                    <mat-date-range-input [rangePicker]="pickerPrimeiroTurno" [max]="maxDate">
+                      <input matStartDate [(ngModel)]="startDateGraficoPrimeiroTurno" placeholder="Data Início">
+                      <input matEndDate [(ngModel)]="endDateGraficoPrimeiroTurno" placeholder="Data Fim" (dateChange)="dateRangePrimeiroTurno('end', $event)">
+                    </mat-date-range-input>
+                    <mat-datepicker-toggle matSuffix [for]="pickerPrimeiroTurno"></mat-datepicker-toggle>
+                    <mat-date-range-picker #pickerPrimeiroTurno></mat-date-range-picker>
+                </mat-form-field>
+                <mat-icon matDatepickerToggleIcon (click)="clearDatePrimeiroTurno($event)">clear</mat-icon>
+            </div>
+        
+            <div style="display: block">
+                <canvas baseChart
+                    #teste
+                    [height]="100"
+                    [data]="barChartDataPrimeiroTurno"
+                    [options]="barChartOptionsPrimeiroTurno"
+                    [type]="barChartTypePrimeiroTurno"
+                    (chartHover)="chartHovered($event)"
+                    (chartClick)="chartClicked($event)">
+                </canvas>
+            </div>
         </div>
-    
-        <div style="display: block">
-            <canvas baseChart
-                [height]="100"
-                [data]="barChartData"
-                [options]="barChartOptions"
-                [type]="barChartType"
-                (chartHover)="chartHovered($event)"
-                (chartClick)="chartClicked($event)">
-            </canvas>
+        
+        <div class="col" id="segundo-turno">
+            <div class="col d-flex align-items-end justify-content-end">
+                <mat-form-field>
+                    <mat-label>Range de Data</mat-label>
+                    <mat-date-range-input [rangePicker]="pickerSegundoTurno" [max]="maxDate">
+                      <input matStartDate [(ngModel)]="startDateGraficoSegundoTurno" placeholder="Data Início">
+                      <input matEndDate [(ngModel)]="endDateGraficoSegundoTurno" placeholder="Data Fim" (dateChange)="dateRangeSegundoTurno('end', $event)">
+                    </mat-date-range-input>
+                    <mat-datepicker-toggle matSuffix [for]="pickerSegundoTurno"></mat-datepicker-toggle>
+                    <mat-date-range-picker #pickerSegundoTurno></mat-date-range-picker>
+                </mat-form-field>
+                <mat-icon matDatepickerToggleIcon (click)="clearDateSegundoTurno($event)">clear</mat-icon>
+            </div>
+
+            <div style="display: block">
+                <canvas baseChart
+                    [height]="100"
+                    [data]="barChartDataSegundoTurno"
+                    [options]="barChartOptionsSegundoTurno"
+                    [type]="barChartTypeSegundoTurno"
+                    (chartHover)="chartHovered($event)"
+                    (chartClick)="chartClicked($event)">
+                </canvas>
+            </div>
+        </div>
+
+        <div class="col" id="terceiro-turno">
+            <div style="display: block">
+                <canvas baseChart
+                    [height]="100"
+                    [data]="barChartDataTerceiroTurno"
+                    [options]="barChartOptionsTerceiroTurno"
+                    [type]="barChartTypeTerceiroTurno"
+                    (chartHover)="chartHovered($event)"
+                    (chartClick)="chartClicked($event)">
+                </canvas>
+            </div>
         </div>
     </div>
-    
 </main>
