@@ -1,6 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { AfterViewInit, Component, ElementRef, OnInit, QueryList, ViewChild } from '@angular/core';
-import { ChartConfiguration, ChartData, ChartEvent, ChartType } from 'chart.js';
+import { ChartConfiguration, ChartData, ChartEvent, ChartType, Chart } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { EngemanGerencialService } from '../../backend/services/engeman-gerencial.service';
 
@@ -9,8 +9,13 @@ import { EngemanGerencialService } from '../../backend/services/engeman-gerencia
   templateUrl: './grafico-os.component.html',
   styleUrls: ['./grafico-os.component.css']
 })
-export class GraficoOsComponent implements OnInit {
-  @ViewChild(BaseChartDirective) chart!: BaseChartDirective;
+export class GraficoOsComponent implements OnInit, AfterViewInit {
+  @ViewChild('chartPrimeiroTurno') chartPrimeiroTurno!: ElementRef;
+  @ViewChild('chartSegundoTurno') chartSegundoTurno!: ElementRef;
+  @ViewChild('chartTerceiroTurno') chartTerceiroTurno!: ElementRef;
+  chartPrimeiro: Chart | undefined;
+  chartSegundo: Chart | undefined;
+  chartTerceiro: Chart | undefined;
   datas: any[] = [];
   datasPrimeiroTurno: any[] = [];
   quantidadeOsPorDiaPrimeiroTurno: any[] = [];
@@ -36,6 +41,8 @@ export class GraficoOsComponent implements OnInit {
   endDateGraficoPrimeiroTurno: any;
   startDateGraficoSegundoTurno: any;
   endDateGraficoSegundoTurno: any;
+  startDateGraficoTerceiroTurno: any;
+  endDateGraficoTerceiroTurno: any;
   today = new Date();
   date = this.today.getDate();
   month = this.today.getMonth();
@@ -47,8 +54,7 @@ export class GraficoOsComponent implements OnInit {
     public datepipe: DatePipe,
   ) { }
 
-  ngOnInit() {    
-    
+  ngOnInit() {
     this.engemanService.getEngemanList().subscribe((engeman: any) => {
       engeman.forEach((element: any) => {
         // * adiciona somente a data, sem a hora a array Datas
@@ -89,7 +95,7 @@ export class GraficoOsComponent implements OnInit {
         this.primeiroTrintaDiasTerceiroTurno.push(item);
       });
 
-      // * populando os dados para o grafico com 30 dias
+      // * populando os dados para o grafico com os ultimos 30 dias
       setTimeout(() => {
         this.populaGrafico(this.primeiroTrintaDiasPrimeiroTurno, this.dataLabelPrimeiroTurno, this.quantidadesOSPrimeiroTurno);
         this.populaGrafico(this.primeiroTrintaDiasSegundoTurno, this.dataLabelSegundoTurno, this.quantidadesOSSegundoTurno);
@@ -99,6 +105,65 @@ export class GraficoOsComponent implements OnInit {
       }, 1000);
       
     });    
+  }
+
+  ngAfterViewInit() {
+    this.chartPrimeiro = new Chart(this.chartPrimeiroTurno.nativeElement, {
+      type: 'bar',
+      data: {
+        labels: this.dataLabelPrimeiroTurno,
+        datasets: [{
+          label: 'Primeiro Turno',
+          data: this.quantidadesOSPrimeiroTurno,
+          borderWidth: 1
+        }]
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      },
+    });
+
+    this.chartSegundo = new Chart(this.chartSegundoTurno.nativeElement, {
+      type: 'bar',
+      data: {
+        labels: this.dataLabelSegundoTurno,
+        datasets: [{
+          label: 'Segundo Turno',
+          data: this.quantidadesOSSegundoTurno,
+          borderWidth: 1
+        }]
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      },
+    });
+    
+    this.chartTerceiro = new Chart(this.chartTerceiroTurno.nativeElement, {
+      type: 'bar',
+      data: {
+        labels: this.dataLabelTerceiroTurno,
+        datasets: [{
+          label: 'Terceiro Turno',
+          data: this.quantidadesOSTerceiroTurno,
+          borderWidth: 1
+        }]
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      },
+    });
   }
 
   // * nessa função, verifico a quantidade de vezes em que o mesmo dia se repete,
@@ -123,108 +188,12 @@ export class GraficoOsComponent implements OnInit {
   }
 
   // ? PRIMEIRO TURNO
-  public barChartOptionsPrimeiroTurno: ChartConfiguration['options'] = {
-    responsive: true,
-    // We use these empty structures as placeholders for dynamic theming.
-    scales: {
-      x: {},
-      y: {
-        min: 0,
-      }
-    },
-    plugins: {
-      legend: {
-        display: true,
-      },
-    }
-  };
-  public barChartTypePrimeiroTurno: ChartType = 'bar';
-
-  public barChartDataPrimeiroTurno: ChartData<'bar'> = {
-    labels: this.dataLabelPrimeiroTurno,
-    datasets: [{
-      data: this.quantidadesOSPrimeiroTurno, 
-      label: 'Primeiro Turno',
-      // backgroundColor: [
-      //   'rgba(153, 102, 255)',
-      // ],
-      // hoverBackgroundColor: [
-      //   'rgba(153, 102, 255)',
-      // ],
-    }]
-  };
-
-  // ? SEGUNDO TURNO
-  public barChartOptionsSegundoTurno: ChartConfiguration['options'] = {
-    responsive: true,
-    // We use these empty structures as placeholders for dynamic theming.
-    scales: {
-      x: {},
-      y: {
-        min: 0,
-      }
-    },
-    plugins: {
-      legend: {
-        display: true,
-      },
-    }
-  };
-  public barChartTypeSegundoTurno: ChartType = 'bar';
-
-  public barChartDataSegundoTurno: ChartData<'bar'> = {
-    labels: this.dataLabelSegundoTurno,
-    datasets: [{
-      data: this.quantidadesOSSegundoTurno, 
-      label: 'Segundo Turno',
-      // backgroundColor: [
-      //   'rgba(153, 102, 255)',
-      // ],
-      // hoverBackgroundColor: [
-      //   'rgba(153, 102, 255)',
-      // ],
-    }]
-  };
-
-  // ? TERCEIRO TURNO
-  public barChartOptionsTerceiroTurno: ChartConfiguration['options'] = {
-    responsive: true,
-    // We use these empty structures as placeholders for dynamic theming.
-    scales: {
-      x: {},
-      y: {
-        min: 0,
-      }
-    },
-    plugins: {
-      legend: {
-        display: true,
-      },
-    }
-  };
-  public barChartTypeTerceiroTurno: ChartType = 'bar';
-
-  public barChartDataTerceiroTurno: ChartData<'bar'> = {
-    labels: this.dataLabelTerceiroTurno,
-    datasets: [{
-      data: this.quantidadesOSTerceiroTurno, 
-      label: 'Terceiro Turno',
-      // backgroundColor: [
-      //   'rgba(153, 102, 255)',
-      // ],
-      // hoverBackgroundColor: [
-      //   'rgba(153, 102, 255)',
-      // ],
-    }]
-  };
-
-  // ? PRIMEIRO TURNO
   dateRangePrimeiroTurno(type: any, event: any) {
     // resetando os valores do grafico
     this.dataLabelPrimeiroTurno = [];
     this.quantidadesOSPrimeiroTurno = [];
-    this.barChartDataPrimeiroTurno.datasets[0].data = [];
-    this.barChartDataPrimeiroTurno.labels = [];
+    this.chartPrimeiro!.data.datasets[0].data = [];
+    this.chartPrimeiro!.data.labels = [];
 
     var startDateFormatada: any;
     var endDateFormatada: any;
@@ -236,7 +205,7 @@ export class GraficoOsComponent implements OnInit {
 
     this.quantidadeOsPorDiaPrimeiroTurno = this.quantidadeOsPorDiaPrimeiroTurno.sort((a, b) => a.localeCompare(b));
     
-    // populando com os dados do cliente escolhido
+    // populando o grafico com os dados que possuem a data entre startDateFormatada e endDateFormatada
     this.quantidadeOsPorDiaPrimeiroTurno.forEach(element => {
       if (element.substring(0, 10) >= startDateFormatada && element.substring(0, 10) <= endDateFormatada) {
         this.dataLabelPrimeiroTurno.push(element.substring(0, 10));
@@ -245,10 +214,10 @@ export class GraficoOsComponent implements OnInit {
     });
 
     // passando os valores atualizados
-    this.barChartDataPrimeiroTurno.labels = this.dataLabelPrimeiroTurno;
-    this.barChartDataPrimeiroTurno.datasets[0].data = this.quantidadesOSPrimeiroTurno;
+    this.chartPrimeiro!.data.datasets[0].data = this.quantidadesOSPrimeiroTurno;
+    this.chartPrimeiro!.data.labels = this.dataLabelPrimeiroTurno;
 
-    this.chart.chart?.update();
+    this.chartPrimeiro?.update();
   }
 
   clearDatePrimeiroTurno(event: any) {
@@ -258,21 +227,22 @@ export class GraficoOsComponent implements OnInit {
 
     this.dataLabelPrimeiroTurno = [];
     this.quantidadesOSPrimeiroTurno = [];
-    this.barChartDataPrimeiroTurno.datasets[0].data = [];
-    this.barChartDataPrimeiroTurno.labels = [];
+    this.chartPrimeiro!.data.datasets[0].data = [];
+    this.chartPrimeiro!.data.labels = [];
 
     this.primeiroTrintaDiasPrimeiroTurno = this.primeiroTrintaDiasPrimeiroTurno.sort((a, b) => a.localeCompare(b));
 
+    // populando os dados com os ultimos 30 dias
     this.primeiroTrintaDiasPrimeiroTurno.forEach((element: any) => {
       this.dataLabelPrimeiroTurno.push(element.substring(0, 10));
       this.quantidadesOSPrimeiroTurno.push(parseInt(element.substring(12, element.length)));
     });
 
     // passando os valores atualizados
-    this.barChartDataPrimeiroTurno.labels = this.dataLabelPrimeiroTurno;
-    this.barChartDataPrimeiroTurno.datasets[0].data = this.quantidadesOSPrimeiroTurno;
+    this.chartPrimeiro!.data.datasets[0].data = this.quantidadesOSPrimeiroTurno;
+    this.chartPrimeiro!.data.labels = this.dataLabelPrimeiroTurno;
 
-    // this.chart2?.update();
+    this.chartPrimeiro?.update();
   }
 
   // ? SEGUNDO TURNO
@@ -282,8 +252,8 @@ export class GraficoOsComponent implements OnInit {
     // resetando os valores do grafico
     this.dataLabelSegundoTurno = [];
     this.quantidadesOSSegundoTurno = [];
-    this.barChartDataSegundoTurno.datasets[0].data = [];
-    this.barChartDataSegundoTurno.labels = [];
+    this.chartSegundo!.data.datasets[0].data = [];
+    this.chartSegundo!.data.labels = [];
 
     var startDateFormatada: any;
     var endDateFormatada: any;
@@ -295,7 +265,7 @@ export class GraficoOsComponent implements OnInit {
 
     this.quantidadeOsPorDiaSegundoTurno = this.quantidadeOsPorDiaSegundoTurno.sort((a, b) => a.localeCompare(b));
     
-    // populando com os dados do cliente escolhido
+    // populando o grafico com os dados que possuem a data entre startDateFormatada e endDateFormatada
     this.quantidadeOsPorDiaSegundoTurno.forEach(element => {
       if (element.substring(0, 10) >= startDateFormatada && element.substring(0, 10) <= endDateFormatada) {
         this.dataLabelSegundoTurno.push(element.substring(0, 10));
@@ -304,10 +274,10 @@ export class GraficoOsComponent implements OnInit {
     });
 
     // passando os valores atualizados
-    this.barChartDataSegundoTurno.labels = this.dataLabelSegundoTurno;
-    this.barChartDataSegundoTurno.datasets[0].data = this.quantidadesOSSegundoTurno;
+    this.chartSegundo!.data.datasets[0].data = this.quantidadesOSSegundoTurno;
+    this.chartSegundo!.data.labels = this.dataLabelSegundoTurno;
 
-    this.chart.chart?.update();
+    this.chartSegundo?.update();
   }
 
   clearDateSegundoTurno(event: any) {
@@ -317,29 +287,81 @@ export class GraficoOsComponent implements OnInit {
 
     this.dataLabelSegundoTurno = [];
     this.quantidadesOSSegundoTurno = [];
-    this.barChartDataSegundoTurno.datasets[0].data = [];
-    this.barChartDataSegundoTurno.labels = [];
+    this.chartSegundo!.data.datasets[0].data = [];
+    this.chartSegundo!.data.labels = [];
 
     this.primeiroTrintaDiasSegundoTurno = this.primeiroTrintaDiasSegundoTurno.sort((a, b) => a.localeCompare(b));
 
+    // populando os dados com os ultimos 30 dias
     this.primeiroTrintaDiasSegundoTurno.forEach((element: any) => {
       this.dataLabelSegundoTurno.push(element.substring(0, 10));
       this.quantidadesOSSegundoTurno.push(parseInt(element.substring(12, element.length)));
     });
 
     // passando os valores atualizados
-    this.barChartDataSegundoTurno.labels = this.dataLabelSegundoTurno;
-    this.barChartDataSegundoTurno.datasets[0].data = this.quantidadesOSSegundoTurno;
+    this.chartSegundo!.data.datasets[0].data = this.quantidadesOSSegundoTurno;
+    this.chartSegundo!.data.labels = this.dataLabelSegundoTurno;
 
-    // this.chartSegundoTurno?.update();
+    this.chartSegundo?.update();
   }
 
-  // graph events
-  public chartClicked({ event, active }: { event?: ChartEvent, active?: {}[] }): void {
-    // console.log(event, active);
+  // ? TERCEIRO TURNO
+  dateRangeTerceiroTurno(type: any, event: any) {
+    console.log('hello');
+    
+    // resetando os valores do grafico
+    this.dataLabelTerceiroTurno = [];
+    this.quantidadesOSTerceiroTurno = [];
+    this.chartTerceiro!.data.datasets[0].data = [];
+    this.chartTerceiro!.data.labels = [];
+
+    var startDateFormatada: any;
+    var endDateFormatada: any;
+    
+    if (event.value) {
+      startDateFormatada = this.datepipe.transform(this.startDateGraficoTerceiroTurno, 'yyyy-MM-dd');
+      endDateFormatada = this.datepipe.transform(this.endDateGraficoTerceiroTurno, 'yyyy-MM-dd');      
+    }
+
+    this.quantidadeOsPorDiaTerceiroTurno = this.quantidadeOsPorDiaTerceiroTurno.sort((a, b) => a.localeCompare(b));
+  
+    // populando o grafico com os dados que possuem a data entre startDateFormatada e endDateFormatada
+    this.quantidadeOsPorDiaTerceiroTurno.forEach(element => {
+      if (element.substring(0, 10) >= startDateFormatada && element.substring(0, 10) <= endDateFormatada) {
+        this.dataLabelTerceiroTurno.push(element.substring(0, 10));
+        this.quantidadesOSTerceiroTurno.push(parseInt(element.substring(12, element.length)));
+      }
+    });
+
+    // passando os valores atualizados
+    this.chartTerceiro!.data.datasets[0].data = this.quantidadesOSTerceiroTurno;
+    this.chartTerceiro!.data.labels = this.dataLabelTerceiroTurno;
+
+    this.chartTerceiro?.update();
   }
 
-  public chartHovered({ event, active }: { event?: ChartEvent, active?: {}[] }): void {
-    // console.log(event, active);
+  clearDateTerceiroTurno(event: any) {
+    event.stopPropagation();
+    this.startDateGraficoTerceiroTurno = null;
+    this.endDateGraficoTerceiroTurno = null;
+
+    this.dataLabelTerceiroTurno = [];
+    this.quantidadesOSTerceiroTurno = [];
+    this.chartTerceiro!.data.datasets[0].data = [];
+    this.chartTerceiro!.data.labels = [];
+
+    this.primeiroTrintaDiasTerceiroTurno = this.primeiroTrintaDiasTerceiroTurno.sort((a, b) => a.localeCompare(b));
+
+    // populando os dados com os ultimos 30 dias
+    this.primeiroTrintaDiasTerceiroTurno.forEach((element: any) => {
+      this.dataLabelTerceiroTurno.push(element.substring(0, 10));
+      this.quantidadesOSTerceiroTurno.push(parseInt(element.substring(12, element.length)));
+    });
+
+    // passando os valores atualizados
+    this.chartTerceiro!.data.datasets[0].data = this.quantidadesOSTerceiroTurno;
+    this.chartTerceiro!.data.labels = this.dataLabelTerceiroTurno;
+
+    this.chartTerceiro?.update();
   }
 }

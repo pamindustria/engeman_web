@@ -1,5 +1,5 @@
 <main class="container-fluid">
-    <div *ngIf="loadData" style="margin: 0 auto;" class="col">
+    <div [hidden]="!loadData" style="margin: 0 auto;" class="col">
         <div class="col" id="primeiro-turno">
             <div class="col d-flex align-items-end justify-content-end">
                 <mat-form-field>
@@ -15,20 +15,12 @@
             </div>
         
             <div style="display: block">
-                <canvas baseChart
-                    #teste
-                    [height]="100"
-                    [data]="barChartDataPrimeiroTurno"
-                    [options]="barChartOptionsPrimeiroTurno"
-                    [type]="barChartTypePrimeiroTurno"
-                    (chartHover)="chartHovered($event)"
-                    (chartClick)="chartClicked($event)">
-                </canvas>
+                <canvas baseChart [height]="100" #chartPrimeiroTurno></canvas>
             </div>
         </div>
         
         <div class="col" id="segundo-turno">
-            <div class="col d-flex align-items-end justify-content-end">
+            <div class="col d-flex align-items-end justify-content-end mt-4">
                 <mat-form-field>
                     <mat-label>Range de Data</mat-label>
                     <mat-date-range-input [rangePicker]="pickerSegundoTurno" [max]="maxDate">
@@ -42,27 +34,26 @@
             </div>
 
             <div style="display: block">
-                <canvas baseChart
-                    [height]="100"
-                    [data]="barChartDataSegundoTurno"
-                    [options]="barChartOptionsSegundoTurno"
-                    [type]="barChartTypeSegundoTurno"
-                    (chartHover)="chartHovered($event)"
-                    (chartClick)="chartClicked($event)">
-                </canvas>
+                <canvas baseChart [height]="100" #chartSegundoTurno></canvas>
             </div>
         </div>
 
         <div class="col" id="terceiro-turno">
+            <div class="col d-flex align-items-end justify-content-end mt-4">
+                <mat-form-field>
+                    <mat-label>Range de Data</mat-label>
+                    <mat-date-range-input [rangePicker]="pickerTerceiroTurno" [max]="maxDate">
+                      <input matStartDate [(ngModel)]="startDateGraficoTerceiroTurno" placeholder="Data Início">
+                      <input matEndDate [(ngModel)]="endDateGraficoTerceiroTurno" placeholder="Data Fim" (dateChange)="dateRangeTerceiroTurno('end', $event)">
+                    </mat-date-range-input>
+                    <mat-datepicker-toggle matSuffix [for]="pickerTerceiroTurno"></mat-datepicker-toggle>
+                    <mat-date-range-picker #pickerTerceiroTurno></mat-date-range-picker>
+                </mat-form-field>
+                <mat-icon matDatepickerToggleIcon (click)="clearDateTerceiroTurno($event)">clear</mat-icon>
+            </div>
+
             <div style="display: block">
-                <canvas baseChart
-                    [height]="100"
-                    [data]="barChartDataTerceiroTurno"
-                    [options]="barChartOptionsTerceiroTurno"
-                    [type]="barChartTypeTerceiroTurno"
-                    (chartHover)="chartHovered($event)"
-                    (chartClick)="chartClicked($event)">
-                </canvas>
+                <canvas baseChart [height]="100" #chartTerceiroTurno></canvas>
             </div>
         </div>
     </div>
