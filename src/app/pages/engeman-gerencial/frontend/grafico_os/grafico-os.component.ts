@@ -13,27 +13,36 @@ export class GraficoOsComponent implements OnInit, AfterViewInit {
   @ViewChild('chartPrimeiroTurno') chartPrimeiroTurno!: ElementRef;
   @ViewChild('chartSegundoTurno') chartSegundoTurno!: ElementRef;
   @ViewChild('chartTerceiroTurno') chartTerceiroTurno!: ElementRef;
+  dataAtualFormatada: String = "";
+
   chartPrimeiro: Chart | undefined;
   chartSegundo: Chart | undefined;
   chartTerceiro: Chart | undefined;
   datas: any[] = [];
+
   datasPrimeiroTurno: any[] = [];
   quantidadeOsPorDiaPrimeiroTurno: any[] = [];
   primeiroTrintaDiasPrimeiroTurno: any[] = [];
   dataLabelPrimeiroTurno: String[] = [];
   quantidadesOSPrimeiroTurno: number[] = [];
+  labelPorHoraPrimeiroTurno: String[] = ['07:00', '08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00'];
+  dadosOSPrimeiroTurno: number[] = [0, 0, 0, 0, 0, 0, 0, 0];
 
   datasSegundoTurno: any[] = [];
   quantidadeOsPorDiaSegundoTurno: any[] = [];
   primeiroTrintaDiasSegundoTurno: any[] = [];
   dataLabelSegundoTurno: String[] = [];
   quantidadesOSSegundoTurno: number[] = [];
+  labelPorHoraSegundoTurno: String[] = ['15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00'];
+  dadosOSSegundoTurno: number[] = [0, 0, 0, 0, 0, 0, 0, 0];
 
   datasTerceiroTurno: any[] = [];
   quantidadeOsPorDiaTerceiroTurno: any[] = [];
   primeiroTrintaDiasTerceiroTurno: any[] = [];
   dataLabelTerceiroTurno: String[] = [];
   quantidadesOSTerceiroTurno: number[] = [];
+  labelPorHoraTerceiroTurno: String[] = ['23:00', '00:00', '01:00', '02:00', '03:00', '04:00', '05:00', '06:00'];
+  dadosOSTerceiroTurno: number[] = [0, 0, 0, 0, 0, 0, 0, 0];
   
   loadData: boolean = false;
 
@@ -55,24 +64,42 @@ export class GraficoOsComponent implements OnInit, AfterViewInit {
   ) { }
 
   ngOnInit() {
+    var dataAtual = new Date().toLocaleDateString();
+    console.log(new Date().toLocaleDateString());
+    this.dataAtualFormatada = dataAtual.split("/").reverse().join("-");
+    console.log(this.dataAtualFormatada);
+
     this.engemanService.getEngemanList().subscribe((engeman: any) => {
+      
       engeman.forEach((element: any) => {
         // * adiciona somente a data, sem a hora a array Datas
         this.datas.push(element.DataIni.substring(0, 10));        
 
-        if (element.DataIni.substring(11, 19) > "07:00:00" && element.DataIni.substring(11, 19) <= "15:00:00") {
+        // * passando os valores de cada turno
+        if (element.DataIni.substring(11, 19) >= "07:00:00" && element.DataIni.substring(11, 19) < "15:00:00") {
           this.datasPrimeiroTurno.push(element.DataIni.substring(0, 10));
           
-        } else if(element.DataIni.substring(11, 19) > "15:00:00" && element.DataIni.substring(11, 19) <= "23:00:00") {
+        } else if(element.DataIni.substring(11, 19) >= "15:00:00" && element.DataIni.substring(11, 19) < "23:00:00") {
           this.datasSegundoTurno.push(element.DataIni.substring(0, 10));
 
-        } else if(element.DataIni.substring(11, 19) > "23:00:00" || element.DataIni.substring(11, 19) <= "07:00:00") {
+        } else if(element.DataIni.substring(11, 19) >= "23:00:00" || element.DataIni.substring(11, 19) < "07:00:00") {
           this.datasTerceiroTurno.push(element.DataIni.substring(0, 10));          
-        }
-        
+        }        
+
+        // * passando os valores por hora de cada turno
+        this.dadosPorHoraPrimeiroTurnoFunction(element);
+        this.dadosPorHoraSegundoTurnoFunction(element);
+        this.dadosPorHoraTerceiroTurnoFunction(element);
       });
 
-      console.log('this.datasPrimeiroTurno');
+      setTimeout(() => {
+        console.log('Primeiro Turno');
+        console.log(this.dadosOSPrimeiroTurno);
+        console.log('Segundo Turno');
+        console.log(this.dadosOSSegundoTurno);
+        console.log('Terceiro Turno');
+        console.log(this.dadosOSTerceiroTurno);
+      }, 1000);
       
       this.quantidadeOsPorDiaPrimeiroTurno = this.getQuantidadeOSFunction(this.datasPrimeiroTurno);    
       this.quantidadeOsPorDiaSegundoTurno = this.getQuantidadeOSFunction(this.datasSegundoTurno);    
@@ -363,5 +390,92 @@ export class GraficoOsComponent implements OnInit, AfterViewInit {
     this.chartTerceiro!.data.labels = this.dataLabelTerceiroTurno;
 
     this.chartTerceiro?.update();
+  }
+
+  dadosPorHoraPrimeiroTurnoFunction(element: any) {
+    if (element.DataIni.substring(0, 10) === this.dataAtualFormatada) {
+      if (element.DataIni.substring(11, 19) >= "07:00:00" && element.DataIni.substring(11, 19) < "08:00:00") {
+        this.dadosOSPrimeiroTurno[0] += 1;            
+      }
+      if (element.DataIni.substring(11, 19) >= "08:00:00" && element.DataIni.substring(11, 19) < "09:00:00") {
+        this.dadosOSPrimeiroTurno[1] += 1;
+      }
+      if (element.DataIni.substring(11, 19) >= "09:00:00" && element.DataIni.substring(11, 19) < "10:00:00") {
+        this.dadosOSPrimeiroTurno[2] += 1;
+      }
+      if (element.DataIni.substring(11, 19) >= "10:00:00" && element.DataIni.substring(11, 19) < "11:00:00") {
+        this.dadosOSPrimeiroTurno[3] += 1;
+      }
+      if (element.DataIni.substring(11, 19) >= "11:00:00" && element.DataIni.substring(11, 19) < "12:00:00") {
+        this.dadosOSPrimeiroTurno[4] += 1;
+      }
+      if (element.DataIni.substring(11, 19) >= "12:00:00" && element.DataIni.substring(11, 19) < "13:00:00") {
+        this.dadosOSPrimeiroTurno[5] += 1;
+      }
+      if (element.DataIni.substring(11, 19) >= "13:00:00" && element.DataIni.substring(11, 19) < "14:00:00") {
+        this.dadosOSPrimeiroTurno[6] += 1;
+      }
+      if (element.DataIni.substring(11, 19) >= "14:00:00" && element.DataIni.substring(11, 19) < "15:00:00") {
+        this.dadosOSPrimeiroTurno[7] += 1;
+      }
+    }
+  }
+
+  dadosPorHoraSegundoTurnoFunction(element: any) {
+    if (element.DataIni.substring(0, 10) === this.dataAtualFormatada) {
+      if (element.DataIni.substring(11, 19) >= "15:00:00" && element.DataIni.substring(11, 19) < "16:00:00") {
+        this.dadosOSSegundoTurno[0] += 1;            
+      }
+      if (element.DataIni.substring(11, 19) >= "16:00:00" && element.DataIni.substring(11, 19) < "17:00:00") {
+        this.dadosOSSegundoTurno[1] += 1;
+      }
+      if (element.DataIni.substring(11, 19) >= "17:00:00" && element.DataIni.substring(11, 19) < "18:00:00") {
+        this.dadosOSSegundoTurno[2] += 1;
+      }
+      if (element.DataIni.substring(11, 19) >= "18:00:00" && element.DataIni.substring(11, 19) < "19:00:00") {
+        this.dadosOSSegundoTurno[3] += 1;
+      }
+      if (element.DataIni.substring(11, 19) >= "19:00:00" && element.DataIni.substring(11, 19) < "20:00:00") {
+        this.dadosOSSegundoTurno[4] += 1;
+      }
+      if (element.DataIni.substring(11, 19) >= "20:00:00" && element.DataIni.substring(11, 19) < "21:00:00") {
+        this.dadosOSSegundoTurno[5] += 1;
+      }
+      if (element.DataIni.substring(11, 19) >= "21:00:00" && element.DataIni.substring(11, 19) < "22:00:00") {
+        this.dadosOSSegundoTurno[6] += 1;
+      }
+      if (element.DataIni.substring(11, 19) >= "22:00:00" && element.DataIni.substring(11, 19) < "23:00:00") {
+        this.dadosOSSegundoTurno[7] += 1;
+      }
+    }
+  }
+  
+  dadosPorHoraTerceiroTurnoFunction(element: any) {
+    if (element.DataIni.substring(0, 10) === this.dataAtualFormatada) {
+      if (element.DataIni.substring(11, 19) >= "23:00:00" && element.DataIni.substring(11, 19) < "00:00:00") {
+        this.dadosOSTerceiroTurno[0] += 1;            
+      }
+      if (element.DataIni.substring(11, 19) >= "00:00:00" && element.DataIni.substring(11, 19) < "01:00:00") {
+        this.dadosOSTerceiroTurno[1] += 1;
+      }
+      if (element.DataIni.substring(11, 19) >= "01:00:00" && element.DataIni.substring(11, 19) < "02:00:00") {
+        this.dadosOSTerceiroTurno[2] += 1;
+      }
+      if (element.DataIni.substring(11, 19) >= "02:00:00" && element.DataIni.substring(11, 19) < "03:00:00") {
+        this.dadosOSTerceiroTurno[3] += 1;
+      }
+      if (element.DataIni.substring(11, 19) >= "03:00:00" && element.DataIni.substring(11, 19) < "04:00:00") {
+        this.dadosOSTerceiroTurno[4] += 1;
+      }
+      if (element.DataIni.substring(11, 19) >= "04:00:00" && element.DataIni.substring(11, 19) < "05:00:00") {
+        this.dadosOSTerceiroTurno[5] += 1;
+      }
+      if (element.DataIni.substring(11, 19) >= "05:00:00" && element.DataIni.substring(11, 19) < "06:00:00") {
+        this.dadosOSTerceiroTurno[6] += 1;
+      }
+      if (element.DataIni.substring(11, 19) >= "06:00:00" && element.DataIni.substring(11, 19) < "07:00:00") {
+        this.dadosOSTerceiroTurno[7] += 1;
+      }
+    }
   }
 }
