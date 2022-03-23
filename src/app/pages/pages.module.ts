@@ -13,6 +13,7 @@ import { HttpClientModule } from "@angular/common/http";
 import { MatRadioModule } from '@angular/material/radio';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { NgChartsModule } from 'ng2-charts';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 import { SearchComponent } from '../components/search/search.component';
 import { FilterEtiquetaPipe, FilterClientePipe, FilterStatusPipe, FilterDataSaidaPipe, FilterDataRetornoPipe, FilterTipoEmbalagemPipe, FilterManutencaoPipe, RelatorioClientePipe, RelatorioEmabalagemPipe, RelatorioFiltroTotalPipe, RelatorioFilterByDataSaidaPipe } from '../components/pipes/filterEtiqueta.pipe';
@@ -28,6 +29,7 @@ import { ListaCarrosComponent } from './etiquetas/frontend/lista-carros/lista-ca
 import { PaginaInicialComponent } from './pagina-inicial/frontend/pagina-inicial.component';
 import { GraficoOsComponent } from './engeman-gerencial/frontend/grafico_os/grafico-os.component';
 import { RelatorioComponent } from './etiquetas/frontend/relatorio/relatorio.component';
+import { GraficoFuncionarioComponent } from './engeman-gerencial/frontend/grafico-funcionario/grafico-funcionario.component';
 
 @NgModule({
   declarations: [
@@ -60,6 +62,7 @@ import { RelatorioComponent } from './etiquetas/frontend/relatorio/relatorio.com
     RelatorioEmabalagemPipe,
     RelatorioFiltroTotalPipe,
     RelatorioFilterByDataSaidaPipe,
+    GraficoFuncionarioComponent,
   ],
   imports: [
     CommonModule,
@@ -77,7 +80,8 @@ import { RelatorioComponent } from './etiquetas/frontend/relatorio/relatorio.com
     SharedModule,
     MatRadioModule,
     NgxPaginationModule,
-    NgChartsModule
+    NgChartsModule,
+    MatAutocompleteModule
   ],
   exports: [
     BrowserModule,
@@ -91,7 +95,8 @@ import { RelatorioComponent } from './etiquetas/frontend/relatorio/relatorio.com
     MatNativeDateModule,
     MatRadioModule,
     NgxPaginationModule,
-    NgChartsModule
+    NgChartsModule,
+    MatAutocompleteModule
   ],
   providers: [{ provide: MAT_DATE_LOCALE, useValue: 'pt-br' }, DatePipe],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
