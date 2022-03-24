@@ -502,13 +502,33 @@ export class GraficoFuncionarioComponent implements OnInit, AfterViewInit {
     this.chartPrimeiro!.data.datasets[0].data = [];
     this.chartPrimeiro!.data.labels = [];
 
-    this.primeiroTrintaDiasPrimeiroTurno = this.primeiroTrintaDiasPrimeiroTurno.sort((a, b) => a.localeCompare(b));
+    // !se a data nao tiver sido preenchida
+    if (this.startDateGraficoPrimeiroTurno === null) {
+      this.primeiroTrintaDiasPrimeiroTurno = this.primeiroTrintaDiasPrimeiroTurno.sort((a, b) => a.localeCompare(b));
 
-    // populando os dados com os ultimos 30 dias
-    this.primeiroTrintaDiasPrimeiroTurno.forEach((element: any) => {
-      this.dataLabelPrimeiroTurno.push(element.substring(0, 10));
-      this.quantidadesOSPrimeiroTurno.push(parseInt(element.substring(12, element.length)));
-    });
+      // populando os dados com os ultimos 30 dias
+      this.primeiroTrintaDiasPrimeiroTurno.forEach((element: any) => {
+        this.dataLabelPrimeiroTurno.push(element.substring(0, 10));
+        this.quantidadesOSPrimeiroTurno.push(parseInt(element.substring(12, element.length)));
+      });
+
+    } else {
+      var startDateFormatada: any;
+      var endDateFormatada: any;
+    
+      startDateFormatada = this.datepipe.transform(this.startDateGraficoPrimeiroTurno, 'yyyy-MM-dd');
+      endDateFormatada = this.datepipe.transform(this.endDateGraficoPrimeiroTurno, 'yyyy-MM-dd');      
+
+      this.quantidadeOsPorDiaPrimeiroTurno = this.quantidadeOsPorDiaPrimeiroTurno.sort((a, b) => a.localeCompare(b));
+    
+      // populando o grafico com os dados que possuem a data entre startDateFormatada e endDateFormatada
+      this.quantidadeOsPorDiaPrimeiroTurno.forEach(element => {
+        if (element.substring(0, 10) >= startDateFormatada && element.substring(0, 10) <= endDateFormatada) {
+          this.dataLabelPrimeiroTurno.push(element.substring(0, 10));
+          this.quantidadesOSPrimeiroTurno.push(parseInt(element.substring(12, element.length)));
+        }
+      });
+    }
 
     // passando os valores atualizados
     this.chartPrimeiro!.data.datasets[0].data = this.quantidadesOSPrimeiroTurno;
@@ -583,13 +603,33 @@ export class GraficoFuncionarioComponent implements OnInit, AfterViewInit {
     this.chartSegundo!.data.datasets[0].data = [];
     this.chartSegundo!.data.labels = [];
 
-    this.primeiroTrintaDiasSegundoTurno = this.primeiroTrintaDiasSegundoTurno.sort((a, b) => a.localeCompare(b));
+    // !se a data nao tiver sido preenchida
+    if (this.startDateGraficoSegundoTurno === null) {
+      this.primeiroTrintaDiasSegundoTurno = this.primeiroTrintaDiasSegundoTurno.sort((a, b) => a.localeCompare(b));
 
-    // populando os dados com os ultimos 30 dias
-    this.primeiroTrintaDiasSegundoTurno.forEach((element: any) => {
-      this.dataLabelSegundoTurno.push(element.substring(0, 10));
-      this.quantidadesOSSegundoTurno.push(parseInt(element.substring(12, element.length)));
-    });
+      // populando os dados com os ultimos 30 dias
+      this.primeiroTrintaDiasSegundoTurno.forEach((element: any) => {
+        this.dataLabelSegundoTurno.push(element.substring(0, 10));
+        this.quantidadesOSSegundoTurno.push(parseInt(element.substring(12, element.length)));
+      });
+
+    } else {
+      var startDateFormatada: any;
+      var endDateFormatada: any;
+    
+      startDateFormatada = this.datepipe.transform(this.startDateGraficoSegundoTurno, 'yyyy-MM-dd');
+      endDateFormatada = this.datepipe.transform(this.endDateGraficoSegundoTurno, 'yyyy-MM-dd');      
+
+      this.quantidadeOsPorDiaSegundoTurno = this.quantidadeOsPorDiaSegundoTurno.sort((a, b) => a.localeCompare(b));
+    
+      // populando o grafico com os dados que possuem a data entre startDateFormatada e endDateFormatada
+      this.quantidadeOsPorDiaSegundoTurno.forEach(element => {
+        if (element.substring(0, 10) >= startDateFormatada && element.substring(0, 10) <= endDateFormatada) {
+          this.dataLabelSegundoTurno.push(element.substring(0, 10));
+          this.quantidadesOSSegundoTurno.push(parseInt(element.substring(12, element.length)));
+        }
+      });
+    }
 
     // passando os valores atualizados
     this.chartSegundo!.data.datasets[0].data = this.quantidadesOSSegundoTurno;
@@ -665,13 +705,33 @@ export class GraficoFuncionarioComponent implements OnInit, AfterViewInit {
     this.chartTerceiro!.data.datasets[0].data = [];
     this.chartTerceiro!.data.labels = [];
 
-    this.primeiroTrintaDiasTerceiroTurno = this.primeiroTrintaDiasTerceiroTurno.sort((a, b) => a.localeCompare(b));
+    // !se a data nao tiver sido preenchida
+    if (this.startDateGraficoTerceiroTurno === null) {
+      this.primeiroTrintaDiasTerceiroTurno = this.primeiroTrintaDiasTerceiroTurno.sort((a, b) => a.localeCompare(b));
 
     // populando os dados com os ultimos 30 dias
     this.primeiroTrintaDiasTerceiroTurno.forEach((element: any) => {
       this.dataLabelTerceiroTurno.push(element.substring(0, 10));
       this.quantidadesOSTerceiroTurno.push(parseInt(element.substring(12, element.length)));
     });
+
+    } else {
+      var startDateFormatada: any;
+      var endDateFormatada: any;
+    
+      startDateFormatada = this.datepipe.transform(this.startDateGraficoTerceiroTurno, 'yyyy-MM-dd');
+      endDateFormatada = this.datepipe.transform(this.endDateGraficoTerceiroTurno, 'yyyy-MM-dd');      
+
+      this.quantidadeOsPorDiaTerceiroTurno = this.quantidadeOsPorDiaTerceiroTurno.sort((a, b) => a.localeCompare(b));
+    
+      // populando o grafico com os dados que possuem a data entre startDateFormatada e endDateFormatada
+      this.quantidadeOsPorDiaTerceiroTurno.forEach(element => {
+        if (element.substring(0, 10) >= startDateFormatada && element.substring(0, 10) <= endDateFormatada) {
+          this.dataLabelTerceiroTurno.push(element.substring(0, 10));
+          this.quantidadesOSTerceiroTurno.push(parseInt(element.substring(12, element.length)));
+        }
+      });
+    }
 
     // passando os valores atualizados
     this.chartTerceiro!.data.datasets[0].data = this.quantidadesOSTerceiroTurno;
