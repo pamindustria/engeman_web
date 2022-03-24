@@ -1,21 +1,27 @@
 <main class="container-fluid">
    <div [hidden]="!loadData" style="margin: 0 auto;" class="col">
+      <!-- * PRIMEIRO TURNO -->
       <div class="col" id="primeiro-turno">
-         <div class="col d-flex align-items-end justify-content-between">
-               <mat-form-field style="width: 20%;">
-                 <mat-label>Filtrar Funcionário</mat-label>
-                 <input type="text"
-                        placeholder="Nome ou matrícula"
-                        matInput
-                        [matAutocomplete]="auto">
-                 <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onItemSelect($event)">
-                   <mat-option *ngFor="let option of funcionariosPrimeiroTurno" [value]="option">
+         <div class="row d-flex align-items-end justify-content-between">
+            <div class="col d-flex align-items-end justify-content-start">
+               <mat-form-field style="width: 40%;">
+                  <mat-label>Filtrar Funcionário</mat-label>
+                  <input type="text"
+                     placeholder="Nome ou matrícula"
+                     matInput
+                     [matAutocomplete]="auto"
+                     [(ngModel)]="funcionarioPrimeiroTurnoSelecionado"
+                  >
+                  <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onItemSelectPrimTurno($event)">
+                     <mat-option *ngFor="let option of funcionariosPrimeiroTurno" [value]="option">
                      {{option}}
-                   </mat-option>
-                 </mat-autocomplete>
+                     </mat-option>
+                  </mat-autocomplete>
                </mat-form-field>
+               <mat-icon matDatepickerToggleIcon (click)="clearSelectPrimTurno($event)">clear</mat-icon>
+            </div>            
 
-            <div class="d-flex align-items-end justify-content-end">
+            <div class="col d-flex align-items-end justify-content-end">
                <mat-form-field>
                      <mat-label>Range de Data</mat-label>
                      <mat-date-range-input [rangePicker]="pickerPrimeiroTurno" [max]="maxDate">
@@ -34,18 +40,39 @@
          </div>
       </div>
       
+      <!-- * SEGUNDO TURNO -->
       <div class="col" id="segundo-turno">
-         <div class="col d-flex align-items-end justify-content-end mt-4">
-            <mat-form-field>
-                  <mat-label>Range de Data</mat-label>
-                  <mat-date-range-input [rangePicker]="pickerSegundoTurno" [max]="maxDate">
-                  <input matStartDate [(ngModel)]="startDateGraficoSegundoTurno" placeholder="Data Início">
-                  <input matEndDate [(ngModel)]="endDateGraficoSegundoTurno" placeholder="Data Fim" (dateChange)="dateRangeSegundoTurno('end', $event)">
-                  </mat-date-range-input>
-                  <mat-datepicker-toggle matSuffix [for]="pickerSegundoTurno"></mat-datepicker-toggle>
-                  <mat-date-range-picker #pickerSegundoTurno></mat-date-range-picker>
-            </mat-form-field>
-            <mat-icon matDatepickerToggleIcon (click)="clearDateSegundoTurno($event)">clear</mat-icon>
+         <div class="row d-flex align-items-end justify-content-between">
+            <div class="col d-flex align-items-end justify-content-start">
+               <mat-form-field style="width: 40%;">
+                  <mat-label>Filtrar Funcionário</mat-label>
+                  <input type="text"
+                     placeholder="Nome ou matrícula"
+                     matInput
+                     [matAutocomplete]="autoSeg"
+                     [(ngModel)]="funcionarioSegundoTurnoSelecionado"
+                  >
+                  <mat-autocomplete #autoSeg="matAutocomplete" (optionSelected)="onItemSelectSegTurno($event)">
+                     <mat-option *ngFor="let option of funcionariosSegundoTurno" [value]="option">
+                     {{option}}
+                     </mat-option>
+                  </mat-autocomplete>
+               </mat-form-field>
+               <mat-icon matDatepickerToggleIcon (click)="clearSelectSegTurno($event)">clear</mat-icon>
+            </div>            
+
+            <div class="col d-flex align-items-end justify-content-end mt-4">
+               <mat-form-field>
+                     <mat-label>Range de Data</mat-label>
+                     <mat-date-range-input [rangePicker]="pickerSegundoTurno" [max]="maxDate">
+                     <input matStartDate [(ngModel)]="startDateGraficoSegundoTurno" placeholder="Data Início">
+                     <input matEndDate [(ngModel)]="endDateGraficoSegundoTurno" placeholder="Data Fim" (dateChange)="dateRangeSegundoTurno('end', $event)">
+                     </mat-date-range-input>
+                     <mat-datepicker-toggle matSuffix [for]="pickerSegundoTurno"></mat-datepicker-toggle>
+                     <mat-date-range-picker #pickerSegundoTurno></mat-date-range-picker>
+               </mat-form-field>
+               <mat-icon matDatepickerToggleIcon (click)="clearDateSegundoTurno($event)">clear</mat-icon>
+            </div>
          </div>
 
          <div style="display: block">
@@ -53,18 +80,39 @@
          </div>
       </div>
 
+      <!-- * TERCEIRO TURNO -->
       <div class="col" id="terceiro-turno">
-         <div class="col d-flex align-items-end justify-content-end mt-4">
-            <mat-form-field>
-                  <mat-label>Range de Data</mat-label>
-                  <mat-date-range-input [rangePicker]="pickerTerceiroTurno" [max]="maxDate">
-                  <input matStartDate [(ngModel)]="startDateGraficoTerceiroTurno" placeholder="Data Início">
-                  <input matEndDate [(ngModel)]="endDateGraficoTerceiroTurno" placeholder="Data Fim" (dateChange)="dateRangeTerceiroTurno('end', $event)">
-                  </mat-date-range-input>
-                  <mat-datepicker-toggle matSuffix [for]="pickerTerceiroTurno"></mat-datepicker-toggle>
-                  <mat-date-range-picker #pickerTerceiroTurno></mat-date-range-picker>
-            </mat-form-field>
-            <mat-icon matDatepickerToggleIcon (click)="clearDateTerceiroTurno($event)">clear</mat-icon>
+         <div class="row d-flex align-items-end justify-content-between">
+            <div class="col d-flex align-items-end justify-content-start">
+               <mat-form-field style="width: 40%;">
+                  <mat-label>Filtrar Funcionário</mat-label>
+                  <input type="text"
+                     placeholder="Nome ou matrícula"
+                     matInput
+                     [matAutocomplete]="autoTer"
+                     [(ngModel)]="funcionarioTerceiroTurnoSelecionado"
+                  >
+                  <mat-autocomplete #autoTer="matAutocomplete" (optionSelected)="onItemSelectTerTurno($event)">
+                     <mat-option *ngFor="let option of funcionariosTerceiroTurno" [value]="option">
+                     {{option}}
+                     </mat-option>
+                  </mat-autocomplete>
+               </mat-form-field>
+               <mat-icon matDatepickerToggleIcon (click)="clearSelectTerTurno($event)">clear</mat-icon>
+            </div>            
+
+            <div class="col d-flex align-items-end justify-content-end mt-4">
+               <mat-form-field>
+                     <mat-label>Range de Data</mat-label>
+                     <mat-date-range-input [rangePicker]="pickerTerceiroTurno" [max]="maxDate">
+                     <input matStartDate [(ngModel)]="startDateGraficoTerceiroTurno" placeholder="Data Início">
+                     <input matEndDate [(ngModel)]="endDateGraficoTerceiroTurno" placeholder="Data Fim" (dateChange)="dateRangeTerceiroTurno('end', $event)">
+                     </mat-date-range-input>
+                     <mat-datepicker-toggle matSuffix [for]="pickerTerceiroTurno"></mat-datepicker-toggle>
+                     <mat-date-range-picker #pickerTerceiroTurno></mat-date-range-picker>
+               </mat-form-field>
+               <mat-icon matDatepickerToggleIcon (click)="clearDateTerceiroTurno($event)">clear</mat-icon>
+            </div>
          </div>
 
          <div style="display: block">

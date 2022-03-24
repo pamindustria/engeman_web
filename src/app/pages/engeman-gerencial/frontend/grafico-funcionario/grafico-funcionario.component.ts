@@ -10,8 +10,6 @@ import { EngemanGerencialService } from '../../backend/services/engeman-gerencia
   styleUrls: ['./grafico-funcionario.component.css']
 })
 export class GraficoFuncionarioComponent implements OnInit, AfterViewInit {
-  options: string[] = ['One', 'Two', 'Three'];
-
   @ViewChild('chartPrimeiroTurno') chartPrimeiroTurno!: ElementRef;
   @ViewChild('chartSegundoTurno') chartSegundoTurno!: ElementRef;
   @ViewChild('chartTerceiroTurno') chartTerceiroTurno!: ElementRef;
@@ -19,34 +17,42 @@ export class GraficoFuncionarioComponent implements OnInit, AfterViewInit {
   chartSegundo: Chart | undefined;
   chartTerceiro: Chart | undefined;
   datas: any[] = [];
+
   datasPrimeiroTurno: any[] = [];
   quantidadeOsPorDiaPrimeiroTurno: any[] = [];
   primeiroTrintaDiasPrimeiroTurno: any[] = [];
   dataLabelPrimeiroTurno: String[] = [];
   quantidadesOSPrimeiroTurno: number[] = [];
   funcionariosPrimeiroTurno: string[] = [];
-  geral: any[] = [];
+  geralPrimeiroTurno: any[] = [];
+  funcionarioPrimeiroTurnoSelecionado: String = '';
 
   datasSegundoTurno: any[] = [];
   quantidadeOsPorDiaSegundoTurno: any[] = [];
   primeiroTrintaDiasSegundoTurno: any[] = [];
   dataLabelSegundoTurno: String[] = [];
   quantidadesOSSegundoTurno: number[] = [];
+  funcionariosSegundoTurno: string[] = [];
+  geralSegundoTurno: any[] = [];
+  funcionarioSegundoTurnoSelecionado: String = '';
 
   datasTerceiroTurno: any[] = [];
   quantidadeOsPorDiaTerceiroTurno: any[] = [];
   primeiroTrintaDiasTerceiroTurno: any[] = [];
   dataLabelTerceiroTurno: String[] = [];
   quantidadesOSTerceiroTurno: number[] = [];
+  funcionariosTerceiroTurno: string[] = [];
+  geralTerceiroTurno: any[] = [];
+  funcionarioTerceiroTurnoSelecionado: String = '';
   
   loadData: boolean = false;
 
-  startDateGraficoPrimeiroTurno: any;
-  endDateGraficoPrimeiroTurno: any;
-  startDateGraficoSegundoTurno: any;
-  endDateGraficoSegundoTurno: any;
-  startDateGraficoTerceiroTurno: any;
-  endDateGraficoTerceiroTurno: any;
+  startDateGraficoPrimeiroTurno: any = null;
+  endDateGraficoPrimeiroTurno: any = null;
+  startDateGraficoSegundoTurno: any = null;
+  endDateGraficoSegundoTurno: any = null;
+  startDateGraficoTerceiroTurno: any = null;
+  endDateGraficoTerceiroTurno: any = null;
   today = new Date();
   date = this.today.getDate();
   month = this.today.getMonth();
@@ -61,14 +67,14 @@ export class GraficoFuncionarioComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     this.engemanService.getEngemanList().subscribe((engeman: any) => {
       engeman.forEach((element: any) => {
-        // console.log(element );
         // * adiciona somente a data, sem a hora a array Datas
         this.datas.push(element.DataIni.substring(0, 10));        
 
         if (element.DataIni.substring(11, 19) > "07:00:00" && element.DataIni.substring(11, 19) <= "15:00:00") {
           this.datasPrimeiroTurno.push(element.DataIni.substring(0, 10));
-          this.geral.push({func: element.NomeFunc, data: element.DataIni.substring(0, 10)});
 
+          this.geralPrimeiroTurno.push({func: element.NomeFunc, data: element.DataIni.substring(0, 10)});
+          // para popular o select de funcionarios
           if (!this.funcionariosPrimeiroTurno.includes(element.NomeFunc)) {
             this.funcionariosPrimeiroTurno.push(element.NomeFunc);
           }
@@ -76,38 +82,33 @@ export class GraficoFuncionarioComponent implements OnInit, AfterViewInit {
           
         } else if(element.DataIni.substring(11, 19) > "15:00:00" && element.DataIni.substring(11, 19) <= "23:00:00") {
           this.datasSegundoTurno.push(element.DataIni.substring(0, 10));
+
+          this.geralSegundoTurno.push({func: element.NomeFunc, data: element.DataIni.substring(0, 10)});
+          // para popular o select de funcionarios
+          if (!this.funcionariosSegundoTurno.includes(element.NomeFunc)) {
+            this.funcionariosSegundoTurno.push(element.NomeFunc);
+          }
           
         } else if(element.DataIni.substring(11, 19) > "23:00:00" || element.DataIni.substring(11, 19) <= "07:00:00") {
-          this.datasTerceiroTurno.push(element.DataIni.substring(0, 10));          
+          this.datasTerceiroTurno.push(element.DataIni.substring(0, 10));  
+          
+          this.geralTerceiroTurno.push({func: element.NomeFunc, data: element.DataIni.substring(0, 10)});
+          // para popular o select de funcionarios
+          if (!this.funcionariosTerceiroTurno.includes(element.NomeFunc)) {
+            this.funcionariosTerceiroTurno.push(element.NomeFunc);
+          }
         }
         
       });
-
-      console.log('this.geral');
-      console.log(this.geral);
       
-      
+      // fazendo o calculo geral de os por dia
       this.quantidadeOsPorDiaPrimeiroTurno = this.getQuantidadeOSFunction(this.datasPrimeiroTurno);    
       this.quantidadeOsPorDiaSegundoTurno = this.getQuantidadeOSFunction(this.datasSegundoTurno);    
-      this.quantidadeOsPorDiaTerceiroTurno = this.getQuantidadeOSFunction(this.datasTerceiroTurno);  
-            
-      // console.log(this.quantidadeOsPorDiaPrimeiroTurno);
-      // console.log(this.quantidadeOsPorDiaSegundoTurno);
-      // console.log(this.quantidadeOsPorDiaTerceiroTurno);
+      this.quantidadeOsPorDiaTerceiroTurno = this.getQuantidadeOSFunction(this.datasTerceiroTurno);
 
       // * exibo somente os primeiros dias 30
       this.quantidadeOsPorDiaPrimeiroTurno.slice(0, 30).map((item: any, i: any) => {
         this.primeiroTrintaDiasPrimeiroTurno.push(item);
-      });
-
-      this.primeiroTrintaDiasPrimeiroTurno.forEach(dias => {
-        console.log(dias.substring(0, 10));
-        this.geral.forEach(geral => {
-          if (geral.data === dias.substring(0, 10)) {
-            
-          }
-        });
-        
       });
       
       this.quantidadeOsPorDiaSegundoTurno.slice(0, 30).map((item: any, i: any) => {
@@ -120,9 +121,9 @@ export class GraficoFuncionarioComponent implements OnInit, AfterViewInit {
 
       // * populando os dados para o grafico com os ultimos 30 dias
       setTimeout(() => {
-        this.populaGrafico(this.primeiroTrintaDiasPrimeiroTurno, this.dataLabelPrimeiroTurno, this.quantidadesOSPrimeiroTurno);
-        this.populaGrafico(this.primeiroTrintaDiasSegundoTurno, this.dataLabelSegundoTurno, this.quantidadesOSSegundoTurno);
-        this.populaGrafico(this.primeiroTrintaDiasTerceiroTurno, this.dataLabelTerceiroTurno, this.quantidadesOSTerceiroTurno);
+        this.preencherDadosGrafico(this.primeiroTrintaDiasPrimeiroTurno, this.dataLabelPrimeiroTurno, this.quantidadesOSPrimeiroTurno);
+        this.preencherDadosGrafico(this.primeiroTrintaDiasSegundoTurno, this.dataLabelSegundoTurno, this.quantidadesOSSegundoTurno);
+        this.preencherDadosGrafico(this.primeiroTrintaDiasTerceiroTurno, this.dataLabelTerceiroTurno, this.quantidadesOSTerceiroTurno);
         
         this.loadData = true;
       }, 1000);
@@ -199,7 +200,7 @@ export class GraficoFuncionarioComponent implements OnInit, AfterViewInit {
     },{})).map((o: any)=>(`${[o[0]]}: ${o[1]}`));   
   }
 
-  populaGrafico(arrayDias: any, dataLabel: any, quantidadesOS: any) {
+  preencherDadosGrafico(arrayDias: any, dataLabel: any, quantidadesOS: any) {
     // ordem crescente
     arrayDias = arrayDias.sort((a: any, b: any) => a.localeCompare(b));
 
@@ -327,9 +328,7 @@ export class GraficoFuncionarioComponent implements OnInit, AfterViewInit {
   }
 
   // ? TERCEIRO TURNO
-  dateRangeTerceiroTurno(type: any, event: any) {
-    console.log('hello');
-    
+  dateRangeTerceiroTurno(type: any, event: any) {    
     // resetando os valores do grafico
     this.dataLabelTerceiroTurno = [];
     this.quantidadesOSTerceiroTurno = [];
@@ -386,26 +385,250 @@ export class GraficoFuncionarioComponent implements OnInit, AfterViewInit {
     this.chartTerceiro?.update();
   }
 
-  onItemSelect(valor: any) {
-    console.log(valor.option.value);
+  // * FUNÇÕES PARA SELECT DE FUNCIONÁRIO
+  // *PRIMEIRO TURNO
+  onItemSelectPrimTurno(valor: any) {    
     // resetando os valores do grafico
+    var arrayDatasFunc: any[] = [];
+    var trintaDias:  any[] = [];
+    var startDateFormatada: any;
+    var endDateFormatada: any;
+
+    this.dataLabelPrimeiroTurno = [];
+    this.quantidadesOSPrimeiroTurno = [];
+    this.chartPrimeiro!.data.datasets[0].data = [];
+    this.chartPrimeiro!.data.datasets[0].label = "";
+    this.chartPrimeiro!.data.labels = [];
+
+    this.geralPrimeiroTurno.forEach(geral => {
+      if (geral.func === valor.option.value) {
+        arrayDatasFunc.push(geral.data);
+      }
+    });
+
+    // mando fazer o calculo de quantide de os's por dia
+    var datasEos = this.getQuantidadeOSFunction(arrayDatasFunc);
+    
+    //  ! caso nenhuma data selecionada
+    if (this.startDateGraficoPrimeiroTurno === null) {    
+      // pego os ultimos 30 dias
+      datasEos.slice(0, 30).map((item: any, i: any) => {
+        trintaDias.push(item);
+      });
+      
+      // preencho o grafico com a informação dos ultimos 30 dias
+      this.preencherDadosGrafico(trintaDias, this.dataLabelPrimeiroTurno, this.quantidadesOSPrimeiroTurno);
+
+    //  ! caso tenha data selecionada
+    } else {
+      startDateFormatada = this.datepipe.transform(this.startDateGraficoPrimeiroTurno, 'yyyy-MM-dd');
+      endDateFormatada = this.datepipe.transform(this.endDateGraficoPrimeiroTurno, 'yyyy-MM-dd');      
+
+      datasEos = datasEos.sort((a, b) => a.localeCompare(b));
+    
+      // populando o grafico com os dados que possuem a data entre startDateFormatada e endDateFormatada
+      datasEos.forEach(element => {
+        
+        if (element.substring(0, 10) >= startDateFormatada && element.substring(0, 10) <= endDateFormatada) {
+          this.dataLabelPrimeiroTurno.push(element.substring(0, 10));
+          this.quantidadesOSPrimeiroTurno.push(parseInt(element.substring(12, element.length)));
+        }
+      });      
+    }
+        
+    this.chartPrimeiro!.data.datasets[0].data = this.quantidadesOSPrimeiroTurno;
+    this.chartPrimeiro!.data.datasets[0].label = `Primeiro Turno - ${valor.option.value}`;
+    this.chartPrimeiro!.data.labels = this.dataLabelPrimeiroTurno;
+
+    this.chartPrimeiro?.update();
+  }
+
+  clearSelectPrimTurno(event: any) {
+    event.stopPropagation();
+    this.funcionarioPrimeiroTurnoSelecionado = "";
+
     this.dataLabelPrimeiroTurno = [];
     this.quantidadesOSPrimeiroTurno = [];
     this.chartPrimeiro!.data.datasets[0].data = [];
     this.chartPrimeiro!.data.labels = [];
-    
-    // populando o grafico com os dados que possuem a data entre startDateFormatada e endDateFormatada
-    // this.quantidadeOsPorDiaPrimeiroTurno.forEach(element => {
-    //   if (element.substring(0, 10) >= startDateFormatada && element.substring(0, 10) <= endDateFormatada) {
-    //     this.dataLabelPrimeiroTurno.push(element.substring(0, 10));
-    //     this.quantidadesOSPrimeiroTurno.push(parseInt(element.substring(12, element.length)));
-    //   }
-    // });
+
+    this.primeiroTrintaDiasPrimeiroTurno = this.primeiroTrintaDiasPrimeiroTurno.sort((a, b) => a.localeCompare(b));
+
+    // populando os dados com os ultimos 30 dias
+    this.primeiroTrintaDiasPrimeiroTurno.forEach((element: any) => {
+      this.dataLabelPrimeiroTurno.push(element.substring(0, 10));
+      this.quantidadesOSPrimeiroTurno.push(parseInt(element.substring(12, element.length)));
+    });
 
     // passando os valores atualizados
     this.chartPrimeiro!.data.datasets[0].data = this.quantidadesOSPrimeiroTurno;
     this.chartPrimeiro!.data.labels = this.dataLabelPrimeiroTurno;
+    this.chartPrimeiro!.data.datasets[0].label = `Primeiro Turno`;
 
     this.chartPrimeiro?.update();
+  }
+
+  // *SEGUNDO TURNO
+  onItemSelectSegTurno(valor: any) {        
+    // resetando os valores do grafico
+    var arrayDatasFunc: any[] = [];
+    var trintaDias:  any[] = [];
+    var startDateFormatada: any;
+    var endDateFormatada: any;
+
+    this.dataLabelSegundoTurno = [];
+    this.quantidadesOSSegundoTurno = [];
+    this.chartSegundo!.data.datasets[0].data = [];
+    this.chartSegundo!.data.datasets[0].label = "";
+    this.chartSegundo!.data.labels = [];
+
+    this.geralSegundoTurno.forEach(geral => {
+      if (geral.func === valor.option.value) {
+        arrayDatasFunc.push(geral.data);
+      }
+    });
+
+    // mando fazer o calculo de quantide de os's por dia
+    var datasEos = this.getQuantidadeOSFunction(arrayDatasFunc);
+    
+    //  ! caso nenhuma data selecionada
+    if (this.startDateGraficoSegundoTurno === null) {    
+      // pego os ultimos 30 dias
+      datasEos.slice(0, 30).map((item: any, i: any) => {
+        trintaDias.push(item);
+      });
+      
+      // preencho o grafico com a informação dos ultimos 30 dias
+      this.preencherDadosGrafico(trintaDias, this.dataLabelSegundoTurno, this.quantidadesOSSegundoTurno);
+
+    //  ! caso tenha data selecionada
+    } else {
+      startDateFormatada = this.datepipe.transform(this.startDateGraficoSegundoTurno, 'yyyy-MM-dd');
+      endDateFormatada = this.datepipe.transform(this.endDateGraficoSegundoTurno, 'yyyy-MM-dd');      
+
+      datasEos = datasEos.sort((a, b) => a.localeCompare(b));
+    
+      // populando o grafico com os dados que possuem a data entre startDateFormatada e endDateFormatada
+      datasEos.forEach(element => {
+        
+        if (element.substring(0, 10) >= startDateFormatada && element.substring(0, 10) <= endDateFormatada) {
+          this.dataLabelSegundoTurno.push(element.substring(0, 10));
+          this.quantidadesOSSegundoTurno.push(parseInt(element.substring(12, element.length)));
+        }
+      });      
+    }
+        
+    this.chartSegundo!.data.datasets[0].data = this.quantidadesOSSegundoTurno;
+    this.chartSegundo!.data.datasets[0].label = `Segundo Turno - ${valor.option.value}`;
+    this.chartSegundo!.data.labels = this.dataLabelSegundoTurno;
+
+    this.chartSegundo?.update();
+  }
+
+  clearSelectSegTurno(event: any) {
+    event.stopPropagation();
+    this.funcionarioSegundoTurnoSelecionado = "";
+
+    this.dataLabelSegundoTurno = [];
+    this.quantidadesOSSegundoTurno = [];
+    this.chartSegundo!.data.datasets[0].data = [];
+    this.chartSegundo!.data.labels = [];
+
+    this.primeiroTrintaDiasSegundoTurno = this.primeiroTrintaDiasSegundoTurno.sort((a, b) => a.localeCompare(b));
+
+    // populando os dados com os ultimos 30 dias
+    this.primeiroTrintaDiasSegundoTurno.forEach((element: any) => {
+      this.dataLabelSegundoTurno.push(element.substring(0, 10));
+      this.quantidadesOSSegundoTurno.push(parseInt(element.substring(12, element.length)));
+    });
+
+    // passando os valores atualizados
+    this.chartSegundo!.data.datasets[0].data = this.quantidadesOSSegundoTurno;
+    this.chartSegundo!.data.labels = this.dataLabelSegundoTurno;
+    this.chartSegundo!.data.datasets[0].label = `Segundo Turno`;
+
+    this.chartSegundo?.update();
+  }
+
+  // *TERCEIRO TURNO
+  onItemSelectTerTurno(valor: any) {        
+    // resetando os valores do grafico
+    var arrayDatasFunc: any[] = [];
+    var trintaDias:  any[] = [];
+    var startDateFormatada: any;
+    var endDateFormatada: any;
+
+    this.dataLabelTerceiroTurno = [];
+    this.quantidadesOSTerceiroTurno = [];
+    this.chartTerceiro!.data.datasets[0].data = [];
+    this.chartTerceiro!.data.datasets[0].label = "";
+    this.chartTerceiro!.data.labels = [];
+
+    this.geralTerceiroTurno.forEach(geral => {
+      if (geral.func === valor.option.value) {
+        arrayDatasFunc.push(geral.data);
+      }
+    });
+
+    // mando fazer o calculo de quantide de os's por dia
+    var datasEos = this.getQuantidadeOSFunction(arrayDatasFunc);
+    
+    //  ! caso nenhuma data selecionada
+    if (this.startDateGraficoTerceiroTurno === null) {    
+      // pego os ultimos 30 dias
+      datasEos.slice(0, 30).map((item: any, i: any) => {
+        trintaDias.push(item);
+      });
+      
+      // preencho o grafico com a informação dos ultimos 30 dias
+      this.preencherDadosGrafico(trintaDias, this.dataLabelTerceiroTurno, this.quantidadesOSTerceiroTurno);
+
+    //  ! caso tenha data selecionada
+    } else {
+      startDateFormatada = this.datepipe.transform(this.startDateGraficoTerceiroTurno, 'yyyy-MM-dd');
+      endDateFormatada = this.datepipe.transform(this.endDateGraficoTerceiroTurno, 'yyyy-MM-dd');      
+
+      datasEos = datasEos.sort((a, b) => a.localeCompare(b));
+    
+      // populando o grafico com os dados que possuem a data entre startDateFormatada e endDateFormatada
+      datasEos.forEach(element => {
+        
+        if (element.substring(0, 10) >= startDateFormatada && element.substring(0, 10) <= endDateFormatada) {
+          this.dataLabelTerceiroTurno.push(element.substring(0, 10));
+          this.quantidadesOSTerceiroTurno.push(parseInt(element.substring(12, element.length)));
+        }
+      });      
+    }
+        
+    this.chartTerceiro!.data.datasets[0].data = this.quantidadesOSTerceiroTurno;
+    this.chartTerceiro!.data.datasets[0].label = `Terceiro Turno - ${valor.option.value}`;
+    this.chartTerceiro!.data.labels = this.dataLabelTerceiroTurno;
+
+    this.chartTerceiro?.update();
+  }
+
+  clearSelectTerTurno(event: any) {
+    event.stopPropagation();
+    this.funcionarioTerceiroTurnoSelecionado = "";
+
+    this.dataLabelTerceiroTurno = [];
+    this.quantidadesOSTerceiroTurno = [];
+    this.chartTerceiro!.data.datasets[0].data = [];
+    this.chartTerceiro!.data.labels = [];
+
+    this.primeiroTrintaDiasTerceiroTurno = this.primeiroTrintaDiasTerceiroTurno.sort((a, b) => a.localeCompare(b));
+
+    // populando os dados com os ultimos 30 dias
+    this.primeiroTrintaDiasTerceiroTurno.forEach((element: any) => {
+      this.dataLabelTerceiroTurno.push(element.substring(0, 10));
+      this.quantidadesOSTerceiroTurno.push(parseInt(element.substring(12, element.length)));
+    });
+
+    // passando os valores atualizados
+    this.chartTerceiro!.data.datasets[0].data = this.quantidadesOSTerceiroTurno;
+    this.chartTerceiro!.data.labels = this.dataLabelTerceiroTurno;
+    this.chartTerceiro!.data.datasets[0].label = `Terceiro Turno`;
+
+    this.chartTerceiro?.update();
   }
 }
