@@ -6,3 +6,6 @@ mat-icon {
    color: rgba(0, 0, 0, 0.54);
    bottom: 0;
 }
+.voltar {
+   cursor: pointer;
+}

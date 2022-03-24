@@ -14,6 +14,7 @@ export class GraficoOsComponent implements OnInit, AfterViewInit {
   @ViewChild('chartSegundoTurno') chartSegundoTurno!: ElementRef;
   @ViewChild('chartTerceiroTurno') chartTerceiroTurno!: ElementRef;
   dataAtualFormatada: String = "";
+  engemanArray: any[] = [];
 
   chartPrimeiro: Chart | undefined;
   chartSegundo: Chart | undefined;
@@ -45,6 +46,9 @@ export class GraficoOsComponent implements OnInit, AfterViewInit {
   dadosOSTerceiroTurno: number[] = [0, 0, 0, 0, 0, 0, 0, 0];
   
   loadData: boolean = false;
+  voltarPrim: boolean = false;
+  voltarSeg: boolean = false;
+  voltarTer: boolean = false;
 
   startDateGraficoPrimeiroTurno: any;
   endDateGraficoPrimeiroTurno: any;
@@ -65,9 +69,7 @@ export class GraficoOsComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     var dataAtual = new Date().toLocaleDateString();
-    console.log(new Date().toLocaleDateString());
     this.dataAtualFormatada = dataAtual.split("/").reverse().join("-");
-    console.log(this.dataAtualFormatada);
 
     this.engemanService.getEngemanList().subscribe((engeman: any) => {
       
@@ -86,20 +88,9 @@ export class GraficoOsComponent implements OnInit, AfterViewInit {
           this.datasTerceiroTurno.push(element.DataIni.substring(0, 10));          
         }        
 
-        // * passando os valores por hora de cada turno
-        this.dadosPorHoraPrimeiroTurnoFunction(element);
-        this.dadosPorHoraSegundoTurnoFunction(element);
-        this.dadosPorHoraTerceiroTurnoFunction(element);
+        // armazenando o valor recebido da rest
+        this.engemanArray.push(element);
       });
-
-      setTimeout(() => {
-        console.log('Primeiro Turno');
-        console.log(this.dadosOSPrimeiroTurno);
-        console.log('Segundo Turno');
-        console.log(this.dadosOSSegundoTurno);
-        console.log('Terceiro Turno');
-        console.log(this.dadosOSTerceiroTurno);
-      }, 1000);
       
       this.quantidadeOsPorDiaPrimeiroTurno = this.getQuantidadeOSFunction(this.datasPrimeiroTurno);    
       this.quantidadeOsPorDiaSegundoTurno = this.getQuantidadeOSFunction(this.datasSegundoTurno);    
@@ -110,15 +101,15 @@ export class GraficoOsComponent implements OnInit, AfterViewInit {
       // console.log(this.quantidadeOsPorDiaTerceiroTurno);
 
       // * exibo somente os primeiros dias 30
-      this.quantidadeOsPorDiaPrimeiroTurno.slice(0, 30).map((item: any, i: any) => {
+      this.quantidadeOsPorDiaPrimeiroTurno.slice(0, 7).map((item: any, i: any) => {
         this.primeiroTrintaDiasPrimeiroTurno.push(item);
       });
       
-      this.quantidadeOsPorDiaSegundoTurno.slice(0, 30).map((item: any, i: any) => {
+      this.quantidadeOsPorDiaSegundoTurno.slice(0, 7).map((item: any, i: any) => {
         this.primeiroTrintaDiasSegundoTurno.push(item);
       });
       
-      this.quantidadeOsPorDiaTerceiroTurno.slice(0, 30).map((item: any, i: any) => {
+      this.quantidadeOsPorDiaTerceiroTurno.slice(0, 7).map((item: any, i: any) => {
         this.primeiroTrintaDiasTerceiroTurno.push(item);
       });
 
@@ -146,6 +137,30 @@ export class GraficoOsComponent implements OnInit, AfterViewInit {
         }]
       },
       options: {
+        onClick: (e, i) => {
+          // pegando o valor da barra clicada
+          var valor = this.chartPrimeiro!.data.datasets[0].data[i[0].index];
+          var data = this.chartPrimeiro!.data.labels![i[0].index];
+          this.dadosOSPrimeiroTurno = [0, 0, 0, 0, 0, 0, 0, 0];         
+
+          // passando todos os elementos para a função e contando somente aqueles com a data da barra selecionada
+          this.engemanArray.forEach(element => {
+            this.dadosPorHoraPrimeiroTurnoFunction(element, data);
+          });
+
+          this.chartPrimeiro!.data.datasets[0].data = [];
+          this.chartPrimeiro!.data.labels = [];
+
+          setTimeout(() => {
+            this.chartPrimeiro!.data.datasets[0].data = this.dadosOSPrimeiroTurno;
+            this.chartPrimeiro!.data.labels = this.labelPorHoraPrimeiroTurno;
+            this.chartPrimeiro!.data.datasets[0].label = `Primeiro Turno - ${data}`;            
+
+            this.voltarPrim = true;
+
+            this.chartPrimeiro?.update();
+          }, 500);
+        },
         scales: {
           y: {
             beginAtZero: true
@@ -165,6 +180,30 @@ export class GraficoOsComponent implements OnInit, AfterViewInit {
         }]
       },
       options: {
+        onClick: (e, i) => {
+          // pegando o valor da barra clicada
+          var valor = this.chartSegundo!.data.datasets[0].data[i[0].index];
+          var data = this.chartSegundo!.data.labels![i[0].index]; 
+          this.dadosOSSegundoTurno = [0, 0, 0, 0, 0, 0, 0, 0];   
+
+          // passando todos os elementos para a função e contando somente aqueles com a data da barra selecionada
+          this.engemanArray.forEach(element => {
+            this.dadosPorHoraSegundoTurnoFunction(element, data);
+          });
+
+          this.chartSegundo!.data.datasets[0].data = [];
+          this.chartSegundo!.data.labels = [];
+
+          setTimeout(() => {
+            this.chartSegundo!.data.datasets[0].data = this.dadosOSSegundoTurno;
+            this.chartSegundo!.data.labels = this.labelPorHoraSegundoTurno;
+            this.chartSegundo!.data.datasets[0].label = `Segundo Turno - ${data}`;
+
+            this.voltarSeg = true;
+
+            this.chartSegundo?.update();
+          }, 500);
+        },
         scales: {
           y: {
             beginAtZero: true
@@ -184,6 +223,30 @@ export class GraficoOsComponent implements OnInit, AfterViewInit {
         }]
       },
       options: {
+        onClick: (e, i) => {
+          // pegando o valor da barra clicada
+          var valor = this.chartTerceiro!.data.datasets[0].data[i[0].index];
+          var data = this.chartTerceiro!.data.labels![i[0].index];
+          this.dadosOSTerceiroTurno = [0, 0, 0, 0, 0, 0, 0, 0];   
+
+          // passando todos os elementos para a função e contando somente aqueles com a data da barra selecionada
+          this.engemanArray.forEach(element => {
+            this.dadosPorHoraTerceiroTurnoFunction(element, data);
+          });
+
+          this.chartTerceiro!.data.datasets[0].data = [];
+          this.chartTerceiro!.data.labels = [];
+
+          setTimeout(() => {
+            this.chartTerceiro!.data.datasets[0].data = this.dadosOSTerceiroTurno;
+            this.chartTerceiro!.data.labels = this.labelPorHoraTerceiroTurno;
+            this.chartTerceiro!.data.datasets[0].label = `Terceiro Turno - ${data}`;
+
+            this.voltarTer = true;
+
+            this.chartTerceiro?.update();
+          }, 500);
+        },
         scales: {
           y: {
             beginAtZero: true
@@ -251,11 +314,13 @@ export class GraficoOsComponent implements OnInit, AfterViewInit {
     event.stopPropagation();
     this.startDateGraficoPrimeiroTurno = null;
     this.endDateGraficoPrimeiroTurno = null;
+    this.voltarPrim = false;
 
     this.dataLabelPrimeiroTurno = [];
     this.quantidadesOSPrimeiroTurno = [];
     this.chartPrimeiro!.data.datasets[0].data = [];
     this.chartPrimeiro!.data.labels = [];
+    this.chartPrimeiro!.data.datasets[0].label = `Primeiro Turno`;
 
     this.primeiroTrintaDiasPrimeiroTurno = this.primeiroTrintaDiasPrimeiroTurno.sort((a, b) => a.localeCompare(b));
 
@@ -273,9 +338,7 @@ export class GraficoOsComponent implements OnInit, AfterViewInit {
   }
 
   // ? SEGUNDO TURNO
-  dateRangeSegundoTurno(type: any, event: any) {
-    console.log('hello');
-    
+  dateRangeSegundoTurno(type: any, event: any) {    
     // resetando os valores do grafico
     this.dataLabelSegundoTurno = [];
     this.quantidadesOSSegundoTurno = [];
@@ -311,11 +374,13 @@ export class GraficoOsComponent implements OnInit, AfterViewInit {
     event.stopPropagation();
     this.startDateGraficoSegundoTurno = null;
     this.endDateGraficoSegundoTurno = null;
+    this.voltarSeg = false;
 
     this.dataLabelSegundoTurno = [];
     this.quantidadesOSSegundoTurno = [];
     this.chartSegundo!.data.datasets[0].data = [];
     this.chartSegundo!.data.labels = [];
+    this.chartSegundo!.data.datasets[0].label = `Segundo Turno`;
 
     this.primeiroTrintaDiasSegundoTurno = this.primeiroTrintaDiasSegundoTurno.sort((a, b) => a.localeCompare(b));
 
@@ -333,9 +398,7 @@ export class GraficoOsComponent implements OnInit, AfterViewInit {
   }
 
   // ? TERCEIRO TURNO
-  dateRangeTerceiroTurno(type: any, event: any) {
-    console.log('hello');
-    
+  dateRangeTerceiroTurno(type: any, event: any) {    
     // resetando os valores do grafico
     this.dataLabelTerceiroTurno = [];
     this.quantidadesOSTerceiroTurno = [];
@@ -371,11 +434,13 @@ export class GraficoOsComponent implements OnInit, AfterViewInit {
     event.stopPropagation();
     this.startDateGraficoTerceiroTurno = null;
     this.endDateGraficoTerceiroTurno = null;
+    this.voltarTer = false;
 
     this.dataLabelTerceiroTurno = [];
     this.quantidadesOSTerceiroTurno = [];
     this.chartTerceiro!.data.datasets[0].data = [];
     this.chartTerceiro!.data.labels = [];
+    this.chartTerceiro!.data.datasets[0].label = `Terceiro Turno`;
 
     this.primeiroTrintaDiasTerceiroTurno = this.primeiroTrintaDiasTerceiroTurno.sort((a, b) => a.localeCompare(b));
 
@@ -392,8 +457,8 @@ export class GraficoOsComponent implements OnInit, AfterViewInit {
     this.chartTerceiro?.update();
   }
 
-  dadosPorHoraPrimeiroTurnoFunction(element: any) {
-    if (element.DataIni.substring(0, 10) === this.dataAtualFormatada) {
+  dadosPorHoraPrimeiroTurnoFunction(element: any, data: any) {
+    if (element.DataIni.substring(0, 10) === data) {
       if (element.DataIni.substring(11, 19) >= "07:00:00" && element.DataIni.substring(11, 19) < "08:00:00") {
         this.dadosOSPrimeiroTurno[0] += 1;            
       }
@@ -421,8 +486,8 @@ export class GraficoOsComponent implements OnInit, AfterViewInit {
     }
   }
 
-  dadosPorHoraSegundoTurnoFunction(element: any) {
-    if (element.DataIni.substring(0, 10) === this.dataAtualFormatada) {
+  dadosPorHoraSegundoTurnoFunction(element: any, data: any) {
+    if (element.DataIni.substring(0, 10) === data) {
       if (element.DataIni.substring(11, 19) >= "15:00:00" && element.DataIni.substring(11, 19) < "16:00:00") {
         this.dadosOSSegundoTurno[0] += 1;            
       }
@@ -450,8 +515,8 @@ export class GraficoOsComponent implements OnInit, AfterViewInit {
     }
   }
   
-  dadosPorHoraTerceiroTurnoFunction(element: any) {
-    if (element.DataIni.substring(0, 10) === this.dataAtualFormatada) {
+  dadosPorHoraTerceiroTurnoFunction(element: any, data: any) {
+    if (element.DataIni.substring(0, 10) === data) {
       if (element.DataIni.substring(11, 19) >= "23:00:00" && element.DataIni.substring(11, 19) < "00:00:00") {
         this.dadosOSTerceiroTurno[0] += 1;            
       }
