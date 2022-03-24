@@ -26,6 +26,7 @@ export class GraficoFuncionarioComponent implements OnInit, AfterViewInit {
   funcionariosPrimeiroTurno: string[] = [];
   geralPrimeiroTurno: any[] = [];
   funcionarioPrimeiroTurnoSelecionado: String = '';
+  datasEosPrimeiro: any[] = [];
 
   datasSegundoTurno: any[] = [];
   quantidadeOsPorDiaSegundoTurno: any[] = [];
@@ -35,6 +36,7 @@ export class GraficoFuncionarioComponent implements OnInit, AfterViewInit {
   funcionariosSegundoTurno: string[] = [];
   geralSegundoTurno: any[] = [];
   funcionarioSegundoTurnoSelecionado: String = '';
+  datasEosSegundo: any[] = [];
 
   datasTerceiroTurno: any[] = [];
   quantidadeOsPorDiaTerceiroTurno: any[] = [];
@@ -44,6 +46,7 @@ export class GraficoFuncionarioComponent implements OnInit, AfterViewInit {
   funcionariosTerceiroTurno: string[] = [];
   geralTerceiroTurno: any[] = [];
   funcionarioTerceiroTurnoSelecionado: String = '';
+  datasEosTerceiro: any[] = [];
   
   loadData: boolean = false;
 
@@ -227,15 +230,30 @@ export class GraficoFuncionarioComponent implements OnInit, AfterViewInit {
       endDateFormatada = this.datepipe.transform(this.endDateGraficoPrimeiroTurno, 'yyyy-MM-dd');      
     }
 
-    this.quantidadeOsPorDiaPrimeiroTurno = this.quantidadeOsPorDiaPrimeiroTurno.sort((a, b) => a.localeCompare(b));
+    // !se funcionario vazio
+    if (this.funcionarioPrimeiroTurnoSelecionado === "") {
+      this.quantidadeOsPorDiaPrimeiroTurno = this.quantidadeOsPorDiaPrimeiroTurno.sort((a, b) => a.localeCompare(b));
     
-    // populando o grafico com os dados que possuem a data entre startDateFormatada e endDateFormatada
-    this.quantidadeOsPorDiaPrimeiroTurno.forEach(element => {
-      if (element.substring(0, 10) >= startDateFormatada && element.substring(0, 10) <= endDateFormatada) {
-        this.dataLabelPrimeiroTurno.push(element.substring(0, 10));
-        this.quantidadesOSPrimeiroTurno.push(parseInt(element.substring(12, element.length)));
-      }
-    });
+      // populando o grafico com os dados que possuem a data entre startDateFormatada e endDateFormatada
+      this.quantidadeOsPorDiaPrimeiroTurno.forEach(element => {
+        if (element.substring(0, 10) >= startDateFormatada && element.substring(0, 10) <= endDateFormatada) {
+          this.dataLabelPrimeiroTurno.push(element.substring(0, 10));
+          this.quantidadesOSPrimeiroTurno.push(parseInt(element.substring(12, element.length)));
+        }
+      });
+
+    } else {
+      this.datasEosPrimeiro = this.datasEosPrimeiro.sort((a, b) => a.localeCompare(b));
+    
+      // populando o grafico com os dados que possuem a data entre startDateFormatada e endDateFormatada
+      this.datasEosPrimeiro.forEach(element => {
+        
+        if (element.substring(0, 10) >= startDateFormatada && element.substring(0, 10) <= endDateFormatada) {
+          this.dataLabelPrimeiroTurno.push(element.substring(0, 10));
+          this.quantidadesOSPrimeiroTurno.push(parseInt(element.substring(12, element.length)));
+        }
+      });  
+    }    
 
     // passando os valores atualizados
     this.chartPrimeiro!.data.datasets[0].data = this.quantidadesOSPrimeiroTurno;
@@ -285,15 +303,30 @@ export class GraficoFuncionarioComponent implements OnInit, AfterViewInit {
       endDateFormatada = this.datepipe.transform(this.endDateGraficoSegundoTurno, 'yyyy-MM-dd');      
     }
 
-    this.quantidadeOsPorDiaSegundoTurno = this.quantidadeOsPorDiaSegundoTurno.sort((a, b) => a.localeCompare(b));
+    // !se funcionario vazio
+    if (this.funcionarioSegundoTurnoSelecionado === "") {
+      this.quantidadeOsPorDiaSegundoTurno = this.quantidadeOsPorDiaSegundoTurno.sort((a, b) => a.localeCompare(b));
+      
+      // populando o grafico com os dados que possuem a data entre startDateFormatada e endDateFormatada
+      this.quantidadeOsPorDiaSegundoTurno.forEach(element => {
+        if (element.substring(0, 10) >= startDateFormatada && element.substring(0, 10) <= endDateFormatada) {
+          this.dataLabelSegundoTurno.push(element.substring(0, 10));
+          this.quantidadesOSSegundoTurno.push(parseInt(element.substring(12, element.length)));
+        }
+      });
+      
+    } else {
+      this.datasEosSegundo = this.datasEosSegundo.sort((a, b) => a.localeCompare(b));
     
-    // populando o grafico com os dados que possuem a data entre startDateFormatada e endDateFormatada
-    this.quantidadeOsPorDiaSegundoTurno.forEach(element => {
-      if (element.substring(0, 10) >= startDateFormatada && element.substring(0, 10) <= endDateFormatada) {
-        this.dataLabelSegundoTurno.push(element.substring(0, 10));
-        this.quantidadesOSSegundoTurno.push(parseInt(element.substring(12, element.length)));
-      }
-    });
+      // populando o grafico com os dados que possuem a data entre startDateFormatada e endDateFormatada
+      this.datasEosSegundo.forEach(element => {
+        if (element.substring(0, 10) >= startDateFormatada && element.substring(0, 10) <= endDateFormatada) {
+          this.dataLabelSegundoTurno.push(element.substring(0, 10));
+          this.quantidadesOSSegundoTurno.push(parseInt(element.substring(12, element.length)));
+        }
+      });
+    }
+
 
     // passando os valores atualizados
     this.chartSegundo!.data.datasets[0].data = this.quantidadesOSSegundoTurno;
@@ -343,15 +376,32 @@ export class GraficoFuncionarioComponent implements OnInit, AfterViewInit {
       endDateFormatada = this.datepipe.transform(this.endDateGraficoTerceiroTurno, 'yyyy-MM-dd');      
     }
 
-    this.quantidadeOsPorDiaTerceiroTurno = this.quantidadeOsPorDiaTerceiroTurno.sort((a, b) => a.localeCompare(b));
+    // !se funcionario vazio
+    if (this.funcionarioTerceiroTurnoSelecionado === "") {
+      this.quantidadeOsPorDiaTerceiroTurno = this.quantidadeOsPorDiaTerceiroTurno.sort((a, b) => a.localeCompare(b));
   
-    // populando o grafico com os dados que possuem a data entre startDateFormatada e endDateFormatada
-    this.quantidadeOsPorDiaTerceiroTurno.forEach(element => {
-      if (element.substring(0, 10) >= startDateFormatada && element.substring(0, 10) <= endDateFormatada) {
-        this.dataLabelTerceiroTurno.push(element.substring(0, 10));
-        this.quantidadesOSTerceiroTurno.push(parseInt(element.substring(12, element.length)));
-      }
-    });
+      // populando o grafico com os dados que possuem a data entre startDateFormatada e endDateFormatada
+      this.quantidadeOsPorDiaTerceiroTurno.forEach(element => {
+        if (element.substring(0, 10) >= startDateFormatada && element.substring(0, 10) <= endDateFormatada) {
+          this.dataLabelTerceiroTurno.push(element.substring(0, 10));
+          this.quantidadesOSTerceiroTurno.push(parseInt(element.substring(12, element.length)));
+        }
+      });
+
+    } else {
+      this.datasEosTerceiro = this.datasEosTerceiro.sort((a, b) => a.localeCompare(b));
+    
+      // populando o grafico com os dados que possuem a data entre startDateFormatada e endDateFormatada
+      this.datasEosTerceiro.forEach(element => {
+        
+        if (element.substring(0, 10) >= startDateFormatada && element.substring(0, 10) <= endDateFormatada) {
+          this.dataLabelTerceiroTurno.push(element.substring(0, 10));
+          this.quantidadesOSTerceiroTurno.push(parseInt(element.substring(12, element.length)));
+        }
+      });  
+    }
+
+    
 
     // passando os valores atualizados
     this.chartTerceiro!.data.datasets[0].data = this.quantidadesOSTerceiroTurno;
@@ -407,12 +457,12 @@ export class GraficoFuncionarioComponent implements OnInit, AfterViewInit {
     });
 
     // mando fazer o calculo de quantide de os's por dia
-    var datasEos = this.getQuantidadeOSFunction(arrayDatasFunc);
+    this.datasEosPrimeiro = this.getQuantidadeOSFunction(arrayDatasFunc);
     
     //  ! caso nenhuma data selecionada
     if (this.startDateGraficoPrimeiroTurno === null) {    
       // pego os ultimos 30 dias
-      datasEos.slice(0, 30).map((item: any, i: any) => {
+      this.datasEosPrimeiro.slice(0, 30).map((item: any, i: any) => {
         trintaDias.push(item);
       });
       
@@ -424,10 +474,10 @@ export class GraficoFuncionarioComponent implements OnInit, AfterViewInit {
       startDateFormatada = this.datepipe.transform(this.startDateGraficoPrimeiroTurno, 'yyyy-MM-dd');
       endDateFormatada = this.datepipe.transform(this.endDateGraficoPrimeiroTurno, 'yyyy-MM-dd');      
 
-      datasEos = datasEos.sort((a, b) => a.localeCompare(b));
+      this.datasEosPrimeiro = this.datasEosPrimeiro.sort((a, b) => a.localeCompare(b));
     
       // populando o grafico com os dados que possuem a data entre startDateFormatada e endDateFormatada
-      datasEos.forEach(element => {
+      this.datasEosPrimeiro.forEach(element => {
         
         if (element.substring(0, 10) >= startDateFormatada && element.substring(0, 10) <= endDateFormatada) {
           this.dataLabelPrimeiroTurno.push(element.substring(0, 10));
@@ -489,12 +539,12 @@ export class GraficoFuncionarioComponent implements OnInit, AfterViewInit {
     });
 
     // mando fazer o calculo de quantide de os's por dia
-    var datasEos = this.getQuantidadeOSFunction(arrayDatasFunc);
+    this.datasEosSegundo = this.getQuantidadeOSFunction(arrayDatasFunc);
     
     //  ! caso nenhuma data selecionada
     if (this.startDateGraficoSegundoTurno === null) {    
       // pego os ultimos 30 dias
-      datasEos.slice(0, 30).map((item: any, i: any) => {
+      this.datasEosSegundo.slice(0, 30).map((item: any, i: any) => {
         trintaDias.push(item);
       });
       
@@ -506,11 +556,10 @@ export class GraficoFuncionarioComponent implements OnInit, AfterViewInit {
       startDateFormatada = this.datepipe.transform(this.startDateGraficoSegundoTurno, 'yyyy-MM-dd');
       endDateFormatada = this.datepipe.transform(this.endDateGraficoSegundoTurno, 'yyyy-MM-dd');      
 
-      datasEos = datasEos.sort((a, b) => a.localeCompare(b));
+      this.datasEosSegundo = this.datasEosSegundo.sort((a, b) => a.localeCompare(b));
     
       // populando o grafico com os dados que possuem a data entre startDateFormatada e endDateFormatada
-      datasEos.forEach(element => {
-        
+      this.datasEosSegundo.forEach(element => {
         if (element.substring(0, 10) >= startDateFormatada && element.substring(0, 10) <= endDateFormatada) {
           this.dataLabelSegundoTurno.push(element.substring(0, 10));
           this.quantidadesOSSegundoTurno.push(parseInt(element.substring(12, element.length)));
@@ -571,12 +620,12 @@ export class GraficoFuncionarioComponent implements OnInit, AfterViewInit {
     });
 
     // mando fazer o calculo de quantide de os's por dia
-    var datasEos = this.getQuantidadeOSFunction(arrayDatasFunc);
+    this.datasEosTerceiro = this.getQuantidadeOSFunction(arrayDatasFunc);
     
     //  ! caso nenhuma data selecionada
     if (this.startDateGraficoTerceiroTurno === null) {    
       // pego os ultimos 30 dias
-      datasEos.slice(0, 30).map((item: any, i: any) => {
+      this.datasEosTerceiro.slice(0, 30).map((item: any, i: any) => {
         trintaDias.push(item);
       });
       
@@ -588,10 +637,10 @@ export class GraficoFuncionarioComponent implements OnInit, AfterViewInit {
       startDateFormatada = this.datepipe.transform(this.startDateGraficoTerceiroTurno, 'yyyy-MM-dd');
       endDateFormatada = this.datepipe.transform(this.endDateGraficoTerceiroTurno, 'yyyy-MM-dd');      
 
-      datasEos = datasEos.sort((a, b) => a.localeCompare(b));
+      this.datasEosTerceiro = this.datasEosTerceiro.sort((a, b) => a.localeCompare(b));
     
       // populando o grafico com os dados que possuem a data entre startDateFormatada e endDateFormatada
-      datasEos.forEach(element => {
+      this.datasEosTerceiro.forEach(element => {
         
         if (element.substring(0, 10) >= startDateFormatada && element.substring(0, 10) <= endDateFormatada) {
           this.dataLabelTerceiroTurno.push(element.substring(0, 10));
