@@ -1,7 +1,9 @@
 import { DatePipe } from '@angular/common';
 import { AfterViewInit, Component, ElementRef, OnInit, QueryList, ViewChild } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { ChartConfiguration, ChartData, ChartEvent, ChartType, Chart } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
+import { map, Observable, startWith } from 'rxjs';
 import { EngemanGerencialService } from '../../backend/services/engeman-gerencial.service';
 
 @Component({
@@ -13,7 +15,6 @@ export class GraficoOsComponent implements OnInit, AfterViewInit {
   @ViewChild('chartPrimeiroTurno') chartPrimeiroTurno!: ElementRef;
   @ViewChild('chartSegundoTurno') chartSegundoTurno!: ElementRef;
   @ViewChild('chartTerceiroTurno') chartTerceiroTurno!: ElementRef;
-  dataAtualFormatada: String = "";
   engemanArray: any[] = [];
 
   chartPrimeiro: Chart | undefined;
@@ -28,6 +29,10 @@ export class GraficoOsComponent implements OnInit, AfterViewInit {
   quantidadesOSPrimeiroTurno: number[] = [];
   labelPorHoraPrimeiroTurno: String[] = ['07:00', '08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00'];
   dadosOSPrimeiroTurno: number[] = [0, 0, 0, 0, 0, 0, 0, 0];
+  maquinasPrimeiroTurno: string[] = [];
+  maquinaSelecionadaPrimeiroTurno: string = "";
+  geralPrimeiroTurno: any[] = [];
+  datasEosPrimeiro: any[] = [];
 
   datasSegundoTurno: any[] = [];
   quantidadeOsPorDiaSegundoTurno: any[] = [];
@@ -68,12 +73,7 @@ export class GraficoOsComponent implements OnInit, AfterViewInit {
   ) { }
 
   ngOnInit() {
-    var dataAtual = new Date().toLocaleDateString();
-    this.dataAtualFormatada = dataAtual.split("/").reverse().join("-");
-
-    this.engemanService.getEngemanList().subscribe((engeman: any) => {
-      console.log(engeman);
-      
+    this.engemanService.getEngemanList().subscribe((engeman: any) => {      
       engeman.forEach((element: any) => {
         // * adiciona somente a data, sem a hora a array Datas
         this.datas.push(element.DataIni.substring(0, 10));        
@@ -81,6 +81,11 @@ export class GraficoOsComponent implements OnInit, AfterViewInit {
         // * passando os valores de cada turno
         if (element.DataIni.substring(11, 19) >= "07:00:00" && element.DataIni.substring(11, 19) < "15:00:00") {
           this.datasPrimeiroTurno.push(element.DataIni.substring(0, 10));
+
+          this.geralPrimeiroTurno.push({maquina: element.APLICDescr, data: element.DataIni.substring(0, 10)});
+          if (!this.maquinasPrimeiroTurno.includes(element.APLICDescr)) {
+            this.maquinasPrimeiroTurno.push(element.APLICDescr);
+          }
           
         } else if(element.DataIni.substring(11, 19) >= "15:00:00" && element.DataIni.substring(11, 19) < "23:00:00") {
           this.datasSegundoTurno.push(element.DataIni.substring(0, 10));
@@ -116,9 +121,9 @@ export class GraficoOsComponent implements OnInit, AfterViewInit {
 
       // * populando os dados para o grafico com os ultimos 7 dias
       setTimeout(() => {
-        this.populaGrafico(this.primeiroTrintaDiasPrimeiroTurno, this.dataLabelPrimeiroTurno, this.quantidadesOSPrimeiroTurno);
-        this.populaGrafico(this.primeiroTrintaDiasSegundoTurno, this.dataLabelSegundoTurno, this.quantidadesOSSegundoTurno);
-        this.populaGrafico(this.primeiroTrintaDiasTerceiroTurno, this.dataLabelTerceiroTurno, this.quantidadesOSTerceiroTurno);
+        this.preencherDadosGrafico(this.primeiroTrintaDiasPrimeiroTurno, this.dataLabelPrimeiroTurno, this.quantidadesOSPrimeiroTurno);
+        this.preencherDadosGrafico(this.primeiroTrintaDiasSegundoTurno, this.dataLabelSegundoTurno, this.quantidadesOSSegundoTurno);
+        this.preencherDadosGrafico(this.primeiroTrintaDiasTerceiroTurno, this.dataLabelTerceiroTurno, this.quantidadesOSTerceiroTurno);
         
         this.loadData = true;
       }, 1000);
@@ -142,13 +147,23 @@ export class GraficoOsComponent implements OnInit, AfterViewInit {
           // pegando o valor da barra clicada
           var valor = this.chartPrimeiro!.data.datasets[0].data[i[0].index];
           var data = this.chartPrimeiro!.data.labels![i[0].index];
-          this.dadosOSPrimeiroTurno = [0, 0, 0, 0, 0, 0, 0, 0];         
+          this.dadosOSPrimeiroTurno = [0, 0, 0, 0, 0, 0, 0, 0];
 
-          // passando todos os elementos para a função e contando somente aqueles com a data da barra selecionada
-          this.engemanArray.forEach(element => {
-            this.dadosPorHoraPrimeiroTurnoFunction(element, data);
-          });
+          if (this.maquinaSelecionadaPrimeiroTurno === "") {
+            // passando todos os elementos para a função e contando somente aqueles com a data da barra selecionada
+            this.engemanArray.forEach(element => {
+              this.dadosPorHoraPrimeiroTurnoFunction(element, data);
+            });
 
+          } else {
+            // procuro no engemanArray a maquina selecionada pelo usuario e passo para a função
+            this.engemanArray.forEach(element => {
+              if (element.APLICDescr === this.maquinaSelecionadaPrimeiroTurno) {
+                this.dadosPorHoraPrimeiroTurnoFunction(element, data);
+              }
+            });
+          }
+          
           this.chartPrimeiro!.data.datasets[0].data = [];
           this.chartPrimeiro!.data.labels = [];
 
@@ -267,7 +282,7 @@ export class GraficoOsComponent implements OnInit, AfterViewInit {
     },{})).map((o: any)=>(`${[o[0]]}: ${o[1]}`));   
   }
 
-  populaGrafico(arrayDias: any, dataLabel: any, quantidadesOS: any) {
+  preencherDadosGrafico(arrayDias: any, dataLabel: any, quantidadesOS: any) {
     // ordem crescente
     arrayDias = arrayDias.sort((a: any, b: any) => a.localeCompare(b));
 
@@ -292,15 +307,30 @@ export class GraficoOsComponent implements OnInit, AfterViewInit {
     startDateFormatada = this.datepipe.transform(this.startDateGraficoPrimeiroTurno, 'yyyy-MM-dd');
     endDateFormatada = this.datepipe.transform(this.endDateGraficoPrimeiroTurno, 'yyyy-MM-dd');      
 
-    this.quantidadeOsPorDiaPrimeiroTurno = this.quantidadeOsPorDiaPrimeiroTurno.sort((a, b) => a.localeCompare(b));
+    // !se maquina vazio
+    if (this.maquinaSelecionadaPrimeiroTurno === "") {
+      this.quantidadeOsPorDiaPrimeiroTurno = this.quantidadeOsPorDiaPrimeiroTurno.sort((a, b) => a.localeCompare(b));
     
-    // populando o grafico com os dados que possuem a data entre startDateFormatada e endDateFormatada
-    this.quantidadeOsPorDiaPrimeiroTurno.forEach(element => {
-      if (element.substring(0, 10) >= startDateFormatada && element.substring(0, 10) <= endDateFormatada) {
-        this.dataLabelPrimeiroTurno.push(element.substring(0, 10));
-        this.quantidadesOSPrimeiroTurno.push(parseInt(element.substring(12, element.length)));
-      }
-    });
+      // populando o grafico com os dados que possuem a data entre startDateFormatada e endDateFormatada
+      this.quantidadeOsPorDiaPrimeiroTurno.forEach(element => {
+        if (element.substring(0, 10) >= startDateFormatada && element.substring(0, 10) <= endDateFormatada) {
+          this.dataLabelPrimeiroTurno.push(element.substring(0, 10));
+          this.quantidadesOSPrimeiroTurno.push(parseInt(element.substring(12, element.length)));
+        }
+      });
+
+    } else {
+      this.datasEosPrimeiro = this.datasEosPrimeiro.sort((a, b) => a.localeCompare(b));
+    
+      // populando o grafico com os dados que possuem a data entre startDateFormatada e endDateFormatada
+      this.datasEosPrimeiro.forEach(element => {
+        
+        if (element.substring(0, 10) >= startDateFormatada && element.substring(0, 10) <= endDateFormatada) {
+          this.dataLabelPrimeiroTurno.push(element.substring(0, 10));
+          this.quantidadesOSPrimeiroTurno.push(parseInt(element.substring(12, element.length)));
+        }
+      });  
+    } 
 
     // passando os valores atualizados
     this.chartPrimeiro!.data.datasets[0].data = this.quantidadesOSPrimeiroTurno;
@@ -320,14 +350,34 @@ export class GraficoOsComponent implements OnInit, AfterViewInit {
     this.chartPrimeiro!.data.datasets[0].data = [];
     this.chartPrimeiro!.data.labels = [];
     this.chartPrimeiro!.data.datasets[0].label = `Primeiro Turno`;
+    var trintaDias:  any[] = [];
 
-    this.primeiroTrintaDiasPrimeiroTurno = this.primeiroTrintaDiasPrimeiroTurno.sort((a, b) => a.localeCompare(b));
+    // !se maquina vazia
+    if (this.maquinaSelecionadaPrimeiroTurno === "") {
+      this.primeiroTrintaDiasPrimeiroTurno = this.primeiroTrintaDiasPrimeiroTurno.sort((a, b) => a.localeCompare(b));
+      
+      // populando os dados com os ultimos 7 dias
+      this.primeiroTrintaDiasPrimeiroTurno.forEach((element: any) => {
+        this.dataLabelPrimeiroTurno.push(element.substring(0, 10));
+        this.quantidadesOSPrimeiroTurno.push(parseInt(element.substring(12, element.length)));
+      });
 
-    // populando os dados com os ultimos 7 dias
-    this.primeiroTrintaDiasPrimeiroTurno.forEach((element: any) => {
-      this.dataLabelPrimeiroTurno.push(element.substring(0, 10));
-      this.quantidadesOSPrimeiroTurno.push(parseInt(element.substring(12, element.length)));
-    });
+    } else {
+      this.datasEosPrimeiro = this.datasEosPrimeiro.sort((a, b) => b.localeCompare(a));
+      
+      // pego os ultimos 7 dias
+      this.datasEosPrimeiro.slice(0, 7).map((item: any, i: any) => {
+        trintaDias.push(item);
+      });
+      
+      trintaDias = trintaDias.sort((a, b) => a.localeCompare(b));
+
+      // populando os dados com os ultimos 7 dias
+      trintaDias.forEach((element: any) => {
+        this.dataLabelPrimeiroTurno.push(element.substring(0, 10));
+        this.quantidadesOSPrimeiroTurno.push(parseInt(element.substring(12, element.length)));
+      });
+    }
 
     // passando os valores atualizados
     this.chartPrimeiro!.data.datasets[0].data = this.quantidadesOSPrimeiroTurno;
@@ -542,10 +592,14 @@ export class GraficoOsComponent implements OnInit, AfterViewInit {
   voltarPrimFunction(event: any) {
     if (this.startDateGraficoPrimeiroTurno === null) {
       this.clearDatePrimeiroTurno(event);
-    } else {
+
+    } else if(this.startDateGraficoPrimeiroTurno !== null) {
       this.voltarPrim = false;
       this.chartPrimeiro!.data.datasets[0].label = `Primeiro Turno`;
       this.dateRangePrimeiroTurno();
+    
+    } else if(this.maquinaSelecionadaPrimeiroTurno !== "") {
+      this.onItemSelectPrimTurno();
     }
   }
   
@@ -559,7 +613,7 @@ export class GraficoOsComponent implements OnInit, AfterViewInit {
     }
   }
 
-  voltarTerFunction(event: any) {
+  voltarTercFunction(event: any) {
     if (this.startDateGraficoTerceiroTurno === null) {
       this.clearDateTerceiroTurno(event);
     } else {
@@ -567,5 +621,107 @@ export class GraficoOsComponent implements OnInit, AfterViewInit {
       this.chartTerceiro!.data.datasets[0].label = `Terceiro Turno`;
       this.dateRangeTerceiroTurno();
     }
+  }
+
+  // * FUNÇÕES PARA SELECT DE FUNCIONÁRIO
+  // *PRIMEIRO TURNO
+  onItemSelectPrimTurno() {
+    var arrayDatasFunc: any[] = [];
+    var trintaDias:  any[] = [];
+    var startDateFormatada: any;
+    var endDateFormatada: any;
+
+    this.dataLabelPrimeiroTurno = [];
+    this.quantidadesOSPrimeiroTurno = [];
+    this.chartPrimeiro!.data.datasets[0].data = [];
+    this.chartPrimeiro!.data.datasets[0].label = "";
+    this.chartPrimeiro!.data.labels = [];
+    
+    this.geralPrimeiroTurno.forEach(geral => {
+      if (geral.maquina === this.maquinaSelecionadaPrimeiroTurno) {
+        arrayDatasFunc.push(geral.data);
+      }
+    });
+    
+    // mando fazer o calculo de quantide de os's por dia
+    this.datasEosPrimeiro = this.getQuantidadeOSFunction(arrayDatasFunc);
+
+    //  ! caso nenhuma data selecionada
+    if (this.startDateGraficoPrimeiroTurno === null) {    
+      // pego os ultimos 7 dias
+      this.datasEosPrimeiro.slice(0, 7).map((item: any, i: any) => {
+        trintaDias.push(item);
+      });
+      
+      // preencho o grafico com a informação dos ultimos 7 dias
+      this.preencherDadosGrafico(trintaDias, this.dataLabelPrimeiroTurno, this.quantidadesOSPrimeiroTurno);
+
+    //  ! caso tenha data selecionada
+    } else {
+      startDateFormatada = this.datepipe.transform(this.startDateGraficoPrimeiroTurno, 'yyyy-MM-dd');
+      endDateFormatada = this.datepipe.transform(this.endDateGraficoPrimeiroTurno, 'yyyy-MM-dd');      
+
+      this.datasEosPrimeiro = this.datasEosPrimeiro.sort((a, b) => a.localeCompare(b));
+    
+      // populando o grafico com os dados que possuem a data entre startDateFormatada e endDateFormatada
+      this.datasEosPrimeiro.forEach(element => {
+        
+        if (element.substring(0, 10) >= startDateFormatada && element.substring(0, 10) <= endDateFormatada) {
+          this.dataLabelPrimeiroTurno.push(element.substring(0, 10));
+          this.quantidadesOSPrimeiroTurno.push(parseInt(element.substring(12, element.length)));
+        }
+      });      
+    }
+
+    this.chartPrimeiro!.data.datasets[0].data = this.quantidadesOSPrimeiroTurno;
+    this.chartPrimeiro!.data.datasets[0].label = `Primeiro Turno - ${this.maquinaSelecionadaPrimeiroTurno}`;
+    this.chartPrimeiro!.data.labels = this.dataLabelPrimeiroTurno;
+
+    this.chartPrimeiro?.update();
+  }
+
+  clearSelectPrimTurno(event: any) {
+    event.stopPropagation();
+    this.maquinaSelecionadaPrimeiroTurno = "";
+
+    this.dataLabelPrimeiroTurno = [];
+    this.quantidadesOSPrimeiroTurno = [];
+    this.chartPrimeiro!.data.datasets[0].data = [];
+    this.chartPrimeiro!.data.labels = [];
+
+    // !se a data nao tiver sido preenchida
+    if (this.startDateGraficoPrimeiroTurno === null) {
+      this.primeiroTrintaDiasPrimeiroTurno = this.primeiroTrintaDiasPrimeiroTurno.sort((a, b) => a.localeCompare(b));
+
+      // populando os dados com os ultimos 7 dias
+      this.primeiroTrintaDiasPrimeiroTurno.forEach((element: any) => {
+        this.dataLabelPrimeiroTurno.push(element.substring(0, 10));
+        this.quantidadesOSPrimeiroTurno.push(parseInt(element.substring(12, element.length)));
+      });
+
+    } else {
+      var startDateFormatada: any;
+      var endDateFormatada: any;
+    
+      startDateFormatada = this.datepipe.transform(this.startDateGraficoPrimeiroTurno, 'yyyy-MM-dd');
+      endDateFormatada = this.datepipe.transform(this.endDateGraficoPrimeiroTurno, 'yyyy-MM-dd');      
+
+      this.quantidadeOsPorDiaPrimeiroTurno = this.quantidadeOsPorDiaPrimeiroTurno.sort((a, b) => a.localeCompare(b));
+    
+      // populando o grafico com os dados que possuem a data entre startDateFormatada e endDateFormatada
+      this.quantidadeOsPorDiaPrimeiroTurno.forEach(element => {
+        if (element.substring(0, 10) >= startDateFormatada && element.substring(0, 10) <= endDateFormatada) {
+          this.dataLabelPrimeiroTurno.push(element.substring(0, 10));
+          this.quantidadesOSPrimeiroTurno.push(parseInt(element.substring(12, element.length)));
+        }
+      });
+    }
+
+    // passando os valores atualizados
+    this.chartPrimeiro!.data.datasets[0].data = this.quantidadesOSPrimeiroTurno;
+    this.chartPrimeiro!.data.labels = this.dataLabelPrimeiroTurno;
+    this.chartPrimeiro!.data.datasets[0].label = `Primeiro Turno`;
+
+    this.chartPrimeiro?.update();
   }
 }

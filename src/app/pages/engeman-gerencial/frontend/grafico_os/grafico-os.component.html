@@ -6,6 +6,25 @@
                     <i aria-hidden="true" class="fa fa-arrow-left me-2"></i>
                     <span>Voltar</span>
                 </div>
+
+                <div class="col d-flex align-items-end justify-content-start">
+                    <mat-form-field style="width: 40%;">
+                        <mat-label>Filtrar Máquina</mat-label>
+                        <input type="text"
+                           placeholder="Filtrar Máquina"
+                           matInput
+                           [matAutocomplete]="auto"
+                           [(ngModel)]="maquinaSelecionadaPrimeiroTurno"
+                        >
+                        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onItemSelectPrimTurno()">
+                            <mat-option *ngFor="let option of maquinasPrimeiroTurno" [value]="option">
+                            {{option}}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                    <mat-icon matDatepickerToggleIcon (click)="clearSelectPrimTurno($event)">clear</mat-icon>
+                </div>
+                  
                 <div class="col d-flex align-items-end justify-content-end">
                     <mat-form-field>
                         <mat-label>Range de Data</mat-label>
@@ -52,7 +71,7 @@
 
         <div class="col" id="terceiro-turno">
             <div class="row d-flex align-items-center justify-content-end mt-4">
-                <div class="col voltar" [hidden]="!voltarTer" (click)="voltarTerFunction($event)">
+                <div class="col voltar" [hidden]="!voltarTer" (click)="voltarTercFunction($event)">
                     <i aria-hidden="true" class="fa fa-arrow-left me-2"></i>
                     <span>Voltar</span>
                 </div>
