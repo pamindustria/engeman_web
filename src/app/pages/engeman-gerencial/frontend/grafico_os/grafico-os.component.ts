@@ -72,6 +72,7 @@ export class GraficoOsComponent implements OnInit, AfterViewInit {
     this.dataAtualFormatada = dataAtual.split("/").reverse().join("-");
 
     this.engemanService.getEngemanList().subscribe((engeman: any) => {
+      console.log(engeman);
       
       engeman.forEach((element: any) => {
         // * adiciona somente a data, sem a hora a array Datas
@@ -110,9 +111,7 @@ export class GraficoOsComponent implements OnInit, AfterViewInit {
       });
       
       this.quantidadeOsPorDiaTerceiroTurno.slice(0, 7).map((item: any, i: any) => {
-        this.primeiroTrintaDiasTerceiroTurno.push(item);
-        console.log(item);
-        
+        this.primeiroTrintaDiasTerceiroTurno.push(item);        
       });
 
       // * populando os dados para o grafico com os ultimos 7 dias
