@@ -50,12 +50,12 @@ export class GraficoOsComponent implements OnInit, AfterViewInit {
   voltarSeg: boolean = false;
   voltarTer: boolean = false;
 
-  startDateGraficoPrimeiroTurno: any;
-  endDateGraficoPrimeiroTurno: any;
-  startDateGraficoSegundoTurno: any;
-  endDateGraficoSegundoTurno: any;
-  startDateGraficoTerceiroTurno: any;
-  endDateGraficoTerceiroTurno: any;
+  startDateGraficoPrimeiroTurno: any = null;
+  endDateGraficoPrimeiroTurno: any = null;
+  startDateGraficoSegundoTurno: any = null;
+  endDateGraficoSegundoTurno: any = null;
+  startDateGraficoTerceiroTurno: any = null;
+  endDateGraficoTerceiroTurno: any = null;
   today = new Date();
   date = this.today.getDate();
   month = this.today.getMonth();
@@ -100,7 +100,7 @@ export class GraficoOsComponent implements OnInit, AfterViewInit {
       // console.log(this.quantidadeOsPorDiaSegundoTurno);
       // console.log(this.quantidadeOsPorDiaTerceiroTurno);
 
-      // * exibo somente os primeiros dias 30
+      // * exibo somente os primeiros dias 7
       this.quantidadeOsPorDiaPrimeiroTurno.slice(0, 7).map((item: any, i: any) => {
         this.primeiroTrintaDiasPrimeiroTurno.push(item);
       });
@@ -111,9 +111,11 @@ export class GraficoOsComponent implements OnInit, AfterViewInit {
       
       this.quantidadeOsPorDiaTerceiroTurno.slice(0, 7).map((item: any, i: any) => {
         this.primeiroTrintaDiasTerceiroTurno.push(item);
+        console.log(item);
+        
       });
 
-      // * populando os dados para o grafico com os ultimos 30 dias
+      // * populando os dados para o grafico com os ultimos 7 dias
       setTimeout(() => {
         this.populaGrafico(this.primeiroTrintaDiasPrimeiroTurno, this.dataLabelPrimeiroTurno, this.quantidadesOSPrimeiroTurno);
         this.populaGrafico(this.primeiroTrintaDiasSegundoTurno, this.dataLabelSegundoTurno, this.quantidadesOSSegundoTurno);
@@ -278,7 +280,7 @@ export class GraficoOsComponent implements OnInit, AfterViewInit {
   }
 
   // ? PRIMEIRO TURNO
-  dateRangePrimeiroTurno(type: any, event: any) {
+  dateRangePrimeiroTurno() {
     // resetando os valores do grafico
     this.dataLabelPrimeiroTurno = [];
     this.quantidadesOSPrimeiroTurno = [];
@@ -288,10 +290,8 @@ export class GraficoOsComponent implements OnInit, AfterViewInit {
     var startDateFormatada: any;
     var endDateFormatada: any;
     
-    if (event.value) {
-      startDateFormatada = this.datepipe.transform(this.startDateGraficoPrimeiroTurno, 'yyyy-MM-dd');
-      endDateFormatada = this.datepipe.transform(this.endDateGraficoPrimeiroTurno, 'yyyy-MM-dd');      
-    }
+    startDateFormatada = this.datepipe.transform(this.startDateGraficoPrimeiroTurno, 'yyyy-MM-dd');
+    endDateFormatada = this.datepipe.transform(this.endDateGraficoPrimeiroTurno, 'yyyy-MM-dd');      
 
     this.quantidadeOsPorDiaPrimeiroTurno = this.quantidadeOsPorDiaPrimeiroTurno.sort((a, b) => a.localeCompare(b));
     
@@ -324,7 +324,7 @@ export class GraficoOsComponent implements OnInit, AfterViewInit {
 
     this.primeiroTrintaDiasPrimeiroTurno = this.primeiroTrintaDiasPrimeiroTurno.sort((a, b) => a.localeCompare(b));
 
-    // populando os dados com os ultimos 30 dias
+    // populando os dados com os ultimos 7 dias
     this.primeiroTrintaDiasPrimeiroTurno.forEach((element: any) => {
       this.dataLabelPrimeiroTurno.push(element.substring(0, 10));
       this.quantidadesOSPrimeiroTurno.push(parseInt(element.substring(12, element.length)));
@@ -338,7 +338,7 @@ export class GraficoOsComponent implements OnInit, AfterViewInit {
   }
 
   // ? SEGUNDO TURNO
-  dateRangeSegundoTurno(type: any, event: any) {    
+  dateRangeSegundoTurno() {    
     // resetando os valores do grafico
     this.dataLabelSegundoTurno = [];
     this.quantidadesOSSegundoTurno = [];
@@ -348,10 +348,8 @@ export class GraficoOsComponent implements OnInit, AfterViewInit {
     var startDateFormatada: any;
     var endDateFormatada: any;
     
-    if (event.value) {
-      startDateFormatada = this.datepipe.transform(this.startDateGraficoSegundoTurno, 'yyyy-MM-dd');
-      endDateFormatada = this.datepipe.transform(this.endDateGraficoSegundoTurno, 'yyyy-MM-dd');      
-    }
+    startDateFormatada = this.datepipe.transform(this.startDateGraficoSegundoTurno, 'yyyy-MM-dd');
+    endDateFormatada = this.datepipe.transform(this.endDateGraficoSegundoTurno, 'yyyy-MM-dd');      
 
     this.quantidadeOsPorDiaSegundoTurno = this.quantidadeOsPorDiaSegundoTurno.sort((a, b) => a.localeCompare(b));
     
@@ -384,7 +382,7 @@ export class GraficoOsComponent implements OnInit, AfterViewInit {
 
     this.primeiroTrintaDiasSegundoTurno = this.primeiroTrintaDiasSegundoTurno.sort((a, b) => a.localeCompare(b));
 
-    // populando os dados com os ultimos 30 dias
+    // populando os dados com os ultimos 7 dias
     this.primeiroTrintaDiasSegundoTurno.forEach((element: any) => {
       this.dataLabelSegundoTurno.push(element.substring(0, 10));
       this.quantidadesOSSegundoTurno.push(parseInt(element.substring(12, element.length)));
@@ -398,7 +396,7 @@ export class GraficoOsComponent implements OnInit, AfterViewInit {
   }
 
   // ? TERCEIRO TURNO
-  dateRangeTerceiroTurno(type: any, event: any) {    
+  dateRangeTerceiroTurno() {    
     // resetando os valores do grafico
     this.dataLabelTerceiroTurno = [];
     this.quantidadesOSTerceiroTurno = [];
@@ -408,10 +406,8 @@ export class GraficoOsComponent implements OnInit, AfterViewInit {
     var startDateFormatada: any;
     var endDateFormatada: any;
     
-    if (event.value) {
-      startDateFormatada = this.datepipe.transform(this.startDateGraficoTerceiroTurno, 'yyyy-MM-dd');
-      endDateFormatada = this.datepipe.transform(this.endDateGraficoTerceiroTurno, 'yyyy-MM-dd');      
-    }
+    startDateFormatada = this.datepipe.transform(this.startDateGraficoTerceiroTurno, 'yyyy-MM-dd');
+    endDateFormatada = this.datepipe.transform(this.endDateGraficoTerceiroTurno, 'yyyy-MM-dd');      
 
     this.quantidadeOsPorDiaTerceiroTurno = this.quantidadeOsPorDiaTerceiroTurno.sort((a, b) => a.localeCompare(b));
   
@@ -444,7 +440,7 @@ export class GraficoOsComponent implements OnInit, AfterViewInit {
 
     this.primeiroTrintaDiasTerceiroTurno = this.primeiroTrintaDiasTerceiroTurno.sort((a, b) => a.localeCompare(b));
 
-    // populando os dados com os ultimos 30 dias
+    // populando os dados com os ultimos 7 dias
     this.primeiroTrintaDiasTerceiroTurno.forEach((element: any) => {
       this.dataLabelTerceiroTurno.push(element.substring(0, 10));
       this.quantidadesOSTerceiroTurno.push(parseInt(element.substring(12, element.length)));
@@ -516,8 +512,8 @@ export class GraficoOsComponent implements OnInit, AfterViewInit {
   }
   
   dadosPorHoraTerceiroTurnoFunction(element: any, data: any) {
-    if (element.DataIni.substring(0, 10) === data) {
-      if (element.DataIni.substring(11, 19) >= "23:00:00" && element.DataIni.substring(11, 19) < "00:00:00") {
+    if (element.DataIni.substring(0, 10) === data) {      
+      if (element.DataIni.substring(11, 19) >= "23:00:00" || element.DataIni.substring(11, 19) < "00:00:00") {
         this.dadosOSTerceiroTurno[0] += 1;            
       }
       if (element.DataIni.substring(11, 19) >= "00:00:00" && element.DataIni.substring(11, 19) < "01:00:00") {
@@ -541,6 +537,36 @@ export class GraficoOsComponent implements OnInit, AfterViewInit {
       if (element.DataIni.substring(11, 19) >= "06:00:00" && element.DataIni.substring(11, 19) < "07:00:00") {
         this.dadosOSTerceiroTurno[7] += 1;
       }
+    }
+  }
+
+  voltarPrimFunction(event: any) {
+    if (this.startDateGraficoPrimeiroTurno === null) {
+      this.clearDatePrimeiroTurno(event);
+    } else {
+      this.voltarPrim = false;
+      this.chartPrimeiro!.data.datasets[0].label = `Primeiro Turno`;
+      this.dateRangePrimeiroTurno();
+    }
+  }
+  
+  voltarSegFunction(event: any) {
+    if (this.startDateGraficoSegundoTurno === null) {
+      this.clearDateSegundoTurno(event);
+    } else {
+      this.voltarSeg = false;
+      this.chartSegundo!.data.datasets[0].label = `Segundo Turno`;
+      this.dateRangeSegundoTurno();
+    }
+  }
+
+  voltarTerFunction(event: any) {
+    if (this.startDateGraficoTerceiroTurno === null) {
+      this.clearDateTerceiroTurno(event);
+    } else {
+      this.voltarTer = false;
+      this.chartTerceiro!.data.datasets[0].label = `Terceiro Turno`;
+      this.dateRangeTerceiroTurno();
     }
   }
 }
