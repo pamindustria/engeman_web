@@ -13,10 +13,10 @@
                         <input type="text"
                            placeholder="Filtrar Máquina"
                            matInput
-                           [matAutocomplete]="auto"
+                           [matAutocomplete]="autoPrim"
                            [(ngModel)]="maquinaSelecionadaPrimeiroTurno"
                         >
-                        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onItemSelectPrimTurno()">
+                        <mat-autocomplete #autoPrim="matAutocomplete" (optionSelected)="onItemSelectPrimTurno()">
                             <mat-option *ngFor="let option of maquinasPrimeiroTurno" [value]="option">
                             {{option}}
                             </mat-option>
