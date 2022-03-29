@@ -4,7 +4,7 @@
       <div class="col" id="primeiro-turno">
          <div class="row d-flex align-items-end justify-content-between">
             <div class="col d-flex align-items-end justify-content-start">
-               <mat-form-field style="width: 40%;">
+               <mat-form-field style="width: 60%;">
                   <mat-label>Filtrar Funcionário</mat-label>
                   <input type="text"
                      placeholder="Nome ou matrícula"
@@ -12,24 +12,42 @@
                      [matAutocomplete]="auto"
                      [(ngModel)]="funcionarioPrimeiroTurnoSelecionado"
                   >
-                  <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onItemSelectPrimTurno($event)">
+                  <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onFuncSelectPrimTurno($event)">
                      <mat-option *ngFor="let option of funcionariosPrimeiroTurno" [value]="option">
                      {{option}}
                      </mat-option>
                   </mat-autocomplete>
                </mat-form-field>
-               <mat-icon matDatepickerToggleIcon (click)="clearSelectPrimTurno($event)">clear</mat-icon>
-            </div>            
+               <mat-icon matDatepickerToggleIcon (click)="clearFuncSelectPrimTurno($event)">clear</mat-icon>
+            </div>
+            
+            <div class="col d-flex align-items-end justify-content-center">
+               <mat-form-field style="width: 70%;">
+                  <mat-label>Filtrar Máquina</mat-label>
+                  <input type="text"
+                     placeholder="Filtrar Máquina"
+                     matInput
+                     [matAutocomplete]="autoPrim"
+                     [(ngModel)]="maquinaSelecionadaPrimeiroTurno"
+                  >
+                  <mat-autocomplete #autoPrim="matAutocomplete" (optionSelected)="onMaqSelectPrimTurno($event)">
+                      <mat-option *ngFor="let option of maquinasPrimeiroTurno" [value]="option">
+                      {{option}}
+                      </mat-option>
+                  </mat-autocomplete>
+              </mat-form-field>
+              <mat-icon matDatepickerToggleIcon (click)="clearMaqSelectPrimTurno($event)">clear</mat-icon>   
+            </div>
 
             <div class="col d-flex align-items-end justify-content-end">
                <mat-form-field>
-                     <mat-label>Range de Data</mat-label>
-                     <mat-date-range-input [rangePicker]="pickerPrimeiroTurno" [max]="maxDate">
+                  <mat-label>Range de Data</mat-label>
+                  <mat-date-range-input [rangePicker]="pickerPrimeiroTurno" [max]="maxDate">
                      <input matStartDate [(ngModel)]="startDateGraficoPrimeiroTurno" placeholder="Data Início">
                      <input matEndDate [(ngModel)]="endDateGraficoPrimeiroTurno" placeholder="Data Fim" (dateChange)="dateRangePrimeiroTurno('end', $event)">
-                     </mat-date-range-input>
-                     <mat-datepicker-toggle matSuffix [for]="pickerPrimeiroTurno"></mat-datepicker-toggle>
-                     <mat-date-range-picker #pickerPrimeiroTurno></mat-date-range-picker>
+                  </mat-date-range-input>
+                  <mat-datepicker-toggle matSuffix [for]="pickerPrimeiroTurno"></mat-datepicker-toggle>
+                  <mat-date-range-picker #pickerPrimeiroTurno></mat-date-range-picker>
                </mat-form-field>
                <mat-icon matDatepickerToggleIcon (click)="clearDatePrimeiroTurno($event)">clear</mat-icon>
             </div>
@@ -44,22 +62,40 @@
       <div class="col" id="segundo-turno">
          <div class="row d-flex align-items-end justify-content-between">
             <div class="col d-flex align-items-end justify-content-start">
-               <mat-form-field style="width: 40%;">
+               <mat-form-field style="width: 60%;">
                   <mat-label>Filtrar Funcionário</mat-label>
                   <input type="text"
                      placeholder="Nome ou matrícula"
                      matInput
-                     [matAutocomplete]="autoSeg"
+                     [matAutocomplete]="autoSegFunc"
                      [(ngModel)]="funcionarioSegundoTurnoSelecionado"
                   >
-                  <mat-autocomplete #autoSeg="matAutocomplete" (optionSelected)="onItemSelectSegTurno($event)">
+                  <mat-autocomplete #autoSegFunc="matAutocomplete" (optionSelected)="onFuncSelectSegTurno($event)">
                      <mat-option *ngFor="let option of funcionariosSegundoTurno" [value]="option">
                      {{option}}
                      </mat-option>
                   </mat-autocomplete>
                </mat-form-field>
-               <mat-icon matDatepickerToggleIcon (click)="clearSelectSegTurno($event)">clear</mat-icon>
-            </div>            
+               <mat-icon matDatepickerToggleIcon (click)="clearFuncSelectSegTurno($event)">clear</mat-icon>
+            </div>
+            
+            <div class="col d-flex align-items-end justify-content-center">
+               <mat-form-field style="width: 70%;">
+                  <mat-label>Filtrar Máquina</mat-label>
+                  <input type="text"
+                     placeholder="Filtrar Máquina"
+                     matInput
+                     [matAutocomplete]="autoSegMaq"
+                     [(ngModel)]="maquinaSelecionadaSegundoTurno"
+                  >
+                  <mat-autocomplete #autoSegMaq="matAutocomplete" (optionSelected)="onMaqSelectSegTurno($event)">
+                      <mat-option *ngFor="let option of maquinasSegundoTurno" [value]="option">
+                      {{option}}
+                      </mat-option>
+                  </mat-autocomplete>
+              </mat-form-field>
+              <mat-icon matDatepickerToggleIcon (click)="clearMaqSelectSegTurno($event)">clear</mat-icon>   
+            </div>
 
             <div class="col d-flex align-items-end justify-content-end mt-4">
                <mat-form-field>
@@ -84,22 +120,40 @@
       <div class="col" id="terceiro-turno">
          <div class="row d-flex align-items-end justify-content-between">
             <div class="col d-flex align-items-end justify-content-start">
-               <mat-form-field style="width: 40%;">
+               <mat-form-field style="width: 60%;">
                   <mat-label>Filtrar Funcionário</mat-label>
                   <input type="text"
                      placeholder="Nome ou matrícula"
                      matInput
-                     [matAutocomplete]="autoTer"
+                     [matAutocomplete]="autoTerFunc"
                      [(ngModel)]="funcionarioTerceiroTurnoSelecionado"
                   >
-                  <mat-autocomplete #autoTer="matAutocomplete" (optionSelected)="onItemSelectTerTurno($event)">
+                  <mat-autocomplete #autoTerFunc="matAutocomplete" (optionSelected)="onFuncSelectTerTurno($event)">
                      <mat-option *ngFor="let option of funcionariosTerceiroTurno" [value]="option">
                      {{option}}
                      </mat-option>
                   </mat-autocomplete>
                </mat-form-field>
-               <mat-icon matDatepickerToggleIcon (click)="clearSelectTerTurno($event)">clear</mat-icon>
-            </div>            
+               <mat-icon matDatepickerToggleIcon (click)="clearFuncSelectTerTurno($event)">clear</mat-icon>
+            </div>
+            
+            <div class="col d-flex align-items-end justify-content-center">
+               <mat-form-field style="width: 70%;">
+                  <mat-label>Filtrar Máquina</mat-label>
+                  <input type="text"
+                     placeholder="Filtrar Máquina"
+                     matInput
+                     [matAutocomplete]="autoTerMaq"
+                     [(ngModel)]="maquinaSelecionadaTerceiroTurno"
+                  >
+                  <mat-autocomplete #autoTerMaq="matAutocomplete" (optionSelected)="onMaqSelectTerTurno($event)">
+                      <mat-option *ngFor="let option of maquinasTerceiroTurno" [value]="option">
+                      {{option}}
+                      </mat-option>
+                  </mat-autocomplete>
+              </mat-form-field>
+              <mat-icon matDatepickerToggleIcon (click)="clearMaqSelectTerTurno($event)">clear</mat-icon>   
+            </div>
 
             <div class="col d-flex align-items-end justify-content-end mt-4">
                <mat-form-field>
