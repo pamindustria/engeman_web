@@ -1,14 +1,20 @@
-<main class="container-fluid">
-    <div [hidden]="!loadData" style="margin: 0 auto;" class="col">
-        <div class="col" id="primeiro-turno">
-            <div class="row d-flex align-items-center justify-content-end">
-                <div class="col voltar" [hidden]="!voltarPrim" (click)="voltarPrimFunction($event)">
+<main class="container-fluid" style="height: 100vh;">
+    <div [hidden]="!loadData" class="row">
+        <div class="col-4" id="primeiro-turno">
+            <div class="d-flex flex-row justify-content-between">
+                <div class="voltar" [hidden]="!voltarPrim" (click)="voltarPrimFunction($event)">
                     <i aria-hidden="true" class="fa fa-arrow-left me-2"></i>
                     <span>Voltar</span>
                 </div>
+            </div>
+            
+            <div style="display: block">
+                <canvas baseChart #chartPrimeiroTurno></canvas>
+            </div>
 
-                <div class="col d-flex align-items-end justify-content-start">
-                    <mat-form-field style="width: 40%;">
+            <div class="d-flex flex-row">
+                <div class="d-flex align-items-end"> <!-- para centralizar o X -->
+                    <mat-form-field>
                         <mat-label>Filtrar Máquina</mat-label>
                         <input type="text"
                            placeholder="Filtrar Máquina"
@@ -24,9 +30,9 @@
                     </mat-form-field>
                     <mat-icon matDatepickerToggleIcon (click)="clearSelectPrimTurno($event)">clear</mat-icon>
                 </div>
-                  
-                <div class="col d-flex align-items-end justify-content-end">
-                    <mat-form-field>
+
+                <div class="d-flex align-items-end">
+                    <mat-form-field style="width: 80%;">
                         <mat-label>Range de Data</mat-label>
                         <mat-date-range-input [rangePicker]="pickerPrimeiroTurno" [max]="maxDate">
                           <input matStartDate [(ngModel)]="startDateGraficoPrimeiroTurno" placeholder="Data Início">
@@ -38,21 +44,23 @@
                     <mat-icon matDatepickerToggleIcon (click)="clearDatePrimeiroTurno($event)">clear</mat-icon>
                 </div>
             </div>
-            
-            <div style="display: block">
-                <canvas baseChart [height]="50" #chartPrimeiroTurno></canvas>
-            </div>
         </div>
         
-        <div class="col" id="segundo-turno">
-            <div class="row d-flex align-items-center justify-content-end">
-                <div class="col voltar" [hidden]="!voltarSeg" (click)="voltarSegFunction($event)">
-                    <i aria-hidden="true" class="fa fa-arrow-left me-2"></i>
+        <div class="col-4" id="segundo-turno">
+            <div class="d-flex flex-row justify-content-between">
+                <div class="voltar" [hidden]="!voltarSeg" (click)="voltarSegFunction($event)">
+                    <i aria-hidden="true" class="fa fa-arrow-left"></i>
                     <span>Voltar</span>
-                </div>
+                </div>                
+            </div>
 
-                <div class="col d-flex align-items-end justify-content-start">
-                    <mat-form-field style="width: 40%;">
+            <div style="display: block">
+                <canvas baseChart #chartSegundoTurno></canvas>
+            </div>
+
+            <div class="d-flex flex-row">
+                <div class="d-flex align-items-end">
+                    <mat-form-field>
                         <mat-label>Filtrar Máquina</mat-label>
                         <input type="text"
                            placeholder="Filtrar Máquina"
@@ -69,8 +77,8 @@
                     <mat-icon matDatepickerToggleIcon (click)="clearSelectSegTurno($event)">clear</mat-icon>
                 </div>
 
-                <div class="col d-flex align-items-end justify-content-end mt-4">
-                    <mat-form-field>
+                <div class="d-flex align-items-end">
+                    <mat-form-field style="width: 80%;">
                         <mat-label>Range de Data</mat-label>
                         <mat-date-range-input [rangePicker]="pickerSegundoTurno" [max]="maxDate">
                           <input matStartDate [(ngModel)]="startDateGraficoSegundoTurno" placeholder="Data Início">
@@ -82,21 +90,23 @@
                     <mat-icon matDatepickerToggleIcon (click)="clearDateSegundoTurno($event)">clear</mat-icon>
                 </div>
             </div>
-
-            <div style="display: block">
-                <canvas baseChart [height]="50" #chartSegundoTurno></canvas>
-            </div>
         </div>
 
-        <div class="col" id="terceiro-turno">
-            <div class="row d-flex align-items-center justify-content-end mt-4">
-                <div class="col voltar" [hidden]="!voltarTer" (click)="voltarTercFunction($event)">
+        <div class="col-4" id="terceiro-turno">
+            <div class="d-flex flex-row justify-content-between">
+                <div class="voltar" [hidden]="!voltarTer" (click)="voltarTercFunction($event)">
                     <i aria-hidden="true" class="fa fa-arrow-left me-2"></i>
                     <span>Voltar</span>
                 </div>
+            </div>
 
-                <div class="col d-flex align-items-end justify-content-start">
-                    <mat-form-field style="width: 40%;">
+            <div style="display: block">
+                <canvas baseChart #chartTerceiroTurno></canvas>
+            </div>
+
+            <div class="d-flex">
+                <div class="d-flex align-items-end">
+                    <mat-form-field>
                         <mat-label>Filtrar Máquina</mat-label>
                         <input type="text"
                            placeholder="Filtrar Máquina"
@@ -113,8 +123,8 @@
                     <mat-icon matDatepickerToggleIcon (click)="clearSelectTercTurno($event)">clear</mat-icon>
                 </div>
 
-                <div class="col d-flex align-items-end justify-content-end">
-                    <mat-form-field>
+                <div class="d-flex align-items-end">
+                    <mat-form-field style="width: 80%;">
                         <mat-label>Range de Data</mat-label>
                         <mat-date-range-input [rangePicker]="pickerTerceiroTurno" [max]="maxDate">
                           <input matStartDate [(ngModel)]="startDateGraficoTerceiroTurno" placeholder="Data Início">
@@ -125,10 +135,6 @@
                     </mat-form-field>
                     <mat-icon matDatepickerToggleIcon (click)="clearDateTerceiroTurno($event)">clear</mat-icon>
                 </div>
-            </div>
-
-            <div style="display: block">
-                <canvas baseChart [height]="50" #chartTerceiroTurno></canvas>
             </div>
         </div>
     </div>
