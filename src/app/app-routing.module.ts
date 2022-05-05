@@ -7,6 +7,8 @@ import { GraficoOsComponent } from './pages/engeman-gerencial/frontend/grafico_o
 import { CadastroEtiquetasComponent } from './pages/etiquetas/frontend/cadastro-etiquetas/cadastro-etiquetas.component';
 import { EtiquetasGerencialComponent } from './pages/etiquetas/frontend/etiquetas-gerencial/etiquetas-gerencial.component';
 import { RelatorioComponent } from './pages/etiquetas/frontend/relatorio/relatorio.component';
+import { DocaListagemComponent } from './pages/faturamento/frontend/doca-listagem/doca-listagem.component';
+import { DocaComponent } from './pages/faturamento/frontend/doca/doca.component';
 import { PaginaInicialComponent } from './pages/pagina-inicial/frontend/pagina-inicial.component';
 
 const routes: Routes = [
@@ -37,6 +39,14 @@ const routes: Routes = [
   { 
     path: "relatorio-etiquetas",
     component: RelatorioComponent,
+  },
+  { 
+    path: "doca",
+    component: DocaComponent,
+  },
+  { 
+    path: "doca-listagem",
+    component: DocaListagemComponent,
   },
 ];
 

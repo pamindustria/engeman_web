@@ -1,0 +1,27 @@
+{
+  "name": "tela-gerencial",
+  "version": "1.0.0",
+  "description": "Tela Gerencial",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon --tls-min-v1.0 database/server.js",
+    "dev": "nodemon --tls-min-v1.0 database/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pamindustria/engeman_web.git"
+  },
+  "author": "Adria Vieira Lima",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pamindustria/engeman_web/issues"
+  },
+  "homepage": "https://github.com/pamindustria/engeman_web#readme",
+  "dependencies": {
+    "body-parser": "^1.19.1",
+    "cors": "^2.8.5",
+    "express": "^4.17.2",
+    "mssql": "^7.3.0",
+    "nodemon": "^2.0.15"
+  }
+}

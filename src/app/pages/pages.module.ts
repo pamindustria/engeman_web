@@ -30,6 +30,8 @@ import { PaginaInicialComponent } from './pagina-inicial/frontend/pagina-inicial
 import { GraficoOsComponent } from './engeman-gerencial/frontend/grafico_os/grafico-os.component';
 import { RelatorioComponent } from './etiquetas/frontend/relatorio/relatorio.component';
 import { GraficoFuncionarioComponent } from './engeman-gerencial/frontend/grafico-funcionario/grafico-funcionario.component';
+import { DocaComponent } from './faturamento/frontend/doca/doca.component';
+import { DocaListagemComponent } from './faturamento/frontend/doca-listagem/doca-listagem.component';
 
 @NgModule({
   declarations: [
@@ -63,6 +65,8 @@ import { GraficoFuncionarioComponent } from './engeman-gerencial/frontend/grafic
     RelatorioFiltroTotalPipe,
     RelatorioFilterByDataSaidaPipe,
     GraficoFuncionarioComponent,
+    DocaComponent,
+    DocaListagemComponent
   ],
   imports: [
     CommonModule,

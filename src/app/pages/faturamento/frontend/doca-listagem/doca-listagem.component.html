@@ -1,0 +1,43 @@
+<div class="container-fluid">
+   <div>
+      <button type="button" class="col btn btn-primary">DOCA 01</button>
+      <button type="button" class="col btn btn-primary">DOCA 02</button>
+      <button type="button" class="col btn btn-primary">DOCA 03</button>
+   </div>
+   <div>
+      <button type="button" class="col btn btn-primary">Liberar Embarque</button>
+      <button type="button" class="col btn btn-primary">Concluído</button>
+   </div>
+   <table class="table table-dark table-hover">
+      <thead>
+         <tr>
+            <th scope="col">FILIAL</th>
+            <th scope="col">NF</th>
+            <th scope="col">CODIGO</th>
+            <th scope="col">CLIENTE</th>
+            <th scope="col">PRODUTO</th>
+            <th scope="col">DESCRICAO</th>
+            <th scope="col">PLACA</th>
+            <th scope="col">LACRE</th>
+            <th scope="col">QTD</th>
+            <th scope="col">TES</th>
+            <th scope="col">FINANCEIRO</th>
+         </tr>
+      </thead>
+      <tbody>
+         <tr *ngFor="let doca of docaLista">
+            <th scope="col">{{ doca.FILIAL }}</th>
+            <th scope="col">{{ doca.NF }}</th>
+            <th scope="col">{{ doca.CODIGO }}</th>
+            <th scope="col">{{ doca.CLIENTE }}</th>
+            <th scope="col">{{ doca.PRODUTO }}</th>
+            <th scope="col">{{ doca.DESCRICAO }}</th>
+            <th scope="col">{{ doca.PLACA }}</th>
+            <th scope="col">{{ doca.LACRE }}</th>
+            <th scope="col">{{ doca.QTD }}</th>
+            <th scope="col">{{ doca.TES }}</th>
+            <th scope="col">{{ doca.FINANCEIRO }}</th>
+         </tr>
+      </tbody>
+   </table>
+</div>
