@@ -1,0 +1,44 @@
+#main-container {
+   padding-top: 30px;
+   width: 100%;
+   /* background-color: black; */
+   background-color: #212529;
+}
+
+#main-container header h1 {
+   font-size: 50px;
+   margin-bottom: 30px;
+   color: red;
+}
+
+#main-container header p {
+   font-size: 20px;
+   margin-bottom: 30px;
+   color: white;
+   padding-left: 20px;
+}
+
+#main-container header h6 {
+   font-size: 20px;
+   margin-bottom: 30px;
+   color: #212529;
+}
+
+#main-container table tbody tr td {
+   vertical-align: middle;
+}
+
+#main-container table tbody tr td button.btn{
+   padding: 0 10PX;
+}
+
+
+.modal-buttons {
+   width: 100%;
+   display: flex;
+   justify-content: space-between;
+}
+
+.modal-buttons #liberarEmbarque{
+   justify-content: start;
+}

@@ -8,10 +8,25 @@ import { DocaListagemService } from './doca-listagem.service';
 })
 export class DocaListagemComponent implements OnInit {
   docaLista: any = []
+  docaSelecionada: boolean = false;
+  docaId: number = -1;
+  liberarEmbarque: number = 0; //0 - concluido; 1 - embarcando; 2 - embarcado
+  time:Date | undefined;
+  date: number | undefined;
+  month: number | undefined;
+  year: number | undefined;
 
   constructor(
-    private docaListagemService: DocaListagemService
-  ) { }
+    private docaListagemService: DocaListagemService,
+    
+  ) { 
+    setInterval(() => {
+      this.time = new Date();
+      this.date = new Date().getDate();
+      this.month = new Date().getDate();
+      this.year = new Date().getFullYear();
+    }, 1000)
+  }
 
   ngOnInit(): void {
     this.docaListagemService.getDocaList().subscribe((lista: any) => {
@@ -22,4 +37,14 @@ export class DocaListagemComponent implements OnInit {
     });
   }
 
+  selecionaDoca(id: number) {
+    this.docaId = id;
+  }
+
+  embarqueLiberado(valor: number) {
+    this.liberarEmbarque = valor;
+    setTimeout(() => {
+      this.liberarEmbarque = 2;
+    }, 2000);
+  }
 }

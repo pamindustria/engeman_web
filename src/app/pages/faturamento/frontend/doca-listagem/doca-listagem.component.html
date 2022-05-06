@@ -1,13 +1,13 @@
-<div class="container-fluid">
-   <div>
-      <button type="button" class="col btn btn-primary">DOCA 01</button>
-      <button type="button" class="col btn btn-primary">DOCA 02</button>
-      <button type="button" class="col btn btn-primary">DOCA 03</button>
-   </div>
-   <div>
-      <button type="button" class="col btn btn-primary">Liberar Embarque</button>
-      <button type="button" class="col btn btn-primary">Concluído</button>
-   </div>
+<div id="main-container">
+   <header class="d-flex justify-content-between">
+      <p>
+         {{date}}/{{month}}/{{year}}
+         {{time | date: "HH:mm:ss"}}
+      </p>
+      <h1>Tela Embarque</h1>
+      <h6>Texto qualquer</h6>
+   </header>
+
    <table class="table table-dark table-hover">
       <thead>
          <tr>
@@ -15,29 +15,66 @@
             <th scope="col">NF</th>
             <th scope="col">CODIGO</th>
             <th scope="col">CLIENTE</th>
-            <th scope="col">PRODUTO</th>
-            <th scope="col">DESCRICAO</th>
             <th scope="col">PLACA</th>
             <th scope="col">LACRE</th>
             <th scope="col">QTD</th>
             <th scope="col">TES</th>
-            <th scope="col">FINANCEIRO</th>
+            <th scope="col"></th>
          </tr>
       </thead>
       <tbody>
          <tr *ngFor="let doca of docaLista">
-            <th scope="col">{{ doca.FILIAL }}</th>
-            <th scope="col">{{ doca.NF }}</th>
-            <th scope="col">{{ doca.CODIGO }}</th>
-            <th scope="col">{{ doca.CLIENTE }}</th>
-            <th scope="col">{{ doca.PRODUTO }}</th>
-            <th scope="col">{{ doca.DESCRICAO }}</th>
-            <th scope="col">{{ doca.PLACA }}</th>
-            <th scope="col">{{ doca.LACRE }}</th>
-            <th scope="col">{{ doca.QTD }}</th>
-            <th scope="col">{{ doca.TES }}</th>
-            <th scope="col">{{ doca.FINANCEIRO }}</th>
+            <td data-bs-toggle="modal" data-bs-target="#produtosModal" scope="col">{{ doca.FILIAL }}</td>
+            <td data-bs-toggle="modal" data-bs-target="#produtosModal" scope="col">{{ doca.NF }}</td>
+            <td data-bs-toggle="modal" data-bs-target="#produtosModal" scope="col">{{ doca.CODIGO }}</td>
+            <td data-bs-toggle="modal" data-bs-target="#produtosModal" scope="col">{{ doca.CLIENTE }}</td>
+            <td data-bs-toggle="modal" data-bs-target="#produtosModal" scope="col">{{ doca.PLACA }}</td>
+            <td data-bs-toggle="modal" data-bs-target="#produtosModal" scope="col">{{ doca.LACRE }}</td>
+            <td data-bs-toggle="modal" data-bs-target="#produtosModal" scope="col">{{ doca.QTDE }}</td>
+            <td data-bs-toggle="modal" data-bs-target="#produtosModal" scope="col">{{ doca.TES }}</td>
+            <td scope="col">
+               <button type="button" class="col btn btn-primary"
+                  [ngClass]="(liberarEmbarque === 0) ? 'btn-primary' : (liberarEmbarque === 1) ? 'btn-warning' : 'btn-success'">
+                  {{liberarEmbarque === 0 ? 'Concluído' : liberarEmbarque === 1 ? 'Embarcando' : 'Embarcado'}}
+               </button>
+            </td>
          </tr>
       </tbody>
    </table>
+
+   <!-- Modal -->
+   <div class="modal fade" id="produtosModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+         <div class="modal-content">
+            <div class="modal-header">
+               <h1 class="modal-title" id="exampleModalLabel">Produtos da NF</h1>
+               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+               ...
+            </div>
+            <div class="modal-footer">
+               <div class="modal-buttons">
+                  <div class="div-buttons">
+                     <button [ngClass]="{'btn-success': docaId === 1}" (click)="selecionaDoca(1)" type="button"
+                        class="col btn btn-primary">DOCA 01</button>
+                  </div>
+                  <div class="div-buttons">
+                     <button [ngClass]="{'btn-success': docaId === 2}" (click)="selecionaDoca(2)" type="button"
+                        class="col btn btn-primary">DOCA 02</button>
+                  </div>
+                  <div class="div-buttons">
+                     <button [ngClass]="{'btn-success': docaId === 3}" (click)="selecionaDoca(3)" type="button"
+                        class="col btn btn-primary">DOCA 03</button>
+                  </div>
+               </div>
+               <div class="modal-buttons">
+                  <button data-bs-dismiss="modal" id="liberarEmbarque" (click)="embarqueLiberado(1)" type="button"
+                     class="col btn btn-primary">Liberar Embarque</button>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+
 </div>
