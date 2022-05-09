@@ -18,6 +18,8 @@ export class DocaListagemComponent implements OnInit {
     month: "2-digit",
     day: "2-digit",
   });
+  filterNota: string = '';
+
   
   constructor(
     private docaListagemService: DocaListagemService,

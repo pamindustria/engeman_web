@@ -32,6 +32,7 @@ import { RelatorioComponent } from './etiquetas/frontend/relatorio/relatorio.com
 import { GraficoFuncionarioComponent } from './engeman-gerencial/frontend/grafico-funcionario/grafico-funcionario.component';
 import { DocaComponent } from './faturamento/frontend/doca/doca.component';
 import { DocaListagemComponent } from './faturamento/frontend/doca-listagem/doca-listagem.component';
+import { FilterNotaFiscalPipe } from '../components/pipes/filterNotaFiscal.pipe';
 
 @NgModule({
   declarations: [
@@ -66,7 +67,8 @@ import { DocaListagemComponent } from './faturamento/frontend/doca-listagem/doca
     RelatorioFilterByDataSaidaPipe,
     GraficoFuncionarioComponent,
     DocaComponent,
-    DocaListagemComponent
+    DocaListagemComponent,
+    FilterNotaFiscalPipe
   ],
   imports: [
     CommonModule,

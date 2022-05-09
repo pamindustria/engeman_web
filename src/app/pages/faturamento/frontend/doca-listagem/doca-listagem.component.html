@@ -23,7 +23,20 @@
          </tr>
       </thead>
       <tbody>
-         <tr *ngFor="let doca of docaLista">
+         <tr>
+            <td></td>
+            <td>
+               <app-search placeholderString="Filtrar etiqueta" (onTyping)="filterNota = $event" [value]="filterNota"></app-search>
+            </td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+         </tr>
+         <tr *ngFor="let doca of docaLista | filterNotaFiscal: filterNota">
             <td data-bs-toggle="modal" data-bs-target="#produtosModal" scope="col">{{ doca.FILIAL }}</td>
             <td data-bs-toggle="modal" data-bs-target="#produtosModal" scope="col">{{ doca.NF }}</td>
             <td data-bs-toggle="modal" data-bs-target="#produtosModal" scope="col">{{ doca.CODIGO }}</td>
