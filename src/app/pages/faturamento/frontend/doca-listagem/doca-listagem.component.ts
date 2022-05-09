@@ -7,7 +7,11 @@ import { DocaListagemService } from './doca-listagem.service';
   styleUrls: ['./doca-listagem.component.css']
 })
 export class DocaListagemComponent implements OnInit {
-  docaLista: any = []
+  docaListaFiltrada: any = [];
+  docaListaCompleta: any = [];
+  docaNFs: any = [];
+  listaProdutosNota: any = [];
+  notaSelecionada: String = "";
   docaSelecionada: boolean = false;
   docaId: number = -1;
   liberarEmbarque: number = 0; //0 - concluido; 1 - embarcando; 2 - embarcado
@@ -38,9 +42,14 @@ export class DocaListagemComponent implements OnInit {
   ngOnInit(): void {
     this.docaListagemService.getDocaList().subscribe((lista: any) => {
       lista.forEach((item: any) => {
-        this.docaLista.push(item);
+        this.docaListaCompleta.push(item);
+        
+        if (!this.docaNFs.includes(item.NF)) {
+          this.docaNFs.push(item.NF);
+          this.docaListaFiltrada.push(item);
+        }
       });
-      console.log(this.docaLista);
+      console.log(this.docaListaCompleta);
     });
   }
 
@@ -53,5 +62,15 @@ export class DocaListagemComponent implements OnInit {
     setTimeout(() => {
       this.liberarEmbarque = 2;
     }, 2000);
+  }
+
+  getProdutosDaNotaFiscaL(nota: String) {
+    this.notaSelecionada = nota;
+    this.docaListaCompleta.forEach((doca: any) => {
+      if (doca.NF === nota) {
+        this.listaProdutosNota.push(doca);
+        console.log(doca);
+      }
+    });
   }
 }
