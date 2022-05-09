@@ -28,7 +28,7 @@
    vertical-align: middle;
 }
 
-#main-container table tbody tr td button.btn{
+#main-container table tbody tr td button.btn {
    padding: 0 10PX;
 }
 
@@ -39,6 +39,15 @@
    justify-content: space-between;
 }
 
-.modal-buttons #liberarEmbarque{
+.modal-buttons #liberarEmbarque {
    justify-content: start;
+}
+
+mat-icon {
+   position: relative;
+   float: right;
+   top: -20px;
+   cursor: pointer;
+   color: white;
+   bottom: 0;
 }

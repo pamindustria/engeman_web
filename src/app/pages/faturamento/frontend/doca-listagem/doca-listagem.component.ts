@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { DocaListagemService } from './doca-listagem.service';
 
@@ -23,11 +24,17 @@ export class DocaListagemComponent implements OnInit {
     day: "2-digit",
   });
   filterNota: string = '';
-
+  startDate: any = null;
+  endDate: any = null;
+  today = new Date();
+  dateToday = this.today.getDate();
+  month = this.today.getMonth();
+  year = this.today.getFullYear();
+  maxDate = new Date(this.year, this.month, this.dateToday);
   
   constructor(
     private docaListagemService: DocaListagemService,
-    
+    public datepipe: DatePipe,
     ) {
     setInterval(() => {
       this.time = new Date();
@@ -72,5 +79,18 @@ export class DocaListagemComponent implements OnInit {
         console.log(doca);
       }
     });
+  }
+
+  dateRange(type: any, event: any) {
+    if (event.value) {
+      this.datepipe.transform(this.startDate, 'yyyy-MM-dd');
+      this.datepipe.transform(this.endDate, 'yyyy-MM-dd');      
+    }
+  }
+
+  clearDate(event: any) {
+    event.stopPropagation();
+    this.startDate = null;
+    this.endDate = null;
   }
 }

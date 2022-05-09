@@ -8,7 +8,7 @@
       <h6>Texto qualquer</h6>
    </header>
 
-   <table class="table table-dark table-hover">
+   <table class="table table-bordered table-dark table-hover">
       <thead>
          <tr>
             <th scope="col">FILIAL</th>
@@ -18,7 +18,7 @@
             <th scope="col">PLACA</th>
             <th scope="col">LACRE</th>
             <th scope="col">QTD</th>
-            <th scope="col">TES</th>
+            <th scope="col">DATA</th>
             <th scope="col"></th>
          </tr>
       </thead>
@@ -34,7 +34,22 @@
             <td></td>
             <td></td>
             <td></td>
-            <td></td>
+            <td>
+               <div class="d-flex flex-row">
+                  <div class="d-flex align-items-end">
+                     <mat-form-field>
+                        <mat-label>Range de Data</mat-label>
+                        <mat-date-range-input [rangePicker]="data" [max]="maxDate">
+                           <input matStartDate [(ngModel)]="startDate" placeholder="Data Início">
+                           <input matEndDate [(ngModel)]="endDate" placeholder="Data Fim" (dateChange)="dateRange('end', $event)">
+                        </mat-date-range-input>
+                        <mat-datepicker-toggle matSuffix [for]="data"></mat-datepicker-toggle>
+                        <mat-date-range-picker #data></mat-date-range-picker>
+                     </mat-form-field>
+                     <mat-icon matDatepickerToggleIcon (click)="clearDate($event)">clear</mat-icon>
+                  </div>
+               </div>
+            </td>
             <td></td>
          </tr>
          <tr *ngFor="let doca of docaListaFiltrada | filterNotaFiscal: filterNota"
@@ -46,8 +61,8 @@
             <td data-bs-toggle="modal" data-bs-target="#produtosModal" scope="col">{{ doca.PLACA }}</td>
             <td data-bs-toggle="modal" data-bs-target="#produtosModal" scope="col">{{ doca.LACRE }}</td>
             <td data-bs-toggle="modal" data-bs-target="#produtosModal" scope="col">{{ doca.QTDE }}</td>
-            <td data-bs-toggle="modal" data-bs-target="#produtosModal" scope="col">{{ doca.TES }}</td>
-            <td scope="col">
+            <td data-bs-toggle="modal" data-bs-target="#produtosModal" scope="col">{{ doca.DATA }}</td>
+            <td scope="col" class="text-center">
                <button type="button" class="col btn btn-primary"
                   [ngClass]="(liberarEmbarque === 0) ? 'btn-primary' : (liberarEmbarque === 1) ? 'btn-warning' : 'btn-success'">
                   {{liberarEmbarque === 0 ? 'Concluído' : liberarEmbarque === 1 ? 'Embarcando' : 'Embarcado'}}
@@ -65,11 +80,11 @@
                <h1 class="modal-title" id="exampleModalLabel">Produtos da NF: {{ notaSelecionada }}</h1>
                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body" style="overflow-x: auto; height: 300px;">
+            <div class="modal-body" style="overflow-x: auto; height: 60vh;">
                <table class="table table-hover">
                   <thead>
                      <tr>
-                        <th scope="col">CÓDIGO</th>
+                        <th scope="col">COD. PAM</th>
                         <th scope="col">DESCRIÇÃO</th>
                      </tr>
                   </thead>
