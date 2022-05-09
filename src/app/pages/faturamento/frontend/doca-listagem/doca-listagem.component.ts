@@ -11,20 +11,25 @@ export class DocaListagemComponent implements OnInit {
   docaSelecionada: boolean = false;
   docaId: number = -1;
   liberarEmbarque: number = 0; //0 - concluido; 1 - embarcando; 2 - embarcado
-  time:Date | undefined;
-  date: number | undefined;
-  month: number | undefined;
-  year: number | undefined;
-
+  dateInstance: Date = new Date()
+  time: Date | undefined;
+  date = this.dateInstance.toLocaleDateString("pt-BR", {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  });
+  
   constructor(
     private docaListagemService: DocaListagemService,
     
-  ) { 
+    ) {
     setInterval(() => {
       this.time = new Date();
-      this.date = new Date().getDate();
-      this.month = new Date().getDate();
-      this.year = new Date().getFullYear();
+      this.date = this.dateInstance.toLocaleDateString("pt-BR", {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+      });
     }, 1000)
   }
 

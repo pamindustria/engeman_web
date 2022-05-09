@@ -1,7 +1,7 @@
 <div id="main-container">
    <header class="d-flex justify-content-between">
-      <p>
-         {{date}}/{{month}}/{{year}}
+      <p *ngIf="time" class="text-center">
+         {{date}}<br>
          {{time | date: "HH:mm:ss"}}
       </p>
       <h1>Tela Embarque</h1>
