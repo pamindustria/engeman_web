@@ -46,17 +46,25 @@ export class DocaListagemComponent implements OnInit {
     }, 1000)
   }
 
-  ngOnInit(): void {
+  ngOnInit(): void {    
     this.docaListagemService.getDocaList().subscribe((lista: any) => {
       lista.forEach((item: any) => {
         this.docaListaCompleta.push(item);
         
         if (!this.docaNFs.includes(item.NF)) {
           this.docaNFs.push(item.NF);
+          // formatando a data
+          var data = item.DATA;
+          var year = data.slice(0, 4);
+          var month = data.slice(4, 6);
+          var day = data.slice(6, 9);
+
+          item.DATA = `${day}/${month}/${year}`;
+          
           this.docaListaFiltrada.push(item);
         }
       });
-      console.log(this.docaListaCompleta);
+      // console.log(this.docaListaCompleta);
     });
   }
 
