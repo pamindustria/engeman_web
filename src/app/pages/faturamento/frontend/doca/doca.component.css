@@ -1,0 +1,67 @@
+#main-content {
+   background-color: black;
+}
+
+.docas {
+   border: 2px solid white;
+}
+
+.doca-2 {
+   border-left: 0;
+   border-right: 0;
+}
+
+header {
+   border-bottom: 2px solid white;
+   padding-top: 20px;
+}
+
+header h1 {
+   font-size: 100px;
+   color: white;
+   padding: 50px 0;
+}
+
+.cliente {
+   border-bottom: 1px solid white;
+}
+
+p {
+   color: white;
+}
+
+p.nomeCliente {
+   font-size: 40px;
+   padding-top: 25px;
+   color: red;
+}
+
+p.codigoCliente {
+   font-size: 20px;
+   color: red;
+}
+
+
+.info {
+   padding-top: 12px;
+}
+
+table {
+   color: white;
+}
+
+.conteudo {
+   padding-top: 10px;
+}
+
+.conteudo table thead tr th {
+   padding: 10px;
+   border-bottom: 1px solid #212529;
+   font-size: 20px;
+}
+
+.conteudo table tbody tr td {
+   padding: 10px;
+   border-bottom: 1px solid #212529;
+   font-size: 18px;
+}
