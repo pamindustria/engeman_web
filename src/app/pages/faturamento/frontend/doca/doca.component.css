@@ -1,5 +1,6 @@
 #main-content {
    background-color: black;
+   width: 100vw;
 }
 
 .docas {
@@ -18,7 +19,6 @@ header {
 
 header h1 {
    font-size: 100px;
-   color: white;
    padding: 50px 0;
 }
 
@@ -64,4 +64,16 @@ table {
    padding: 10px;
    border-bottom: 1px solid #212529;
    font-size: 18px;
+}
+
+.corVermelha {
+   color: red;
+}
+
+.corBranca {
+   color: white;
+}
+
+footer {
+   margin-top: 80px;
 }

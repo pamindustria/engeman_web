@@ -6,10 +6,20 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./doca.component.css']
 })
 export class DocaComponent implements OnInit {
+  isDocaSelected: boolean = false;
 
   constructor() { }
 
   ngOnInit(): void {
+    this.docaWasSelected();
+  }
+
+  docaWasSelected() {
+    setInterval(() => {
+      this.isDocaSelected = !this.isDocaSelected;
+      console.log(this.isDocaSelected);
+
+    }, 1000);
   }
 
 }

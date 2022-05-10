@@ -1,9 +1,11 @@
-<div id="main-content" class="container-fluid" style="width: 100vw;">
-   <div class="row" style="height: 100vh;">
+<div id="main-content" class="container-fluid">
+   <div class="row" style="height: 100%;">
 
       <div class="col docas">
-         <header class="row">
-            <h1 class="text-center">DOCA 01</h1>
+         <header class="row" >
+            <h1 class="text-center" [ngClass]="isDocaSelected === true ? 'corVermelha' : 'corBranca'">
+               DOCA 01
+            </h1>
          </header>
          <main>
             <!-- cliente -->
@@ -50,12 +52,21 @@
                   </tbody>
                </table>
             </div>
-
          </main>
+         <footer class="footer d-flex flex-column">
+            <div>
+               <p>Liberado por:</p>
+            </div>
+            <div>
+              <p>Conferido por:</p>
+            </div>
+         </footer>
       </div>
       <div class="col docas doca-2">
          <header class="row">
-            <h1 class="text-center">DOCA 02</h1>
+            <h1 class="text-center" [ngClass]="isDocaSelected === true ? 'corVermelha' : 'corBranca'">
+               DOCA 02
+            </h1>
          </header>
          <main>
             <!-- cliente -->
@@ -102,12 +113,21 @@
                   </tbody>
                </table>
             </div>
-
          </main>
+         <footer class="footer d-flex flex-column">
+            <div>
+               <p>Liberado por:</p>
+            </div>
+            <div>
+              <p>Conferido por:</p>
+            </div>
+         </footer>
       </div>
       <div class="col docas">
          <header class="row">
-            <h1 class="text-center">DOCA 03</h1>
+            <h1 class="text-center" [ngClass]="isDocaSelected === true ? 'corVermelha' : 'corBranca'">
+               DOCA 03
+            </h1>
          </header>
          <main>
             <!-- cliente -->
@@ -154,8 +174,15 @@
                   </tbody>
                </table>
             </div>
-
          </main>
+         <footer class="footer d-flex flex-column">
+            <div>
+               <p>Liberado por:</p>
+            </div>
+            <div>
+              <p>Conferido por:</p>
+            </div>
+         </footer>
       </div>
 
    </div>
