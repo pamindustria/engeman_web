@@ -18,7 +18,6 @@ export class DocaComponent implements OnInit {
     setInterval(() => {
       this.isDocaSelected = !this.isDocaSelected;
       console.log(this.isDocaSelected);
-
     }, 1000);
   }
 
