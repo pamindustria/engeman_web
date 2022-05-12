@@ -8,6 +8,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { PagesModule } from './pages/pages.module';
 import { ConfirmationDialogComponent } from './shared/confirmation-dialog/confirmation-dialog.component';
 import { LoadingModule } from './shared/loading/loading.module';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { LoadingModule } from './shared/loading/loading.module';
     AppRoutingModule,
     PagesModule,
     MatDialogModule,
-    LoadingModule
+    LoadingModule,
+    MatSlideToggleModule
   ],
   bootstrap: [AppComponent],
   entryComponents: [ConfirmationDialogComponent]
