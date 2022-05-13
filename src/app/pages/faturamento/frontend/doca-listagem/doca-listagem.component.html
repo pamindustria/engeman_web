@@ -77,21 +77,21 @@
       <div class="modal-dialog">
          <div class="modal-content">
             <div class="modal-header">
-               <h1 class="modal-title" id="exampleModalLabel">Produtos da NF: {{ notaSelecionada }}</h1>
+               <h1 class="modal-title text-dark" id="exampleModalLabel">Produtos da NF: {{ notaSelecionada }}</h1>
                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body" style="overflow-x: auto; height: 60vh;">
                <table class="table table-hover">
                   <thead>
                      <tr>
-                        <th scope="col">COD. PAM</th>
-                        <th scope="col">DESCRIÇÃO</th>
+                        <th scope="col" class="text-dark">COD. PAM</th>
+                        <th scope="col" class="text-dark">DESCRIÇÃO</th>
                      </tr>
                   </thead>
                   <tbody>
                      <tr *ngFor="let produto of listaProdutosNota">
-                        <td scope="col">{{ produto.CODIGO }}</td>
-                        <td scope="col">{{ produto.DESCRICAO }}</td>
+                        <td scope="col" class="text-dark">{{ produto.CODIGO }}</td>
+                        <td scope="col" class="text-dark">{{ produto.DESCRICAO }}</td>
                      </tr>
                   </tbody>
                </table>
