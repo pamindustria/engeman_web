@@ -1,5 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { CadastroEtiquetasCincoSComponent } from './pages/cinco-s/frontend/cadastro-etiquetas_cinco_s/cadastro-etiquetas_cinco_s.component';
+import { EtiquetasGerencialCincoSComponent } from './pages/cinco-s/frontend/etiquetas-gerencial_cinco_s/etiquetas-gerencial_cinco_s.component';
+import { RelatorioCincoSComponent } from './pages/cinco-s/frontend/relatorio_cinco_s/relatorio_cinco_s.component';
 
 import { EngemanGerencialComponent } from './pages/engeman-gerencial/frontend/engeman-gerencial/engeman-gerencial.component';
 import { GraficoFuncionarioComponent } from './pages/engeman-gerencial/frontend/grafico-funcionario/grafico-funcionario.component';
@@ -47,6 +50,18 @@ const routes: Routes = [
   { 
     path: "doca-listagem",
     component: DocaListagemComponent,
+  },
+  { 
+    path: "etiquetas-gerencial-cinco-s",
+    component: EtiquetasGerencialCincoSComponent,
+  },
+  { 
+    path: "cadastro-etiquetas-cinco-s",
+    component: CadastroEtiquetasCincoSComponent,
+  },
+  { 
+    path: "relatorio-etiquetas-cinco-s",
+    component: RelatorioCincoSComponent,
   },
 ];
 

@@ -1,0 +1,148 @@
+<main class="container-fluid text-center">
+   <div class="row">
+      <div class="col">
+         <app-lista-carros></app-lista-carros>
+      </div>
+      <div class="col border-start">        
+         <table class="table table-bordered table-striped">
+            <thead>
+               <tr>
+                  <th [appSort]="dadosClientes" data-order="desc" data-name="code" class="table-header" [hidden]="!showFiltrosCliente">
+                     <div class="d-flex justify-content-around align-items-center">
+                        Etiqueta
+                        <div class="d-flex flex-column">
+                           <i aria-hidden="true" class="fa fa-caret-up"></i>
+                           <i aria-hidden="true" class="fa fa-caret-down"></i>
+                        </div>
+                     </div>
+                  </th>
+                  <th [appSort]="dadosClientes" data-order="desc" data-name="cliente" class="table-header">
+                     <div class="d-flex justify-content-around align-items-center">
+                        Cliente
+                        <div class="d-flex flex-column">
+                           <i aria-hidden="true" class="fa fa-caret-up" style="color: #ffffff;"></i>
+                           <i aria-hidden="true" class="fa fa-caret-down" style="color: #ffffff;"></i>
+                        </div>
+                     </div>
+                  </th>
+                  <th class="table-header">
+                     <div class="d-flex justify-content-around align-items-center">
+                        Embal.
+                        <div class="d-flex flex-column">
+                           <i aria-hidden="true" class="fa fa-caret-up" style="color: #ffffff;"></i>
+                           <i aria-hidden="true" class="fa fa-caret-down" style="color: #ffffff;"></i>
+                        </div>
+                     </div>
+                  </th>
+                  <th class="table-header" [hidden]="showFiltrosCliente">
+                     <div class="d-flex justify-content-around align-items-center">
+                        Total
+                        <div class="d-flex flex-column">
+                           <i aria-hidden="true" class="fa fa-caret-up" style="color: #ffffff;"></i>
+                           <i aria-hidden="true" class="fa fa-caret-down" style="color: #ffffff;"></i>
+                        </div>
+                     </div>
+                  </th>
+                  <th [appSort]="dadosClientes" data-order="desc" data-name="dataUltimaSaida" class="table-header" [hidden]="!showFiltrosCliente">
+                     <div class="d-flex justify-content-around align-items-center">
+                        Data de Saída
+                        <div class="d-flex flex-column">
+                           <i aria-hidden="true" class="fa fa-caret-up" style="color: #ffffff;"></i>
+                           <i aria-hidden="true" class="fa fa-caret-down" style="color: #ffffff;"></i>
+                        </div>
+                     </div>
+                  </th>
+                  <!-- <th [appSort]="dadosClientes" data-order="desc" data-name="dataUltimoRetorno" class="table-header" [hidden]="!showFiltrosCliente">
+                     <div class="d-flex justify-content-around align-items-center">
+                        Data de Retorno
+                        <div class="d-flex flex-column">
+                           <i aria-hidden="true" class="fa fa-caret-up" style="color: #ffffff;"></i>
+                           <i aria-hidden="true" class="fa fa-caret-down" style="color: #ffffff;"></i>
+                        </div>
+                     </div>
+                  </th> -->
+                  <th [appSort]="dadosClientes" data-order="desc" data-name="status" class="table-header" [hidden]="!showFiltrosCliente">
+                     <div class="d-flex justify-content-around align-items-center">
+                        Status
+                        <div class="d-flex flex-column">
+                           <i aria-hidden="true" class="fa fa-caret-up"></i>
+                           <i aria-hidden="true" class="fa fa-caret-down"></i>
+                        </div>
+                     </div>
+                  </th>
+               </tr>
+            </thead>
+            <tbody>
+               <tr>
+                  <td class="table-item" [hidden]="!showFiltrosCliente">
+                     <app-search placeholderString="Filtrar etiqueta" (onTyping)="filterEtiqueta = $event" [value]="filterEtiqueta"></app-search>
+                  </td>
+                  <td class="table-item">
+                     <app-search placeholderString="Filtrar cliente" (onTyping)="filterCliente = $event" [value]="filterCliente"></app-search>
+                  </td>
+                  <td class="table-item">
+                     <app-search placeholderString="Filtrar embalagem" (onTyping)="filterEmbalagem = $event" [value]="filterEmbalagem"></app-search>
+                  </td>
+                  <td class="table-item" [hidden]="showFiltrosCliente"></td>
+                  <td class="table-item" [hidden]="!showFiltrosCliente">
+                     <app-date-filter (onTyping)="searchDateSaida = $event" [value]="searchDateSaida"></app-date-filter>
+                  </td>
+                  <!-- <td class="table-item" [hidden]="!showFiltrosCliente">
+                     <app-date-filter (onTyping)="searchDateRetorno = $event" [value]="searchDateRetorno"></app-date-filter>
+                  </td> -->
+                  <td class="table-item" [hidden]="!showFiltrosCliente">
+                     <!-- <app-search placeholderString="Filtrar status" (onTyping)="filterStatus = $event" [value]="filterStatus"></app-search> -->
+                  </td>
+               </tr>
+               <!-- slice: pageSize | slice: 0:itemsPerPage usado para paginacao -->
+               <tr 
+                  *ngFor="let dados of dadosClientes | 
+                  filterByEtiqueta: filterEtiqueta | 
+                  filterByCliente: filterCliente | 
+                  filterTipoEmbalagem: filterEmbalagem | 
+                  filterByStatus: filterStatus | 
+                  filterByDataSaida: searchDateSaida |
+                  filterByDataRetorno: searchDateRetorno | 
+                  paginate: {
+                     id: 'listing-etiquetas',
+                     itemsPerPage: itemsPerPage,
+                     currentPage: currentPage,
+                     totalItems: totalRecords
+                  }"
+               >
+                  <td class="table-item" [hidden]="!showFiltrosCliente">{{ dados.code }}</td>
+                  <td class="table-item">{{ dados.cartIssues[0].client.name }}</td>
+                  <td class="table-item">{{ dados.type.name }}</td>
+                  <td class="table-item" [hidden]="showFiltrosCliente"></td>
+                  <td class="table-item" [hidden]="!showFiltrosCliente">
+                     {{ dados.cartIssues[0].readAt.substring(0, 10) }} - {{ dados.cartIssues[0].readAt.substring(11, 16) }}
+                  </td>
+                  <!-- <td class="table-item" [hidden]="!showFiltrosCliente">
+                     {{ dados.cartIssues[0].cartReturnal?.readAt.substring(0, 10) }} - {{ dados.cartIssues[0].cartReturnal?.readAt.substring(11, 16) }}
+                  </td> -->
+                  <td class="table-item" [hidden]="!showFiltrosCliente">{{
+                     dados.status == 'IDLE' ? 'Pátio' : (dados.status == 'OUT' ? 'Externo' : 'Interno')
+                  }}</td>
+               </tr>
+            </tbody>
+         </table>
+         <!-- paginacao -->
+         <div class="d-flex justify-content-between">
+            <div>
+               <label>itemsPerPage: </label>
+               <input 
+                  type="number" 
+                  [(ngModel)]="itemsPerPage" 
+                  min="0" 
+                  max={{dadosClientes.length}}
+                  style="padding: 5px; margin-left: 15px;"
+                  (change)="saveNumberOfItemsPerPage(itemsPerPage)"
+               >
+            </div>
+            <div>
+               <pagination-controls id="listing-etiquetas" [maxSize]="6" [directionLinks]="true" (pageChange)="currentPage = $event"></pagination-controls>
+            </div>
+         </div>
+      </div>
+   </div>
+</main>

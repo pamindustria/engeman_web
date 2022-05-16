@@ -5,7 +5,7 @@ import { RouterModule } from "@angular/router";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatFormFieldModule,  } from '@angular/material/form-field';
+import { MatFormFieldModule, } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
@@ -33,6 +33,10 @@ import { GraficoFuncionarioComponent } from './engeman-gerencial/frontend/grafic
 import { DocaComponent } from './faturamento/frontend/doca/doca.component';
 import { DocaListagemComponent } from './faturamento/frontend/doca-listagem/doca-listagem.component';
 import { FilterNotaFiscalPipe } from '../components/pipes/filterNotaFiscal.pipe';
+import { RelatorioCincoSComponent } from './cinco-s/frontend/relatorio_cinco_s/relatorio_cinco_s.component';
+import { CadastroEtiquetasCincoSComponent } from './cinco-s/frontend/cadastro-etiquetas_cinco_s/cadastro-etiquetas_cinco_s.component';
+import { EtiquetasGerencialCincoSComponent } from './cinco-s/frontend/etiquetas-gerencial_cinco_s/etiquetas-gerencial_cinco_s.component';
+import { ListaCarrosCincoSComponent } from './cinco-s/frontend/lista-carros_cinco_s/lista-carros_cinco_s.component';
 
 @NgModule({
   declarations: [
@@ -55,7 +59,7 @@ import { FilterNotaFiscalPipe } from '../components/pipes/filterNotaFiscal.pipe'
     FilterOSPipe,
     FilterDataIniPipe,
     FilterDataFimPipe,
-    FilterFuncionarioPipe, 
+    FilterFuncionarioPipe,
     FilterMatriculaPipe,
     FilterDescricaoPipe,
     FilterEquipamentoDescricaoPipe,
@@ -68,7 +72,11 @@ import { FilterNotaFiscalPipe } from '../components/pipes/filterNotaFiscal.pipe'
     GraficoFuncionarioComponent,
     DocaComponent,
     DocaListagemComponent,
-    FilterNotaFiscalPipe
+    FilterNotaFiscalPipe,
+    RelatorioCincoSComponent,
+    ListaCarrosCincoSComponent,
+    EtiquetasGerencialCincoSComponent,
+    CadastroEtiquetasCincoSComponent,
   ],
   imports: [
     CommonModule,
@@ -105,6 +113,6 @@ import { FilterNotaFiscalPipe } from '../components/pipes/filterNotaFiscal.pipe'
     MatAutocompleteModule
   ],
   providers: [{ provide: MAT_DATE_LOCALE, useValue: 'pt-br' }, DatePipe],
-  schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class PagesModule { }

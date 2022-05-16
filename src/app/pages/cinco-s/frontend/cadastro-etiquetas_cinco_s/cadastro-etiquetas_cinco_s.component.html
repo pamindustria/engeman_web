@@ -1,0 +1,193 @@
+<main class="container-fluid">
+   <div class="row">
+      <div class="col">
+         <table class="table table-bordered table-striped">
+            <thead>
+               <tr>
+                  <th class="table-header">
+                     Embalagens
+                  </th>
+               </tr>
+            </thead>
+            <tbody>
+               <tr>
+                  <td class="table-item">
+                     <app-search placeholderString="Filtrar embalagens" (onTyping)="filterEmbalagem = $event" [value]="filterEmbalagem"></app-search>
+                  </td>
+                  <td class="table-item text-end">
+                     <button type="button" class="btn btn-primary" (click)="novaEmbalagem()">
+                        Novo
+                     </button>
+                  </td>
+               </tr>
+               <tr *ngIf="newWasClicked" [formGroup]="embalagensForm">
+                  <td class="table-item">
+                     <input type="text" class="form-control" formControlName="name">
+                  </td>
+                  <td class="table-item text-center">
+                     <i aria-hidden="true" class="fa fa-check-square fa-2x" (click)="criarNovo()"></i>
+                  </td>
+               </tr>
+               <tr [formGroup]="updateEmbalagensForm" *ngFor="let carro of listaCarros | 
+                  paginate: {
+                     id: 'listing-embalagens',
+                     itemsPerPage: itemsPerPageEmbalagens,
+                     currentPage: currentPageEmbalagens,
+                     totalItems: totalRecordsEmabalages
+                  } |
+                  filterEmbalagem: filterEmbalagem; index as idx"
+               >
+                  <td class="text-start">
+                     <p *ngIf="isEditTrueIndex !== idx">
+                        {{ carro.name }}
+                     </p>
+                     <input 
+                        formControlName="name"
+                        *ngIf="isEditTrueIndex === idx" 
+                        class="form-control" 
+                        type="text"
+                     >
+                  </td>
+                  <td >
+                     <div *ngIf="isEditTrueIndex !== idx" class="d-flex justify-content-evenly">
+                        <i aria-hidden="true" class="fa fa-edit fa-2x" (click)="selectEdit(idx, carro.id)"></i>
+                        <i aria-hidden="true" class="fa fa-trash fa-2x" (click)="openDialog('Deseja realmente excluir o item?', carro.id, 1)"></i>
+                     </div>
+                     <div *ngIf="isEditTrueIndex === idx" class="d-flex justify-content-evenly">
+                        <i 
+                           aria-hidden="true" 
+                           class="fa fa-check-square fa-2x"
+                           (click)="openDialog('Confirmar edição?', carro.id, 0)"
+                        ></i>
+                        <i aria-hidden="true" class="fa fa-arrow-right fa-2x" (click)="voltar()"></i>
+                     </div>
+                  </td>
+               </tr>
+            </tbody>
+         </table>
+         <!-- paginacao -->
+         <div class="d-flex justify-content-between">
+            <div>
+               <label>itemsPerPage: </label>
+               <input 
+                  type="number" 
+                  [(ngModel)]="itemsPerPageEmbalagens" 
+                  min="0" 
+                  max={{listaCarros.length}}
+                  style="padding: 5px; margin-left: 15px;"
+                  (change)="saveNumberOfItemsPerPageEmbalagens(itemsPerPageEmbalagens)"
+               >
+            </div>
+            <div>
+               <pagination-controls id="listing-embalagens" [maxSize]="6" [directionLinks]="true" (pageChange)="currentPageEmbalagens = $event"></pagination-controls>
+            </div>
+         </div>
+      </div>
+      <div class="col border-start">
+         <table class="table table-bordered table-striped">
+            <thead>
+               <tr>
+                  <th class="table-header">
+                     Etiquetas
+                  </th>
+               </tr>
+            </thead>
+            <tbody [formGroup]="inactivateCartForm">
+               <tr>
+                  <td class="table-item">
+                     <app-search placeholderString="Filtrar etiqueta" (onTyping)="filterEtiqueta = $event" [value]="filterEtiqueta"></app-search>
+                  </td>
+                  <td class="table-item"></td>
+               </tr>
+               <tr *ngFor="let etiqueta of listaEtiquetas | 
+                  filterByEtiqueta: filterEtiqueta | 
+                  paginate: {
+                     id: 'listing-etiquetas',
+                     itemsPerPage: itemsPerPageEtiquetas,
+                     currentPage: currentPageEtiquetas,
+                     totalItems: totalRecordsEtiquetas
+                  }"
+               >
+                  <td class="text-start">{{ etiqueta.code }}</td>
+                  <td>
+                     <mat-radio-group formControlName="status" (change)="changeCartStatus(etiqueta.id)">
+                        <mat-radio-button class="me-3" value="IDLE" [checked]="etiqueta.status !== 'INACTIVE'">Ativar</mat-radio-button>
+                        <mat-radio-button value="INACTIVE" [checked]="etiqueta.status === 'INACTIVE'">Desativar</mat-radio-button>
+                     </mat-radio-group>
+                  </td>
+               </tr>
+            </tbody>
+         </table>
+         <!-- paginacao -->
+         <div class="d-flex justify-content-between">
+            <div>
+               <label>itemsPerPage: </label>
+               <input 
+                  type="number" 
+                  [(ngModel)]="itemsPerPageEtiquetas" 
+                  min="0" 
+                  max={{listaEtiquetas.length}}
+                  style="padding: 5px; margin-left: 15px;"
+                  (change)="saveNumberOfItemsPerPageEtiquetas(itemsPerPageEtiquetas)"
+               >
+            </div>
+            <div>
+               <pagination-controls id="listing-etiquetas" [maxSize]="6" [directionLinks]="true" (pageChange)="currentPageEtiquetas = $event"></pagination-controls>
+            </div>
+         </div>
+      </div>
+      <div class="col border-start">
+         <table class="table table-bordered table-striped">
+            <thead>
+               <tr>
+                  <th class="table-header">
+                     Manutenção
+                  </th>
+               </tr>
+            </thead>
+            <tbody>
+               <tr>
+                  <td class="table-item">
+                     <app-search placeholderString="Filtrar" (onTyping)="filterManutencao = $event" [value]="filterManutencao"></app-search>
+                  </td>
+                  <td class="table-item"></td>
+               </tr>
+               <tr *ngFor="let manutencao of listaManutencao | 
+                  filterManutencao: filterManutencao |
+                  paginate: {
+                     id: 'listing-manutencao',
+                     itemsPerPage: itemsPerPageManutencao,
+                     currentPage: currentPageManutencao,
+                     totalItems: totalRecordsManutencao
+                  }"
+               >
+                  <td class="text-start">{{ manutencao.cart.type.name }}</td>
+                  <td>
+                     <mat-radio-group [(ngModel)]="statusMaintenance" (change)="changeMaintenanceStatus(manutencao.id, manutencao.cart.id)">
+                        <mat-radio-button class="me-3" [value]="'IDLE'">Pátio</mat-radio-button>
+                        <mat-radio-button [value]="'INACTIVE'">Desativar</mat-radio-button>
+                     </mat-radio-group>
+                  </td>
+               </tr>
+            </tbody>
+         </table>
+         <!-- paginacao -->
+         <div class="d-flex justify-content-between">
+            <div>
+               <label>itemsPerPage: </label>
+               <input 
+                  type="number" 
+                  [(ngModel)]="itemsPerPageManutencao" 
+                  min="0" 
+                  max={{listaManutencao.length}}
+                  style="padding: 5px; margin-left: 15px;"
+                  (change)="saveNumberOfItemsPerPageEtiquetas(itemsPerPageManutencao)"
+               >
+            </div>
+            <div>
+               <pagination-controls id="listing-manutencao" [maxSize]="6" [directionLinks]="true" (pageChange)="currentPageManutencao = $event"></pagination-controls>
+            </div>
+         </div>
+      </div>
+   </div>
+</main>
